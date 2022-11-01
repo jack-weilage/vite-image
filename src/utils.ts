@@ -8,6 +8,7 @@ import { basename, extname } from 'path'
 export const create_hash = (str: string): string => createHash('sha1').update(str).digest('hex')
 export const filename = (path: string) => basename(path, extname(path))
 // stolen from https://fettblog.eu/typescript-array-includes/
+// This is _not_ here because I am wrapping includes. It's here because TypeScript hates includes
 export const includes = <T extends U, U>(coll: ReadonlyArray<T>, el: U): el is T => coll.includes(el as T)
 export const dedupe = <T>(arr: T[]) => [ ...new Set(arr) ]
 export const copy_only_keys = <T>(obj: T, keys: (keyof T)[]) => keys.reduce((acc, cur) => ({ ...acc, [cur]: obj[cur] }), {} as Partial<T>)
