@@ -1,9 +1,12 @@
-import type { FormatEnum } from 'sharp'
+import type { Sharp, FormatEnum } from 'sharp'
 import type { Transformer } from '../types'
 
 
 import { INPUT_FORMATS } from './constants'
 import { includes } from './utils'
+
+
+const resize = (img: Sharp, width: number, height: number) => img.resize(Math.round(Math.max(width, 1)), Math.round(Math.max(height, 1)))
 
 export default [
     {
@@ -23,7 +26,7 @@ export default [
 
             // Check this first as we don't need metadata.
             if (width !== undefined && height !== undefined)
-                return img.resize(width, height)
+                return resize(img, width, height)
 
             // Everything after this will need metadata width/height
             if (!metadata.width || !metadata.height)
@@ -31,10 +34,10 @@ export default [
             
             
             if (width && height === undefined)
-                return img.resize(width, width / metadata.width * metadata.height)
+                return resize(img, width, width / metadata.width * metadata.height)
 
             if (width === undefined && height)
-                return img.resize(height / metadata.height * metadata.width, height)
+                return resize(img, height / metadata.height * metadata.width, height)
                 
             throw new Error('This shouldn\'t happen. How did you get here?')
         }
