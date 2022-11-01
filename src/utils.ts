@@ -50,8 +50,10 @@ export function create_configs(input: Record<string, string[]>): ImageConfig[]
         .map(values => Object.keys(input).reduce((acc, cur, i) => ({ ...acc, [cur]: format_value(values[i])}), {}))
 }
 
-export function apply_transforms(image: Sharp, config: ImageConfig, transforms: Transformer[])
+export async function apply_transforms(image: Sharp, config: ImageConfig, transforms: Transformer[])
 {
+    const metadata = await image.metadata()
+
     let img = image
     // Used to check if any transformers applied to the image
     let is_transformed = false
@@ -62,7 +64,7 @@ export function apply_transforms(image: Sharp, config: ImageConfig, transforms: 
             continue
     
         is_transformed = true
-        img = transform(img, config)
+        img = transform(img, config, metadata)
     }
 
     return { img, is_transformed }

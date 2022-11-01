@@ -1,4 +1,4 @@
-import type { FormatEnum, OutputInfo, Sharp } from 'sharp'
+import type { FormatEnum, OutputInfo, Sharp, Metadata } from 'sharp'
 
 export interface PluginConfig {
     include: string
@@ -27,7 +27,7 @@ export type Digest = Map<string, DigestEntry>
 export type Transformer = {
     name: string
     matcher: (config: ImageConfig) => boolean
-    transform: (img: Sharp, config: ImageConfig) => Sharp
+    transform: (img: Sharp, config: ImageConfig, metadata: Metadata) => Sharp
 }
 
 

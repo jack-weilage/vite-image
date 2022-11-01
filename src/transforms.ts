@@ -19,8 +19,27 @@ export default [
                 width_valid && height === undefined ||  // Only width is supplied
                 width === undefined && height_valid     // Only height is supplied
         },
-        //TODO: This breaks when only width or height is supplied. Should calculate scale instead
-        transform: (img, config) => img.resize(Math.max(config['width'] ?? 1, 1), Math.max(config['height'] ?? 1, 1))
+        transform: (img, config, metadata) => {
+            const width = config['width']
+            const height = config['height']
+
+            // Check this first as we don't need metadata.
+            if (width !== undefined && height !== undefined)
+                return img.resize(width, height)
+
+            // Everything after this will need metadata width/height
+            if (!metadata.width || !metadata.height)
+                return
+            
+            
+            if (width && height === undefined)
+                return img.resize(width, width / metadata.width * metadata.height)
+
+            if (width === undefined && height)
+                return img.resize(height / metadata.height * metadata.width, height)
+                
+            throw new Error('This shouldn\'t happen. How did you get here?')
+        }
     },
     {
         name: 'format',

@@ -62,7 +62,7 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
                     continue
                 }
 
-                const { img, is_transformed } = apply_transforms(base_img.clone(), config, [...plugin_config.transformers, ...transforms])
+                const { img, is_transformed } = await apply_transforms(base_img.clone(), config, [...plugin_config.transformers, ...transforms])
 
                 // If the image didn't match a transformer, it shouldn't be processed
                 if (!is_transformed)
