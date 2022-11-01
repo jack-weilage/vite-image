@@ -1,6 +1,16 @@
 import type { FormatEnum } from 'sharp'
+import { PluginConfig } from '../types'
 
-export const FORMATS = [ 
+export const DEFAULT_CONFIG: PluginConfig = {
+    include: '**/*.{heic,heif,avif,jpeg,jpg,png,tiff,webp,gif}?*',
+    exclude: '',
+    deliminator: ',',
+    transformers: [],
+
+    default_meta: [ 'src', 'aspect', 'width', 'height', 'format' ]
+}
+
+export const INPUT_FORMATS = [ 
     'avif', 
     'dz', 
     'fits', 
