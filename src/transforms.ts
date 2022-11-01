@@ -9,8 +9,7 @@ export default [
     {
         name: 'resize',
         matcher: (config) => {
-            const width = config['width']
-            const height = config['height']
+            const { width, height } = config
 
             const width_valid = typeof width === 'number' && !isNaN(width)
             const height_valid = typeof height === 'number' && !isNaN(height)
@@ -20,8 +19,7 @@ export default [
                 width === undefined && height_valid     // Only height is supplied
         },
         transform: (img, config, metadata) => {
-            const width = config['width']
-            const height = config['height']
+            const { width, height } = config
 
             // Check this first as we don't need metadata.
             if (width !== undefined && height !== undefined)
