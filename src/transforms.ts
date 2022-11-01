@@ -8,9 +8,18 @@ import { includes } from './utils'
 export default [
     {
         name: 'resize',
-        matcher: (config) => 
-            (typeof config['width'] !== 'string' && typeof config['height'] !== 'string') &&
-            (config['width'] !== undefined || config['width'] !== undefined),
+        matcher: (config) => {
+            const width = config['width']
+            const height = config['height']
+
+            const width_valid = typeof width === 'number' && !isNaN(width)
+            const height_valid = typeof height === 'number' && !isNaN(height)
+
+            return width_valid && height_valid ||       // Both width and height are supplied
+                width_valid && height === undefined ||  // Only width is supplied
+                width === undefined && height_valid     // Only height is supplied
+        },
+        //TODO: This breaks when only width or height is supplied. Should calculate scale instead
         transform: (img, config) => img.resize(Math.max(config['width'] ?? 1, 1), Math.max(config['height'] ?? 1, 1))
     },
     {
