@@ -40,8 +40,13 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
                 ...(url.searchParams.get('meta') ?? '').split(plugin_config.deliminator) as (keyof OutputImage)[]
             ]).filter(Boolean)
             // If nothing is going to be output, why even process the image? This currently won't happen, as the defaults can't be overwritten.
-            if (!meta)
-                return dataToEsm({})
+            if (meta.length === 0)
+            {
+                if (this.meta.watchMode)
+                    console.warn('Image', url.toString(), 'did not output any metadata.')
+                
+                return null
+            }
 
             // Remove `meta` from search params to prevent having to deal with it later.
             url.searchParams.delete('meta')
@@ -57,8 +62,11 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
                     continue
                 }
 
-                const img = apply_transforms(base_img.clone(), config, [...plugin_config.transformers, ...transforms])
+                const { img, is_transformed } = apply_transforms(base_img.clone(), config, [...plugin_config.transformers, ...transforms])
 
+                // If the image didn't match a transformer, it shouldn't be processed
+                if (!is_transformed)
+                    continue
                 // Convert the transformed image to a buffer. We only need the buffer for build mode, but always need the metadata.
                 //? Is there a way to get a transformed image's metadata without waiting for buffer?
                 const { info, data: source } = await img.toBuffer({ resolveWithObject: true })
@@ -83,9 +91,9 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
                 digested.set(hash, { img, data })
                 images.push(data)
             }
-            if (!images)
-                throw new Error('No images returned (likely internal error)')
-
+            // If every config was skipped, we shouldn't change the output
+            if (images.length === 0)
+                return null
 
             const data: OutputImage[] = images.map(img => copy_only_keys(img, meta))
             return dataToEsm(data)

@@ -53,15 +53,19 @@ export function create_configs(input: Record<string, string[]>): ImageConfig[]
 export function apply_transforms(image: Sharp, config: ImageConfig, transforms: Transformer[])
 {
     let img = image
+    // Used to check if any transformers applied to the image
+    let is_transformed = false
 
     for (const { matcher, transform } of transforms)
     {
         if (!matcher(config))
             continue
-        
+    
+        is_transformed = true
         img = transform(img, config)
     }
-    return img
+
+    return { img, is_transformed }
 }
 
 
