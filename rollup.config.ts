@@ -1,6 +1,6 @@
 import type { RollupOptions } from 'rollup'
 
-import pkg from './package.json'
+import pkg from './package.json' assert { type: 'json' }
 import { builtinModules } from 'module'
 
 import typescript from '@rollup/plugin-typescript'
