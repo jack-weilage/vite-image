@@ -1,21 +1,22 @@
-import type { Plugin, ResolvedConfig }                      from 'vite'
-import type { Sharp }                                       from 'sharp'
-import type { UserConfig, Digest, Metadata, DigestEntry }   from '../types'
+import type { Plugin, ResolvedConfig } from 'vite'
+import type { Digest, DigestEntry, PluginConfig, InternalImage, OutputImage, T_MultiFormatImages } from '../types'
 
-import { create_hash, params_to_obj, create_configs, filename } from './utils'
-import { FORMATS, DEV_PREFIX, BUILD_PREFIX } from './constants'
+import { BUILD_PREFIX, DEFAULT_CONFIG, DEV_PREFIX } from './constants'
+import transforms from './transforms'
+import { apply_transforms, copy_only_keys, create_configs, create_hash, dedupe, filename, params_to_obj, parse_config } from './utils'
 
-import { createFilter, dataToEsm }  from '@rollup/pluginutils'
-import { basename, extname, format as path_format }        from 'path'
-import sharp                        from 'sharp'
-import MagicString                  from 'magic-string'
+import { createFilter, dataToEsm } from '@rollup/pluginutils'
+import MagicString from 'magic-string'
+import sharp from 'sharp'
 
-export { Digest, DigestEntry, ImageConfig, Metadata, SharpMetadata, UserConfig } from '../types'
 
-export default function image(user_config: UserConfig = { }): Plugin
-{
+export { PluginConfig } from '../types.d'
+
+export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
+    const plugin_config: PluginConfig = parse_config(user_config, DEFAULT_CONFIG)
+
     const digested = new Map() as Digest
-    const filter = createFilter('**/*.{heic,heif,avif,jpeg,jpg,png,tiff,webp,gif}?*', '')
+    const filter = createFilter(plugin_config.include, plugin_config.exclude)
 
     let viteConfig: ResolvedConfig
 
@@ -29,33 +30,44 @@ export default function image(user_config: UserConfig = { }): Plugin
             if (!filter(id))
                 return null
 
+            // `pathToFileURL` should be used here, but it doesn't parse like a normal url. Should be fine?
             const url = new URL(id, 'file://')
             const base_img = sharp(url.pathname)
-            
-            const images = [] as Metadata[]
-            for (const config of create_configs(params_to_obj(url.searchParams)))
-            {
+
+            // Deal with output meta tags here so it can be removed from url.
+            const meta = dedupe([
+                ...plugin_config.default_meta,
+                ...(url.searchParams.get('meta') ?? '').split(plugin_config.deliminator) as (keyof OutputImage)[]
+            ]).filter(Boolean)
+            // If nothing is going to be output, why even process the image? This currently won't happen, as the defaults can't be overwritten.
+            if (!meta)
+                return dataToEsm({})
+
+            // Remove `meta` from search params to prevent having to deal with it later.
+            url.searchParams.delete('meta')
+
+            const images = [] as InternalImage[]
+            for (const config of create_configs(params_to_obj(url.searchParams, plugin_config.deliminator))) {
                 const hash = create_hash(url.toString() + JSON.stringify(config))
 
                 // If we've already processed this exact image/config...
-                if (digested.has(hash))
-                {
+                if (digested.has(hash)) {
                     // Just grab what we already have from the digest.
                     images.push((digested.get(hash) as DigestEntry).data)
                     continue
                 }
 
-                const img = apply_transforms(base_img.clone(), config)
+                const img = apply_transforms(base_img.clone(), config, [...plugin_config.transformers, ...transforms])
 
+                // Convert the transformed image to a buffer. We only need the buffer for build mode, but always need the metadata.
+                //? Is there a way to get a transformed image's metadata without waiting for buffer?
                 const { info, data: source } = await img.toBuffer({ resolveWithObject: true })
 
                 // If we're in dev mode, we should supply an actual url here.
                 let src = DEV_PREFIX + hash
                 // If we're not in dev mode...
-                if (!this.meta.watchMode)
-                {
-                    const name = path_format({ base: filename(url.pathname), ext: info.format })
-                    // const name = `${basename(url.pathname, extname(url.pathname))}.${info.format}`
+                if (!this.meta.watchMode) {
+                    const name = `${filename(url.pathname)}.${info.format}`
 
                     const handle = this.emitFile({ name, source, type: 'asset' })
                     // We should make this path recognizable for `renderChunk`.
@@ -63,26 +75,28 @@ export default function image(user_config: UserConfig = { }): Plugin
                 }
 
                 const data = {
-                    meta: {
-                        ...info,
-                        aspect: info.width / info.height
-                    },
-                    src
+                    ...info,
+                    aspect: info.width / info.height,
+                    src,
                 }
 
                 digested.set(hash, { img, data })
                 images.push(data)
             }
+            if (!images)
+                throw new Error('No images returned (likely internal error)')
 
-            return dataToEsm(images, { preferConst: true })
+
+            const data: OutputImage[] = images.map(img => copy_only_keys(img, meta))
+            return dataToEsm(data)
         },
         configureServer(server) {
             server.middlewares.use((req, res, next) => {
                 if (!req.url)
                     return next()
-                
+
                 const result = new RegExp(`^${DEV_PREFIX}(.*)$`).exec(req.url)
-                
+
                 // If the path does not match our regex, or we haven't digested this image, skip.
                 if (!result || !digested.has(result[1]))
                     return next()
@@ -96,24 +110,22 @@ export default function image(user_config: UserConfig = { }): Plugin
         /**
          * Code shamelessly stolen from `vite-imagetools`.
          * renderChunk runs on every chunk of code vite is rendering.
-         * This function replaces every occurance of a flagged url with a proper URL.
+         * This function replaces every occurrence of a flagged url with a proper URL.
          */
         renderChunk(code) {
             const regex = new RegExp(`${BUILD_PREFIX}([a-z\\d]{8})`, 'g')
-      
+
             let match: RegExpExecArray | null
             let s: MagicString | undefined
 
             while (match = regex.exec(code)) {
                 s = s || new MagicString(code)
-                const [ full, hash ] = match
-        
-                const outputFilepath = viteConfig.base + this.getFileName(hash)
-        
+                const [full, hash] = match
+
                 // Starting at the index of the match, replace the length of the match with 
-                s.overwrite(match.index, match.index + full.length, outputFilepath)
+                s.overwrite(match.index, match.index + full.length, viteConfig.base + this.getFileName(hash))
             }
-      
+
             if (s) {
                 return {
                     code: s.toString(),
@@ -124,46 +136,4 @@ export default function image(user_config: UserConfig = { }): Plugin
             return null
         }
     }
-}
-
-
-
-type Config = Record<string, string | number | undefined>
-const transforms: {
-    name: string
-    matcher: (config: Config) => boolean
-    transform: (img: Sharp, config: Config) => Sharp
-}[] = [
-    {
-        name: 'resize',
-        matcher: (config: Config) => !!(config['width'] ?? config['w'] ?? config['height'] ?? config['h']),
-        //@ts-expect-error
-        transform: (img: Sharp, config: Config) => img.resize(config['width'] ?? config['w'], config['height'] ?? config['h'])
-    },
-    {
-        name: 'format',
-        //@ts-expect-error
-        matcher: (config: Config) => FORMATS.includes(config['format'] || config['f']),
-        //@ts-expect-error
-        transform: (img: Sharp, config: Config) => img.toFormat(config['format'] ?? config['f'])
-    },
-    {
-        name: 'blur',
-        matcher: (config: Config) => config['blur'] === '' || (typeof config['blur'] === 'number' && !Number.isNaN(config['blur'])),
-        //@ts-expect-error
-        transform: (img: Sharp, config: Config) => img.blur(Math.max(config['blur'], 0.3))
-    }
-]
-function apply_transforms(image: Sharp, config: Config)
-{
-    let img = image
-
-    for (const transformer of transforms)
-    {
-        if (!transformer.matcher(config))
-            continue
-        
-        img = transformer.transform(img, config)
-    }
-    return img
 }
