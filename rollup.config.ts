@@ -1,13 +1,10 @@
+//TODO: Properly type distributed files.
 import type { RollupOptions } from 'rollup'
 
-import pkg from './package.json' assert { type: 'json' }
-import { builtinModules } from 'module'
-
-import typescript from '@rollup/plugin-typescript'
-
+import esbuild from 'rollup-plugin-esbuild'
 
 export default {
-    external: [ ...Object.keys(pkg.dependencies), ...builtinModules ],
+    external: [ '@rollup/pluginutils', 'magic-string', 'sharp', 'crypto', 'path' ],
     input: 'src/index.ts',
     output: [
         {
@@ -21,5 +18,5 @@ export default {
             exports: 'auto'
         }
     ],
-    plugins: [ typescript() ]
+    plugins: [ esbuild() ]
 } as RollupOptions
