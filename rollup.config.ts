@@ -1,4 +1,3 @@
-//TODO: Properly type distributed files.
 import type { RollupOptions } from 'rollup'
 
 import esbuild from 'rollup-plugin-esbuild'
