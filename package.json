@@ -17,7 +17,7 @@
     },
     "scripts": {
         "test": "vitest run .",
-        "build": "rimraf dist && rollup -c rollup.config.ts --configPlugin @rollup/plugin-typescript"
+        "build": "rimraf dist && rollup -c rollup.config.ts --configPlugin rollup-plugin-esbuild"
     },
     "keywords": [
         "vite", "image", "imagetools", "typescript", "vitest"
