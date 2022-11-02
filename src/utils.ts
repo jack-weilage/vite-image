@@ -13,6 +13,7 @@ export const includes = <T extends U, U>(coll: ReadonlyArray<T>, el: U): el is T
 export const dedupe = <T>(arr: T[]) => [ ...new Set(arr) ]
 export const copy_only_keys = <T>(obj: T, keys: (keyof T)[]) => keys.reduce((acc, cur) => ({ ...acc, [cur]: obj[cur] }), {} as Partial<T>)
 
+//TODO: Add more parsing logic than just combining the two.
 export function parse_config<T>(user_config: Partial<T>, default_config: T): T
 {
     return { ...default_config, ...user_config }

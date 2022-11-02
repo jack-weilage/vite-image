@@ -32,6 +32,8 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
 
             // `pathToFileURL` should be used here, but it doesn't parse like a normal url. Should be fine?
             const url = new URL(id, 'file://')
+            //TODO: Use built-in EXIF data to rotate/flip image before parsing.
+            //TODO: Get metadata for each _base image_, not each _config_. They'll be the same, so why not?
             const base_img = sharp(url.pathname)
                 .withMetadata()
             
@@ -97,6 +99,7 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
             if (images.length === 0)
                 return null
 
+            //TODO: Add a user-specified post-process step here.
             const data: OutputImage[] = images.map(img => copy_only_keys(img, exports))
             return dataToEsm(data)
         },
