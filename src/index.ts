@@ -1,5 +1,5 @@
 import type { Plugin, ResolvedConfig } from 'vite'
-import type { Digest, DigestEntry, PluginConfig, InternalImage, OutputImage } from '../types'
+import type { Digest, DigestEntry, PluginConfig, InternalImage, OutputImage, Transformer } from '../types'
 
 import { BUILD_PREFIX, DEFAULT_CONFIG, DEV_PREFIX } from './constants'
 import transforms from './transforms'
@@ -8,9 +8,10 @@ import { apply_transforms, copy_only_keys, create_configs, create_hash, dedupe, 
 import { createFilter, dataToEsm } from '@rollup/pluginutils'
 import MagicString from 'magic-string'
 import sharp from 'sharp'
+import { join } from 'path'
 
 
-export type { PluginConfig }
+export type { PluginConfig, Transformer }
 
 export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
     const plugin_config: PluginConfig = parse_config(user_config, DEFAULT_CONFIG)
@@ -31,14 +32,16 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
                 return null
 
             // `pathToFileURL` should be used here, but it doesn't parse like a normal url. Should be fine?
-            const url = new URL(id, 'file://')
+            const url = new URL(join(viteConfig.publicDir, id), 'file://')
             const base_img = sharp(url.pathname)
-
+                .withMetadata()
+            
             // Deal with output meta tags here so it can be removed from url.
             const exports = dedupe([
                 ...plugin_config.default_exports,
                 ...(url.searchParams.get('export') ?? '').split(plugin_config.deliminator) as (keyof OutputImage)[]
             ]).filter(Boolean)
+
             // If nothing is going to be output, why even process the image? This currently won't happen, as the defaults can't be overwritten.
             if (exports.length === 0)
             {
