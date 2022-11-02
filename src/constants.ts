@@ -1,5 +1,5 @@
 import type { FormatEnum } from 'sharp'
-import { PluginConfig } from '../types'
+import type { PluginConfig } from '../types'
 
 export const DEFAULT_CONFIG: PluginConfig = {
     include: '**/*.{heic,heif,avif,jpeg,jpg,png,tiff,webp,gif}?*',
