@@ -18,5 +18,5 @@ export default {
             exports: 'auto'
         }
     ],
-    plugins: [ esbuild() ]
+    plugins: [ esbuild({ minify: true }) ]
 } as RollupOptions

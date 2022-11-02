@@ -8,8 +8,10 @@
         "target": "es2017",
         "outDir": "dist",
         "declaration": true,
+        "emitDeclarationOnly": true,
         "noEmitOnError": true,
         "noErrorTruncation": true,
+        "skipLibCheck": true,
         // rollup takes care of these
         "module": "esnext",
         "moduleResolution": "node",
