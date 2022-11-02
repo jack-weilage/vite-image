@@ -2,5 +2,5 @@ import type { UserConfig } from 'vitest'
 
 export default {
     globals: true,
-    // environment: 'happy-dom'
+    testTimeout: 10000
 } as UserConfig

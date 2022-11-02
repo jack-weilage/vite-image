@@ -1,6 +1,6 @@
 import { join, dirname, extname } from 'path'
 import { build } from 'vite'
-import image_plugin from '../src'
+import image_plugin from '../dist/index.mjs'
 
 import type { Window } from 'happy-dom'
 import type { Plugin, UserConfig } from 'vite'
