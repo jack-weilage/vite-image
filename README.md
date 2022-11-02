@@ -25,6 +25,8 @@ export default {
 import CoolImage from './cool-image.jpg&width=300,600,900'
 ```
 
+**IMPORTANT:** Don't use your `public` folder to store images. Imports are based on the *project* `root`, not `public` folder.
+
 <br>
 
 ## Examples
