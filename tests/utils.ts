@@ -31,7 +31,9 @@ export const test = async function (window: Window, url: string, image_config: P
         logLevel: 'warn',
         build: {
             write: false,
-            polyfillModulePreload: false
+            modulePreload: {
+                polyfill: false
+            }
         },
         plugins: [
             test_plugin(`
