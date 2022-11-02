@@ -35,15 +35,15 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
             const base_img = sharp(url.pathname)
 
             // Deal with output meta tags here so it can be removed from url.
-            const meta = dedupe([
-                ...plugin_config.default_meta,
-                ...(url.searchParams.get('meta') ?? '').split(plugin_config.deliminator) as (keyof OutputImage)[]
+            const exports = dedupe([
+                ...plugin_config.default_exports,
+                ...(url.searchParams.get('export') ?? '').split(plugin_config.deliminator) as (keyof OutputImage)[]
             ]).filter(Boolean)
             // If nothing is going to be output, why even process the image? This currently won't happen, as the defaults can't be overwritten.
-            if (meta.length === 0)
+            if (exports.length === 0)
             {
                 if (this.meta.watchMode)
-                    console.warn('Image', url.toString(), 'did not output any metadata.')
+                    console.warn('Image', url.toString(), 'did not export any metadata.')
                 
                 return null
             }
@@ -95,7 +95,7 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
             if (images.length === 0)
                 return null
 
-            const data: OutputImage[] = images.map(img => copy_only_keys(img, meta))
+            const data: OutputImage[] = images.map(img => copy_only_keys(img, exports))
             return dataToEsm(data)
         },
         configureServer(server) {

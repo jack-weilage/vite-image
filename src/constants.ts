@@ -7,7 +7,7 @@ export const DEFAULT_CONFIG: PluginConfig = {
     deliminator: ',',
     transformers: [],
 
-    default_meta: [ 'src', 'aspect', 'width', 'height', 'format' ]
+    default_exports: [ 'src', 'aspect', 'width', 'height', 'format' ]
 }
 
 export const INPUT_FORMATS = [ 

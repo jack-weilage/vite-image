@@ -7,7 +7,7 @@ export interface PluginConfig {
     deliminator: string
     transformers: Transformer[]
 
-    default_meta: (keyof InternalImage)[]
+    default_exports: (keyof InternalImage)[]
 }
 export interface ImageConfig {
     width?: number
