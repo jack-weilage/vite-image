@@ -37,7 +37,3 @@ export type InternalImage = OutputInfo & {
     src: string
 }
 export type OutputImage = Partial<InternalImage>
-export type T_MultiFormatImages = {
-    format: string
-    images: OutputImage[]
-}
