@@ -8,7 +8,6 @@ import { apply_transforms, copy_only_keys, create_configs, create_hash, dedupe, 
 import { createFilter, dataToEsm } from '@rollup/pluginutils'
 import MagicString from 'magic-string'
 import sharp from 'sharp'
-import { join } from 'path'
 
 
 export type { PluginConfig, Transformer }
@@ -32,7 +31,7 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
                 return null
 
             // `pathToFileURL` should be used here, but it doesn't parse like a normal url. Should be fine?
-            const url = new URL(join(viteConfig.publicDir, id), 'file://')
+            const url = new URL(id, 'file://')
             const base_img = sharp(url.pathname)
                 .withMetadata()
             
