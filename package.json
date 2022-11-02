@@ -20,7 +20,7 @@
         "build:types": "dts-bundle-generator src/index.ts --no-banner --no-check -o dist/index.d.ts",
         "build:code": "rollup -c rollup.config.ts --configPlugin rollup-plugin-esbuild",
         "build": "rimraf dist && (pnpm build:code & pnpm build:types)",
-        "publish": "pnpm build && pnpm changeset publish"
+        "release": "pnpm build && pnpm changeset publish"
     },
     "keywords": [
         "vite",
