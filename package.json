@@ -1,7 +1,7 @@
 {
     "name": "vite-image",
-    "version": "1.0.0",
-    "description": "",
+    "version": "0.0.1",
+    "description": "A vitejs plugin to streamline image processing.",
     "module": "dist/index.mjs",
     "main": "dist/index",
     "types": "dist/index.d.ts",
@@ -17,11 +17,12 @@
     },
     "scripts": {
         "test": "vitest run .",
-        "coverage": "vitest run . --coverage",
         "build": "rimraf dist && rollup -c rollup.config.ts --configPlugin @rollup/plugin-typescript"
     },
-    "keywords": [],
-    "author": "",
+    "keywords": [
+        "vite", "image", "imagetools", "typescript", "vitest"
+    ],
+    "author": "Jack Weilage",
     "license": "ISC",
     "devDependencies": {
         "@types/node": "^18.11.9",
