@@ -1,5 +1,5 @@
 import type { Plugin, ResolvedConfig } from 'vite'
-import type { Digest, DigestEntry, PluginConfig, InternalImage, OutputImage, T_MultiFormatImages } from '../types'
+import type { Digest, DigestEntry, PluginConfig, InternalImage, OutputImage } from '../types'
 
 import { BUILD_PREFIX, DEFAULT_CONFIG, DEV_PREFIX } from './constants'
 import transforms from './transforms'
@@ -10,7 +10,7 @@ import MagicString from 'magic-string'
 import sharp from 'sharp'
 
 
-export { PluginConfig } from '../types.d'
+export type { PluginConfig }
 
 export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
     const plugin_config: PluginConfig = parse_config(user_config, DEFAULT_CONFIG)
