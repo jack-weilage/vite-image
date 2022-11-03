@@ -35,8 +35,8 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
 
             // Deal with export tags here so it can be removed from url.
             const user_exports = url.searchParams.get('export')
-                ?.split(plugin_config.deliminator)
-                ?? [] as (keyof OutputImage)[]
+                ?.split(plugin_config.deliminator) as (keyof OutputImage)[]
+                ?? [] 
             
             const exports = dedupe([
                 ...plugin_config.default_exports,
