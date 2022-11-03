@@ -1,6 +1,6 @@
 import { createHash } from 'crypto'
-import type { Sharp } from 'sharp'
-import type { ImageConfig, Transformer } from '../types'
+import type { Sharp, Metadata } from 'sharp'
+import type { ImageConfig, Transformer, PluginConfig } from '../types'
 import { INPUT_FORMATS } from './constants'
 
 import { basename, extname } from 'path'
@@ -14,7 +14,7 @@ export const dedupe = <T>(arr: T[]) => [ ...new Set(arr) ]
 export const copy_only_keys = <T>(obj: T, keys: (keyof T)[]) => keys.reduce((acc, cur) => ({ ...acc, [cur]: obj[cur] }), {} as Partial<T>)
 
 //TODO: Add more parsing logic than just combining the two.
-export function parse_config<T>(user_config: Partial<T>, default_config: T): T
+export function parse_config(user_config: Partial<PluginConfig>, default_config: PluginConfig): PluginConfig
 {
     return { ...default_config, ...user_config }
 }
@@ -39,7 +39,6 @@ export function create_configs(input: Record<string, string[]>): ImageConfig[]
     
     // Fix truncated values when only using one key.
     if (Object.keys(input).length === 1)
-        // return Object.entries(input)[0].map(([ key, value ]) => ({ [key]: Number.isNaN(+value) ? value === '' ? true : value : +value }))
         return Object.values(input)[0]
             .filter(Boolean)
             .map(value => ({ [Object.keys(input)[0]]: format_value(value) }))
@@ -51,10 +50,8 @@ export function create_configs(input: Record<string, string[]>): ImageConfig[]
         .map(values => Object.keys(input).reduce((acc, cur, i) => ({ ...acc, [cur]: format_value(values[i])}), {}))
 }
 
-export async function apply_transforms(image: Sharp, config: ImageConfig, transforms: Transformer[])
+export function apply_transformers(image: Sharp, metadata: Metadata, config: ImageConfig, transforms: Transformer[])
 {
-    const metadata = await image.metadata()
-
     let img = image
     // Used to check if any transformers applied to the image
     let is_transformed = false
