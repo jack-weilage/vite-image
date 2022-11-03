@@ -33,10 +33,14 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
             // `pathToFileURL` should be used here, but it doesn't parse like a normal url. Should be fine?
             const url = new URL(id, 'file://')
 
-            // Deal with output meta tags here so it can be removed from url.
+            // Deal with export tags here so it can be removed from url.
+            const user_exports = url.searchParams.get('export')
+                ?.split(plugin_config.deliminator)
+                ?? [] as (keyof OutputImage)[]
+            
             const exports = dedupe([
                 ...plugin_config.default_exports,
-                ...(url.searchParams.get('export') ?? '').split(plugin_config.deliminator) as (keyof OutputImage)[]
+                ...user_exports
             ]).filter(Boolean)
 
             // If nothing is going to be output, why even process the image? This currently won't happen, as the defaults can't be overwritten.
@@ -47,8 +51,8 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
                 
                 return null
             }
-            // Remove `meta` from search params to prevent having to deal with it later.
-            url.searchParams.delete('meta')
+            // Remove `export` from search params to prevent having to deal with it later.
+            url.searchParams.delete('export')
 
             const base_img = sharp(url.pathname)
                 .rotate()   // Automatically rotate the image based on EXIF orientation
