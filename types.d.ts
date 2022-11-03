@@ -10,14 +10,40 @@ export interface PluginConfig {
     default_exports: (keyof InternalImage)[]
     post_process: (images: OutputImage[]) => OutputImage[]
 }
-export interface ImageConfig {
-    width?: number
-    height?: number
+export type ImageConfig = Partial<{
+    // format
+    format: keyof FormatEnum
+    
+    // resize
+    width: number
+    height: number
 
-    format?: keyof FormatEnum
-
-    blur?: number | true
-}
+    // blur
+    blur: number | true
+    // rotate
+    rotate: number
+    // flip
+    flip: boolean
+    // flop
+    flop: boolean
+    // sharpen
+    sharpen: number | true
+    // median
+    median: number | true
+    // gamma
+    gamma: number | true
+    // negate
+    negate: boolean
+    // normalize (american spelling)
+    normalize: boolean
+    // threshold
+    threshold: number | true
+    // modulate
+    brightness: number
+    saturation: number
+    hue: number
+    lightness: number
+}>
 
 export interface DigestEntry {
     img: Sharp

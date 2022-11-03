@@ -22,10 +22,17 @@ export default {
 
 **`Anywhere inside your project`**
 ```js
-import CoolImage from './cool-image.jpg&width=300,600,900'
+import CoolImage from './cool-image.jpg?width=300,600,900'
 ```
 
 **IMPORTANT:** Don't use your `public` folder to store images. Imports are based on the *project* `root`, not `public` folder.
+
+<br>
+
+## Further Explanation
+
+- A param like `?blur` will be treated the same as `?blur=true`.
+- Passing `true` to a param will trigger the default 
 
 <br>
 
@@ -78,17 +85,18 @@ A slightly more complex version, using `srcset`:
 
 ## Default Transformers
 
-| Name | Params | Description |
-| :---: | :---: | --- |
-| `resize` | `width`, `height` | Resize an image! If only one dimension is specified, `vite-image` will scale the other to keep a consistent aspect ratio. |
-| `format` | `format` | Change the format of an image. Specifying multiple formats can help reduce the amount of imports required. |
-| `blur` | `blur` | Can be either `true` or a value between 0.3 and 1000. If `true`, `sharp` performs a 3x3 box blur.
+To learn about the default transformers, [click here](TRANSFORMERS.md)
 
 <br>
 
 ## Roadmap
 - [ ] Implement static import of web images.
-- [ ] 1-1 implementations of every `sharp` util.
+- [ ] 1-1 implementations of most `sharp` utils.
+  - [ ] Output options
+  - [ ] Resizing images
+  - [x] Image operations
+  - [ ] Color manipulation
+  - [ ] Channel manipulation
 - [ ] React/Vue/Svelte helper component
 
 <br>
