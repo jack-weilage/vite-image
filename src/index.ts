@@ -2,8 +2,8 @@ import type { Plugin, ResolvedConfig } from 'vite'
 import type { Digest, DigestEntry, PluginConfig, InternalImage, OutputImage, Transformer } from '../types'
 
 import { BUILD_PREFIX, DEFAULT_CONFIG, DEV_PREFIX } from './constants'
-import transforms from './transforms'
-import { apply_transforms, copy_only_keys, create_configs, create_hash, dedupe, filename, params_to_obj, parse_config } from './utils'
+import default_transformers from './transformers'
+import { apply_transformers, copy_only_keys, create_configs, create_hash, dedupe, filename, params_to_obj, parse_config } from './utils'
 
 import { createFilter, dataToEsm } from '@rollup/pluginutils'
 import MagicString from 'magic-string'
@@ -32,11 +32,7 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
 
             // `pathToFileURL` should be used here, but it doesn't parse like a normal url. Should be fine?
             const url = new URL(id, 'file://')
-            //TODO: Use built-in EXIF data to rotate/flip image before parsing.
-            //TODO: Get metadata for each _base image_, not each _config_. They'll be the same, so why not?
-            const base_img = sharp(url.pathname)
-                .withMetadata()
-            
+
             // Deal with output meta tags here so it can be removed from url.
             const exports = dedupe([
                 ...plugin_config.default_exports,
@@ -51,12 +47,18 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
                 
                 return null
             }
-
             // Remove `meta` from search params to prevent having to deal with it later.
             url.searchParams.delete('meta')
 
+            const base_img = sharp(url.pathname)
+                .rotate()   // Automatically rotate the image based on EXIF orientation
+
+            const metadata = await base_img.metadata()
+            const transformers = [ ...plugin_config.transformers, ...default_transformers ]
+
             const images = [] as InternalImage[]
-            for (const config of create_configs(params_to_obj(url.searchParams, plugin_config.deliminator))) {
+            const configs = create_configs(params_to_obj(url.searchParams, plugin_config.deliminator))
+            for (const config of configs) {
                 const hash = create_hash(url.toString() + JSON.stringify(config))
 
                 // If we've already processed this exact image/config...
@@ -66,11 +68,12 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
                     continue
                 }
 
-                const { img, is_transformed } = await apply_transforms(base_img.clone(), config, [...plugin_config.transformers, ...transforms])
+                const { img, is_transformed } = apply_transformers(base_img.clone(), metadata, config, transformers)
 
                 // If the image didn't match a transformer, it shouldn't be processed
                 if (!is_transformed)
                     continue
+                
                 // Convert the transformed image to a buffer. We only need the buffer for build mode, but always need the metadata.
                 //? Is there a way to get a transformed image's metadata without waiting for buffer?
                 const { info, data: source } = await img.toBuffer({ resolveWithObject: true })
