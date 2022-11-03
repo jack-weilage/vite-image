@@ -8,6 +8,7 @@ export interface PluginConfig {
     transformers: Transformer[]
 
     default_exports: (keyof InternalImage)[]
+    post_process: (images: OutputImage[]) => OutputImage[]
 }
 export interface ImageConfig {
     width?: number

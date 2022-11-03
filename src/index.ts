@@ -99,8 +99,9 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
             if (images.length === 0)
                 return null
 
-            //TODO: Add a user-specified post-process step here.
-            const data: OutputImage[] = images.map(img => copy_only_keys(img, exports))
+            const final_images = images.map(img => copy_only_keys(img, exports))
+            
+            const data: OutputImage[] = plugin_config.post_process(final_images)
             return dataToEsm(data)
         },
         configureServer(server) {

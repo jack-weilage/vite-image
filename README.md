@@ -71,7 +71,8 @@ A slightly more complex version, using `srcset`:
 | `exclude` | `''` | Another picomatch pattern, this time excluding images. |
 | `deliminator` | `,` | The character used to split multiple values in a query. |
 | `transformers` | `[]` | User-specified custom image transformers. |
-| `default_exports` | `['src', 'aspect', 'width', 'height', 'format']` | By default, `vite-image` exports these 5 image attributes. [More attributes can be found here.](https://sharp.pixelplumbing.com/api-input#metadata)
+| `default_exports` | `['src', 'aspect', 'width', 'height', 'format']` | By default, `vite-image` exports these 5 image attributes. [More attributes can be found here.](https://sharp.pixelplumbing.com/api-input#metadata) |
+| `post_process` | `images => images` | A function to process images *after* `vite-image` |
 
 <br>
 
