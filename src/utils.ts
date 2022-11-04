@@ -28,7 +28,18 @@ export function params_to_obj(params: URLSearchParams, deliminator: string): Rec
 
     return obj
 }
-const format_value = (val: string) => Number.isNaN(+val) ? val === '' ? true : val : +val
+const format_value = (val: string) => {
+    if (val === undefined || val === '' || val === 'true')
+        return true
+
+    if (val === 'false')
+        return false
+    
+    if (!Number.isNaN(+val))
+        return +val
+
+    return val
+}
 
 //TODO: fix this insane mess. i... uhhh...
 export function create_configs(input: Record<string, string[]>): ImageConfig[]
@@ -40,7 +51,7 @@ export function create_configs(input: Record<string, string[]>): ImageConfig[]
     // Fix truncated values when only using one key.
     if (Object.keys(input).length === 1)
         return Object.values(input)[0]
-            .filter(Boolean)
+            // .filter(Boolean)
             .map(value => ({ [Object.keys(input)[0]]: format_value(value) }))
     
     return Object.values(input)
