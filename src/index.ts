@@ -3,7 +3,7 @@ import type { Digest, DigestEntry, PluginConfig, InternalImage, OutputImage, Tra
 
 import { BUILD_PREFIX, DEFAULT_CONFIG, DEV_PREFIX } from './constants'
 import default_transformers from './transformers'
-import { apply_transformers, copy_only_keys, create_configs, create_hash, dedupe, filename, params_to_obj, parse_config } from './utils'
+import { apply_transformers, copy_only_keys, create_configs, create_hash, dedupe, filename, parse_config } from './utils'
 
 import { createFilter, dataToEsm } from '@rollup/pluginutils'
 import MagicString from 'magic-string'
@@ -55,14 +55,15 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
             url.searchParams.delete('export')
 
             const base_img = sharp(url.pathname)
-                .rotate()   // Automatically rotate the image based on EXIF orientation
+                .rotate()   // Automatically rotate the image based on EXIF orientation.
 
             const metadata = await base_img.metadata()
             const transformers = [ ...plugin_config.transformers, ...default_transformers ]
 
             const images = [] as InternalImage[]
             for (const config of create_configs(url.searchParams, plugin_config.deliminator)) {
-                const hash = create_hash(url.toString() + JSON.stringify(config))
+                // Create a unique hash based on the filename and config (prevents accidentally ingesting the same image twice).
+                const hash = create_hash(url.pathname + JSON.stringify(config))
 
                 // If we've already processed this exact image/config...
                 if (digested.has(hash)) {
@@ -107,8 +108,7 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
 
             const final_images = images.map(img => copy_only_keys(img, exports))
             
-            const data: OutputImage[] = plugin_config.post_process(final_images)
-            return dataToEsm(data)
+            return dataToEsm(plugin_config.post_process(final_images))
         },
         configureServer(server) {
             server.middlewares.use((req, res, next) => {

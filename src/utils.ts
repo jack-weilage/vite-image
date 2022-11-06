@@ -1,8 +1,7 @@
-import { createHash } from 'crypto'
-import type { Sharp, Metadata } from 'sharp'
 import type { ImageConfig, Transformer, PluginConfig } from '../types'
-import { INPUT_FORMATS } from './constants'
+import type { Sharp, Metadata } from 'sharp'
 
+import { createHash } from 'crypto'
 import { basename, extname } from 'path'
 
 export const create_hash = (str: string): string => createHash('sha1').update(str).digest('hex')
@@ -19,17 +18,9 @@ export function parse_config(user_config: Partial<PluginConfig>, default_config:
     return { ...default_config, ...user_config }
 }
 
-export function params_to_obj(params: URLSearchParams, deliminator: string): Record<string, string[]>
-{
-    const obj = {} as Record<string, string[]>
-    for (const [ key, value ] of params.entries())
-        obj[key] = value.includes(deliminator) ? dedupe(value.split(deliminator)) : [ value ]
-    
-
-    return obj
-}
+/** Coerces values to string | number | boolean. */
 const format_value = (val: string) => {
-    if (val === undefined || val === '' || val === 'true')
+    if (val === '' || val === 'true')
         return true
 
     if (val === 'false')
@@ -41,6 +32,7 @@ const format_value = (val: string) => {
     return val
 }
 
+/** Create unique configs from arrays of values. */
 export function create_configs(params: URLSearchParams, deliminator: string): ImageConfig[]
 {
     const aggregated = {} as Record<string, (string | number | boolean)[]>
@@ -81,6 +73,7 @@ export function create_configs(params: URLSearchParams, deliminator: string): Im
     return configs
 }
 
+/** Apply all transformers to an image. */
 export function apply_transformers(image: Sharp, metadata: Metadata, config: ImageConfig, transforms: Transformer[])
 {
     let img = image
@@ -97,13 +90,4 @@ export function apply_transformers(image: Sharp, metadata: Metadata, config: Ima
     }
 
     return { img, is_transformed }
-}
-
-
-export async function find_lightest(img: Sharp, formats = INPUT_FORMATS)
-{
-    const buffers = formats.map(format => img.clone().toFormat(format).toBuffer({ resolveWithObject: true }))
-    const list = await Promise.all(buffers)
-
-    return list.sort((a, b) => a.info.size - b.info.size)
 }
