@@ -61,8 +61,7 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
             const transformers = [ ...plugin_config.transformers, ...default_transformers ]
 
             const images = [] as InternalImage[]
-            const configs = create_configs(params_to_obj(url.searchParams, plugin_config.deliminator))
-            for (const config of configs) {
+            for (const config of create_configs(url.searchParams, plugin_config.deliminator)) {
                 const hash = create_hash(url.toString() + JSON.stringify(config))
 
                 // If we've already processed this exact image/config...

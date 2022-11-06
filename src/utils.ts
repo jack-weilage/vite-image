@@ -41,24 +41,44 @@ const format_value = (val: string) => {
     return val
 }
 
-//TODO: fix this insane mess. i... uhhh...
-export function create_configs(input: Record<string, string[]>): ImageConfig[]
+export function create_configs(params: URLSearchParams, deliminator: string): ImageConfig[]
 {
-    // I'm going insane. An array is _always_ truthy, just like an object.
-    if (Object.keys(input).length === 0)
-        return []
+    const aggregated = {} as Record<string, (string | number | boolean)[]>
+    for (const key of dedupe([ ...params.keys() ]))
+    {
+        // Get every occurrence of the key, then split by the deliminator.
+        const values = params.getAll(key)
+            .reduce((acc, cur) => [ ...acc, ...cur.split(deliminator) ], [] as string[])
+            .map(format_value)
+
+        aggregated[key] = dedupe(values)
+    }
     
-    // Fix truncated values when only using one key.
-    if (Object.keys(input).length === 1)
-        return Object.values(input)[0]
-            // .filter(Boolean)
-            .map(value => ({ [Object.keys(input)[0]]: format_value(value) }))
+    const keys = Object.keys(aggregated)
+    const values = Object.values(aggregated)
+
+    // If there is only one key, the code below won't work.
+    if (keys.length === 1)
+        return values[0].map(value => ({ [keys[0]]: value }))
     
-    return Object.values(input)
-        .filter(Boolean)
-        //@ts-expect-error: Still don't get why this errors, but it works...
-        .reduce((acc, cur) => acc.flatMap(a => cur.map(b => [ a, b ].flat())))
-        .map(values => Object.keys(input).reduce((acc, cur, i) => ({ ...acc, [cur]: format_value(values[i])}), {}))
+    // Create an array of unique configs.
+    // Each value will have the index of the corresponding keys.
+    const groups = values
+        //@ts-expect-error: This reducer will take in (string | number | boolean)[] and return (string | number | boolean)[][]
+        .reduce((acc, cur) => acc.flatMap(a => cur.map(b => [ a, b ].flat()))) as any as (string | number | boolean)[][]
+    
+    const configs = [] as ImageConfig[]
+    for (const group of groups) {
+        const config = {} as Record<string, string | number | boolean>
+
+        // For every value, assign the corresponding key.
+        for (let i = 0; i < keys.length; i++)
+            config[keys[i]] = group[i]
+        
+        configs.push(config)
+    }
+
+    return configs
 }
 
 export function apply_transformers(image: Sharp, metadata: Metadata, config: ImageConfig, transforms: Transformer[])
