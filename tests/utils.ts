@@ -48,5 +48,6 @@ export const test = async function (window: Window, url: string, image_config: P
     const script = output.find(({ fileName }) => extname(fileName) === '.js') as OutputChunk
     window.eval(script.code)
 
+    //@ts-expect-error
     return window[id]
 }
