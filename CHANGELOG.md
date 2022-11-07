@@ -1,5 +1,11 @@
 # vite-image
 
+## 0.2.1
+
+### Patch Changes
+
+- Automatically publish GitHub/NPM releases.
+
 ## 0.2.0
 
 ### Minor Changes
