@@ -1,5 +1,5 @@
 import type { Plugin, ResolvedConfig } from 'vite'
-import type { Digest, DigestEntry, PluginConfig, InternalImage, OutputImage, Transformer } from '../types'
+import type { Cache, CacheEntry, PluginConfig, InternalImage, OutputImage, Transformer } from '../types'
 
 import { BUILD_PREFIX, DEFAULT_CONFIG, DEV_PREFIX } from './constants'
 import default_transformers from './transformers'
@@ -15,16 +15,16 @@ export type { PluginConfig, Transformer }
 export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
     const plugin_config: PluginConfig = parse_config(user_config, DEFAULT_CONFIG)
 
-    const digested = new Map() as Digest
+    const cache = new Map() as Cache
     const filter = createFilter(plugin_config.include, plugin_config.exclude)
 
-    let viteConfig: ResolvedConfig
+    let vite_config: ResolvedConfig
 
     return {
         name: 'image',
         enforce: 'pre',
 
-        configResolved(config) { viteConfig = config },
+        configResolved(config) { vite_config = config },
 
         async load(id: string) {
             if (!filter(id))
@@ -66,9 +66,9 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
                 const hash = create_hash(url.pathname + JSON.stringify(config))
 
                 // If we've already processed this exact image/config...
-                if (digested.has(hash)) {
+                if (cache.has(hash)) {
                     // Just grab what we already have from the digest.
-                    images.push((digested.get(hash) as DigestEntry).data)
+                    images.push((cache.get(hash) as CacheEntry).data)
                     continue
                 }
 
@@ -99,7 +99,7 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
                     src,
                 }
 
-                digested.set(hash, { img, data })
+                cache.set(hash, { img, data })
                 images.push(data)
             }
             // If every config was skipped, we shouldn't change the output
@@ -118,12 +118,13 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
                 const result = new RegExp(`^${DEV_PREFIX}(.*)$`).exec(req.url)
 
                 // If the path does not match our regex, or we haven't digested this image, skip.
-                if (!result || !digested.has(result[1]))
+                const hash = result ? result[1] : null
+                if (!hash || !cache.has(hash))
                     return next()
+                
+                const { img } = cache.get(hash) as CacheEntry
 
-
-                return (digested.get(result[1]) as DigestEntry).img
-                    .clone()
+                return img.clone()
                     .pipe(res)
             })
         },
@@ -133,23 +134,23 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
          * This function replaces every occurrence of a flagged url with a proper URL.
          */
         renderChunk(code) {
-            const regex = new RegExp(`${BUILD_PREFIX}([a-z\\d]{8})`, 'g')
+            const regex = new RegExp(`${BUILD_PREFIX}([a-z0-9]{8})`, 'g')
 
             let match: RegExpExecArray | null
             let s: MagicString | undefined
 
             while (match = regex.exec(code)) {
                 s = s || new MagicString(code)
-                const [full, hash] = match
+                const [ full, hash ] = match
 
                 // Starting at the index of the match, replace the length of the match with 
-                s.overwrite(match.index, match.index + full.length, viteConfig.base + this.getFileName(hash))
+                s.overwrite(match.index, match.index + full.length, vite_config.base + this.getFileName(hash))
             }
 
             if (s) {
                 return {
                     code: s.toString(),
-                    map: viteConfig.build.sourcemap ? s.generateMap({ hires: true }) : null
+                    map: vite_config.build.sourcemap ? s.generateMap({ hires: true }) : null
                 }
             }
 

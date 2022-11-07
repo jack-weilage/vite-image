@@ -45,11 +45,11 @@ export type ImageConfig = Partial<{
     lightness: number
 }>
 
-export interface DigestEntry {
+export interface CacheEntry {
     img: Sharp
     data: InternalImage
 }
-export type Digest = Map<string, DigestEntry>
+export type Cache = Map<string, CacheEntry>
 
 export type Transformer = {
     name: string
