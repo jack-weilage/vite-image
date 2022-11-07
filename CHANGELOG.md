@@ -1,5 +1,16 @@
 # vite-image
 
+## 0.2.0
+
+### Minor Changes
+
+- Add 10 new default transformers.
+- Create tests for every transformer.
+
+### Patch Changes
+
+- Fix identical images not being detected as identical.
+
 ## 0.1.0
 
 ### Minor Changes
