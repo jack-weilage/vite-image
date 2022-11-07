@@ -32,6 +32,7 @@ const format_value = (val: string) => {
     return val
 }
 
+//TODO: Handle `!blur` as `blur=false`
 /** Create unique configs from arrays of values. */
 export function create_configs(params: URLSearchParams, deliminator: string): ImageConfig[]
 {
