@@ -16,7 +16,7 @@
         }
     },
     "scripts": {
-        "test": "vitest run . --config vitest.config.ts",
+        "test": "vitest --run --no-threads",
         "build:types": "dts-bundle-generator src/index.ts --no-banner --no-check -o dist/index.d.ts",
         "build:code": "rollup -c rollup.config.ts --configPlugin rollup-plugin-esbuild",
         "build": "rimraf dist && (pnpm build:code & pnpm build:types)",
@@ -36,7 +36,7 @@
         "@types/node": "^18.11.9",
         "@types/sharp": "^0.31.0",
         "dts-bundle-generator": "^7.0.0",
-        "esbuild": "^0.15.12",
+        "esbuild": "^0.15.13",
         "happy-dom": "^7.6.6",
         "rimraf": "^3.0.2",
         "rollup": "^3.2.5",
@@ -49,6 +49,6 @@
     "dependencies": {
         "@rollup/pluginutils": "^5.0.2",
         "magic-string": "^0.26.7",
-        "sharp": "^0.31.1"
+        "sharp": "^0.31.2"
     }
 }
