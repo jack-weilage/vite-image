@@ -1,4 +1,4 @@
-import { Transformer } from '../../types'
+import type { Transformer } from '../../types'
 
 export default {
     name: 'negate',
