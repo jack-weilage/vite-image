@@ -53,7 +53,7 @@ export function create_configs(params: URLSearchParams, deliminator: string): Im
     {
         // Get every occurrence of the key, then split by the deliminator.
         const values = params.getAll(key)
-            .reduce((acc, cur) => [ ...acc, ...cur.split(deliminator) ], [] as string[])
+            .flatMap(value => value.split(deliminator))
             .map(format_value)
 
         aggregated[key] = dedupe(values)
