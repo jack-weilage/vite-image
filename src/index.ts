@@ -1,5 +1,5 @@
-import type { Plugin, ResolvedConfig } from 'vite'
 import type { Cache, CacheEntry, PluginConfig, InternalImage, OutputImage, Transformer } from '../types'
+import type { Plugin, ResolvedConfig } from 'vite'
 
 import { BUILD_PREFIX, DEFAULT_CONFIG, DEV_PREFIX } from './constants'
 import default_transformers from './transformers'
@@ -110,16 +110,22 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
             
             return dataToEsm(plugin_config.post_process(final_images))
         },
+        //TODO: Add testing for dev mode (not 100% sure this works).
         configureServer(server) {
+            const regex = new RegExp(`^${DEV_PREFIX}(.*)$`)
+
             server.middlewares.use((req, res, next) => {
                 if (!req.url)
                     return next()
 
-                const result = new RegExp(`^${DEV_PREFIX}(.*)$`).exec(req.url)
+                const result = req.url.match(regex)
 
-                // If the path does not match our regex, or we haven't digested this image, skip.
-                const hash = result ? result[1] : null
-                if (!hash || !cache.has(hash))
+                // If the path does not match our regex, skip.
+                if (!result)
+                    return next()
+                
+                const hash = result[1]
+                if (!cache.has(hash))
                     return next()
                 
                 const { img } = cache.get(hash) as CacheEntry
@@ -128,33 +134,20 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
                     .pipe(res)
             })
         },
-        /**
-         * Code shamelessly stolen from `vite-imagetools`.
-         * renderChunk runs on every chunk of code vite is rendering.
-         * This function replaces every occurrence of a flagged url with a proper URL.
-         */
         renderChunk(code) {
             const regex = new RegExp(`${BUILD_PREFIX}([a-z0-9]{8})`, 'g')
+            
+            // string.includes is quite a bit faster here.
+            if (!code.includes(BUILD_PREFIX))
+                return null
+            
+            const magic = new MagicString(code)
+            magic.replace(regex, (_, hash) => vite_config.base + this.getFileName(hash))
 
-            let match: RegExpExecArray | null
-            let s: MagicString | undefined
-
-            while (match = regex.exec(code)) {
-                s = s || new MagicString(code)
-                const [ full, hash ] = match
-
-                // Starting at the index of the match, replace the length of the match with 
-                s.overwrite(match.index, match.index + full.length, vite_config.base + this.getFileName(hash))
+            return {
+                code: magic.toString(),
+                map: vite_config.build.sourcemap ? magic.generateMap({ hires: true }) : null
             }
-
-            if (s) {
-                return {
-                    code: s.toString(),
-                    map: vite_config.build.sourcemap ? s.generateMap({ hires: true }) : null
-                }
-            }
-
-            return null
         }
     }
 }
