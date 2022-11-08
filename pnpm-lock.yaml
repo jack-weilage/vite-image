@@ -16,7 +16,7 @@ specifiers:
   tslib: ^2.4.1
   typescript: ^4.8.4
   vite: ^3.2.3
-  vitest: ^0.25.0
+  vitest: ^0.25.1
 
 dependencies:
   '@rollup/pluginutils': 5.0.2_rollup@3.2.5
@@ -36,7 +36,7 @@ devDependencies:
   tslib: 2.4.1
   typescript: 4.8.4
   vite: 3.2.3_@types+node@18.11.9
-  vitest: 0.25.0_happy-dom@7.6.6
+  vitest: 0.25.1_happy-dom@7.6.6
 
 packages:
 
@@ -844,7 +844,7 @@ packages:
       regexp.prototype.flags: 1.4.3
       safe-regex-test: 1.0.0
       string.prototype.trimend: 1.0.6
-      string.prototype.trimstart: 1.0.5
+      string.prototype.trimstart: 1.0.6
       unbox-primitive: 1.0.2
     dev: true
 
@@ -2365,8 +2365,8 @@ packages:
       es-abstract: 1.20.4
     dev: true
 
-  /string.prototype.trimstart/1.0.5:
-    resolution: {integrity: sha512-THx16TJCGlsN0o6dl2o6ncWUsdgnLRSA23rRE5pyGBw/mLr3Ej/R2LaqCtgP8VNMGZsvMWnf9ooZPyY2bHvUFg==}
+  /string.prototype.trimstart/1.0.6:
+    resolution: {integrity: sha512-omqjMDaY92pbn5HOX7f9IccLA+U1tA9GvtU4JrodiXFfYB7jPzzHpRzpglLAjtUV6bB557zwClJezTqnAiYnQA==}
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.4
@@ -2640,8 +2640,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.25.0_happy-dom@7.6.6:
-    resolution: {integrity: sha512-CVgBdKSeA27mowKC/C31Tx7ZBjRoyasq/yW7zoqUaCdKaOsjdzRUH5KgSL3eG36DzaaUsbnwWPUbAOtFz5k6tQ==}
+  /vitest/0.25.1_happy-dom@7.6.6:
+    resolution: {integrity: sha512-eH74h6MkuEgsqR4mAQZeMK9O0PROiKY+i+1GMz/fBi5A3L2ml5U7JQs7LfPU7+uWUziZyLHagl+rkyfR8SLhlA==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
     peerDependencies:

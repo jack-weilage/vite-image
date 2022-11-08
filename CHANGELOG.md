@@ -1,5 +1,16 @@
 # vite-image
 
+## 0.3.0
+
+### Minor Changes
+
+- The last lines of `vite-imagetools` code has been removed!
+
+### Patch Changes
+
+- Various performance improvements.
+- Updated 2 matchers to speed up overall performance.
+
 ## 0.2.1
 
 ### Patch Changes

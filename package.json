@@ -1,6 +1,6 @@
 {
     "name": "vite-image",
-    "version": "0.2.1",
+    "version": "0.3.0",
     "description": "A vitejs plugin to streamline image processing.",
     "module": "dist/index.mjs",
     "main": "dist/index",
@@ -44,7 +44,7 @@
         "tslib": "^2.4.1",
         "typescript": "^4.8.4",
         "vite": "^3.2.3",
-        "vitest": "^0.25.0"
+        "vitest": "^0.25.1"
     },
     "dependencies": {
         "@rollup/pluginutils": "^5.0.2",
