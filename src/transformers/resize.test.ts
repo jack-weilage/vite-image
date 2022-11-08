@@ -6,8 +6,8 @@ let window: Window
 beforeEach(() => { window = new Window() })
 
 it.each([
-    [ 'width=100', '8763f5fd' ],
-    [ 'height=100', '53464d92' ],
+    [ 'width=100', 'f8f3058c' ],
+    [ 'height=100', '02e4fa8b' ],
     [ 'width=100&height=100', 'bc1d38ce' ],
 
 ])('applies the transform %s === %s', async (input, hash) => expect((await test(window, './images/dog.jpg?' + input))[0].src.split('.')[1]).toBe(hash))
