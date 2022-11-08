@@ -93,11 +93,11 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
                     src = BUILD_PREFIX + handle
                 }
 
-                const data = {
-                    ...info,
+
+                const data = Object.assign(info, {
                     aspect: info.width / info.height,
-                    src,
-                }
+                    src
+                })
 
                 cache.set(hash, { img, data })
                 images.push(data)

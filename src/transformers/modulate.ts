@@ -12,9 +12,9 @@ export default {
         && (typeof config['hue']        === 'number' || typeof config['hue']        === 'undefined')
         && (typeof config['lightness']  === 'number' || typeof config['lightness']  === 'undefined'),
     transform: (img, config) => img.modulate({
-        ...(typeof config['brightness'] === 'undefined' ? {  }: { brightness: config['brightness'] }),
-        ...(typeof config['saturation'] === 'undefined' ? {  }: { saturation: config['saturation'] }),
-        ...(typeof config['hue']        === 'undefined' ? {  }: { hue: config['hue'] }),
-        ...(typeof config['lightness']  === 'undefined' ? {  }: { lightness: config['lightness'] }),
+        brightness: config['brightness'] ?? 1,
+        saturation: config['saturation'] ?? 1,
+        hue:        config['hue']        ?? 0,
+        lightness:  config['lightness']  ?? 0
     })
 } as Transformer

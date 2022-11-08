@@ -12,23 +12,14 @@ export default {
         && (typeof config['width']  === 'number' || typeof config['width']  === 'undefined') 
         && (typeof config['height'] === 'number' || typeof config['height'] === 'undefined'),
     transform: (img, config, metadata) => {
+        // Something must be terribly wrong with the image if it doesn't have a width/height.
+        if (!metadata.width || !metadata.height)
+            return img
+        
         const { width, height } = config
 
-        // Check this first as we don't need metadata.
-        if (typeof width !== 'undefined' && typeof height !== 'undefined')
-            return resize(img, width, height)
-
-        // Everything after this will need metadata width/height
-        if (!metadata.width || !metadata.height)
-            return
-        
-
-        if (width && typeof height === 'undefined')
-            return resize(img, width, width / metadata.width * metadata.height)
-
-        if (typeof width === 'undefined' && height)
-            return resize(img, height / metadata.height * metadata.width, height)
-            
-        throw new Error('This shouldn\'t happen. How did you get here?')
+        return resize(img, 
+            typeof width === 'number' ? width : (height ?? 0) / metadata.height * metadata.width, 
+            typeof height === 'number' ? height : (width ?? 0) / metadata.width * metadata.height)
     }
 } as Transformer
