@@ -3,7 +3,7 @@ import type { FormatEnum, OutputInfo, Sharp, Metadata } from 'sharp'
 export interface PluginConfig {
     include: string
     exclude: string
-    
+
     deliminator: string
     transformers: Transformer[]
 
@@ -13,7 +13,7 @@ export interface PluginConfig {
 export type ImageConfig = Partial<{
     // format
     format: keyof FormatEnum
-    
+
     // resize
     width: number
     height: number

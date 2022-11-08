@@ -32,7 +32,7 @@ import CoolImage from './cool-image.jpg?width=300,600,900'
 ## Further Explanation
 
 - A param like `?blur` will be treated the same as `?blur=true`.
-- Passing `true` to a param will trigger the default 
+- Passing `true` to a param will trigger the default action from the corresponding `sharp` function.
 
 <br>
 
