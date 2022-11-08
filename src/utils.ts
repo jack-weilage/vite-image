@@ -11,8 +11,14 @@ export const filename = (path: string) => basename(path, extname(path))
 // This is _not_ here because I am wrapping includes. It's here because TypeScript hates includes
 export const includes = <T extends U, U>(coll: ReadonlyArray<T>, el: U): el is T => coll.includes(el as T)
 export const dedupe = <T>(arr: T[]) => [ ...new Set(arr) ]
-export const copy_only_keys = <T>(obj: T, keys: (keyof T)[]) => keys.reduce((acc, cur) => Object.assign(acc, { [cur]: obj[cur] }), {} as Partial<T>)
 
+export function copy_only_keys<T>(obj: T, keys: (keyof T)[]): Partial<T> {
+    const partial = {} as Partial<T>
+    for (const key of keys)
+        partial[key] = obj[key]
+
+    return partial
+}
 //TODO: Add more parsing logic than just combining the two.
 export function parse_config(user_config: Partial<PluginConfig>, default_config: PluginConfig): PluginConfig
 {
