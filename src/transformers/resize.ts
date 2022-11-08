@@ -19,7 +19,7 @@ export default {
         const { width, height } = config
 
         return resize(img, 
-            typeof width === 'number' ? width : (height ?? 0) / metadata.height * metadata.width, 
-            typeof height === 'number' ? height : (width ?? 0) / metadata.width * metadata.height)
+            typeof width === 'number' ? width : metadata.height / metadata.width * (height ?? 1), 
+            typeof height === 'number' ? height : metadata.width / metadata.height * (width ?? 1))
     }
 } as Transformer
