@@ -1,5 +1,11 @@
 # vite-image
 
+## 0.3.1
+
+### Patch Changes
+
+- More small performance improvements.
+
 ## 0.3.0
 
 ### Minor Changes
