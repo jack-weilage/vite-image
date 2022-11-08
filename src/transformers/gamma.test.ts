@@ -5,6 +5,7 @@ import { test } from '../../tests/utils'
 let window: Window
 beforeEach(() => { window = new Window() })
 
+//BUG: Seems not to work (just me?)
 it.each([
     [ 'gamma', '1e626464' ],
     [ 'gamma=true', '1e626464' ],

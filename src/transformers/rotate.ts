@@ -1,6 +1,6 @@
 import type { Transformer } from '../../types'
 
-//TODO: This overwrites the automatic EXIF rotate when first processing the image.
+//BUG: This doesn't seem to work with the automatic EXIF rotate.
 export default {
     name: 'rotate',
     matcher: (config) => typeof config['rotate'] === 'number',
