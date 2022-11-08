@@ -23,9 +23,9 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
     return {
         name: 'image',
         enforce: 'pre',
-
+        /** Called when the vite config is finalized. */
         configResolved(config) { vite_config = config },
-
+        /** Called when a resource is being processed. */
         async load(id: string) {
             if (!filter(id))
                 return null
@@ -111,6 +111,7 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
             return dataToEsm(plugin_config.post_process(final_images))
         },
         //TODO: Add testing for dev mode (not 100% sure this works).
+        /** Called in dev/preview mode. */
         configureServer(server) {
             const regex = new RegExp(`^${DEV_PREFIX}(.*)$`)
 
@@ -134,6 +135,7 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
                     .pipe(res)
             })
         },
+        /** Called in build mode. */
         renderChunk(code) {
             const regex = new RegExp(`${BUILD_PREFIX}([a-z0-9]{8})`, 'g')
             
@@ -141,6 +143,8 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
             if (!code.includes(BUILD_PREFIX))
                 return null
             
+            //TODO: Add a second code path if sourcemap is disabled.
+            //? Is MagicString slow enough to matter?
             const magic = new MagicString(code)
             magic.replace(regex, (_, hash) => vite_config.base + this.getFileName(hash))
 
