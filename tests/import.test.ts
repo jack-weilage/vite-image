@@ -19,12 +19,12 @@ describe('imports', () => {
         [
             // An import with one value.
             'width=600',
-            [ 'c8e3a72c' ]
+            [ '32f5facd' ]
         ],
         [
             // An import with multiple values.
             'width=600,800,1000',
-            [ 'c8e3a72c', '501b0d89', '2b774681' ]
+            [ '32f5facd', '921c756f', '27b648af' ]
         ],
         [
             // An import with multiple inputs.
@@ -63,6 +63,6 @@ describe('imports', () => {
         expect(data).toHaveLength(hashes.length)
 
         for (let i = 0; i < data.length; i++)
-            expect(data[i].src.split('.')[1]).toEqual(hashes[i])
+            expect(data[i].src.split('.')[1]).toBe(hashes[i])
     })
 })
