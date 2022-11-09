@@ -1,4 +1,4 @@
-import type { Cache, CacheEntry, PluginConfig, InternalImage, OutputImage, Transformer } from '../types'
+import type { Cache, CacheEntry, PluginConfig, InternalImage, OutputImage } from '../types'
 import type { Plugin, ResolvedConfig } from 'vite'
 
 import { BUILD_PREFIX, DEFAULT_CONFIG, DEV_PREFIX } from './constants'
@@ -9,8 +9,7 @@ import { createFilter, dataToEsm } from '@rollup/pluginutils'
 import MagicString from 'magic-string'
 import sharp from 'sharp'
 
-
-export type { PluginConfig, Transformer }
+export type { PluginConfig, Transformer, TypedImage } from '../types'
 
 export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
     const plugin_config: PluginConfig = parse_config(user_config, DEFAULT_CONFIG)
@@ -35,15 +34,12 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
 
             // Deal with export tags here so it can be removed from url.
             const user_exports = url.searchParams.get('export')
-                ?.split(plugin_config.deliminator) as (keyof OutputImage)[]
-                ?? [] 
+                ?.split(plugin_config.deliminator) as (keyof OutputImage)[] | undefined
             
-            const exports = dedupe([
-                ...plugin_config.default_exports,
-                ...user_exports
-            ]).filter(Boolean)
+            const exports = dedupe(user_exports ?? (plugin_config.default_exports || []))
+                .filter(Boolean)
 
-            // If nothing is going to be output, why even process the image? This currently won't happen, as the defaults can't be overwritten.
+            // If nothing is going to be output, why even process the image?
             if (exports.length === 0)
             {
                 if (this.meta.watchMode)

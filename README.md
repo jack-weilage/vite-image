@@ -87,6 +87,33 @@ A slightly more complex version, using `srcset`:
 
 To learn about the default transformers, [click here](TRANSFORMERS.md)
 
+## Return Type
+
+`vite-image` will return a modified `sharp` instance, trimmed down for the web. Without any configuration, five values will be returned: `src`, `aspect`, `width`, `height`, and `format`.
+
+There are two ways to modify what's returned:
+ 1. Change `config.default_exports` (changes settings project-wide).
+ 2. Add a `export` input, like `image?export=width,height,src`. This will override whatever's in your `config.default_exports`.
+
+Try to trim down your exports to only what's necessary to keep your bundle as small as possible!
+
+### Typescript
+
+To help developers using TypeScript, an easy helper type is included. To use it, just import and supply keys:
+
+```ts
+import type { TypedImage } from 'vite-image'
+
+import CustomImages from './images/cool-image?width=500,800,1000&export=width,src'
+
+// Properly typing the import isn't possible as far as I know, but this works well enough.
+for (const image of CustomImages as TypedImage<'width' | 'src'>)
+{
+    console.log('src:', image.src)
+    console.log('width:', image.width)
+}
+```
+
 <br>
 
 ## Roadmap

@@ -64,3 +64,5 @@ export type InternalImage = OutputInfo & {
     src: string
 }
 export type OutputImage = Partial<InternalImage>
+
+export type TypedImage<T extends keyof InternalImage> = Pick<InternalImage, T>[]
