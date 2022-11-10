@@ -6,13 +6,14 @@ import { basename, extname } from 'path'
 
 /** Limit a number to between min and max. */
 export const minmax = (num: number, min: number, max: number) => Math.max(Math.min(num, max), min)
-/** Create a sha1 hash from a string. */
+/** 
+ * Create a SHA1 hash from a string.
+ * 
+ * SHA256 is more secure, but speed matters more here.
+*/
 export const create_hash = (str: string): string => createHash('sha1').update(str).digest('hex')
 /** Extract the name of a file, without its extension. */
 export const filename = (path: string) => basename(path, extname(path))
-// stolen from https://fettblog.eu/typescript-array-includes/
-// This is _not_ here because I am wrapping includes. It's here because TypeScript hates includes
-export const includes = <T extends U, U>(coll: ReadonlyArray<T>, el: U): el is T => coll.includes(el as T)
 /** De-duplicate an array. */
 export const dedupe = <T>(arr: T[]) => [ ...new Set(arr) ]
 
