@@ -89,7 +89,9 @@ To learn about the default transformers, [click here](TRANSFORMERS.md)
 
 ## Return Type
 
-`vite-image` will return a modified `sharp` instance, trimmed down for the web. Without any configuration, five values will be returned: `src`, `aspect`, `width`, `height`, and `format`.
+`vite-image` will return a modified `sharp` instance, trimmed down for the web. 3 extra values are included: `aspect` (width / height), `src` (an href pointing to the image), and `transformers` (an array of the transformers applied to the image).
+
+Without any configuration, five values will be returned: `src`, `aspect`, `width`, `height`, and `format`.
 
 There are two ways to modify what's returned:
  1. Change `config.default_exports` (changes settings project-wide).
