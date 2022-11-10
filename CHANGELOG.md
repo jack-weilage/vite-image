@@ -1,5 +1,15 @@
 # vite-image
 
+## 0.4.0
+
+### Minor Changes
+
+- The list of applied transformers is now accessible via `export=transformers`.
+
+### Patch Changes
+
+- Speed up transformations by ~17%.
+
 ## 0.3.3
 
 ### Patch Changes
