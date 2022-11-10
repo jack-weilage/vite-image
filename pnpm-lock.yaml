@@ -7,11 +7,11 @@ specifiers:
   '@types/sharp': ^0.31.0
   dts-bundle-generator: ^7.0.0
   esbuild: ^0.15.13
-  happy-dom: ^7.6.6
+  happy-dom: ^7.6.7
   magic-string: ^0.26.7
   rimraf: ^3.0.2
   rollup: ^3.2.5
-  rollup-plugin-esbuild: ^4.10.2
+  rollup-plugin-esbuild: ^5.0.0
   sharp: ^0.31.2
   tslib: ^2.4.1
   typescript: ^4.8.4
@@ -29,14 +29,14 @@ devDependencies:
   '@types/sharp': 0.31.0
   dts-bundle-generator: 7.0.0
   esbuild: 0.15.13
-  happy-dom: 7.6.6
+  happy-dom: 7.6.7
   rimraf: 3.0.2
   rollup: 3.2.5
-  rollup-plugin-esbuild: 4.10.2_b76bwh2xfplsy4n4t42ms6ttgm
+  rollup-plugin-esbuild: 5.0.0_b76bwh2xfplsy4n4t42ms6ttgm
   tslib: 2.4.1
   typescript: 4.8.4
   vite: 3.2.3_@types+node@18.11.9
-  vitest: 0.25.1_happy-dom@7.6.6
+  vitest: 0.25.1_happy-dom@7.6.7
 
 packages:
 
@@ -1293,8 +1293,8 @@ packages:
     resolution: {integrity: sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==}
     dev: true
 
-  /happy-dom/7.6.6:
-    resolution: {integrity: sha512-28NxRiHXjzhr+BGciLNUoQW4OaBnQPRT/LPYLufh0Fj3Iwh1j9qJaozjBm/Uqdj5Ps4cukevQ7ERieA6Ddwf1g==}
+  /happy-dom/7.6.7:
+    resolution: {integrity: sha512-9pOslsClyF5JX9ZM3dzRhLjTHqc4dha7v+ZB94u4PHMVTdLplXAnh5e5WXtPUU1n0J4tDUavslJqitqt/1W45g==}
     dependencies:
       css.escape: 1.5.1
       he: 1.2.0
@@ -2144,8 +2144,8 @@ packages:
       glob: 7.2.3
     dev: true
 
-  /rollup-plugin-esbuild/4.10.2_b76bwh2xfplsy4n4t42ms6ttgm:
-    resolution: {integrity: sha512-OPrBgdN1ZC2zQvq/rm5Zvzpb0Rez7zbbVJ+1b5Az//kLlfhwR1mqOP3wAhkg9sn5nF7p+97p55TORE0RNXzNcw==}
+  /rollup-plugin-esbuild/5.0.0_b76bwh2xfplsy4n4t42ms6ttgm:
+    resolution: {integrity: sha512-1cRIOHAPh8WQgdQQyyvFdeOdxuiyk+zB5zJ5+YOwrZP4cJ0MT3Fs48pQxrZeyZHcn+klFherytILVfE4aYrneg==}
     engines: {node: '>=14.18.0', npm: '>=8.0.0'}
     peerDependencies:
       esbuild: '>=0.10.1'
@@ -2640,7 +2640,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.25.1_happy-dom@7.6.6:
+  /vitest/0.25.1_happy-dom@7.6.7:
     resolution: {integrity: sha512-eH74h6MkuEgsqR4mAQZeMK9O0PROiKY+i+1GMz/fBi5A3L2ml5U7JQs7LfPU7+uWUziZyLHagl+rkyfR8SLhlA==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
@@ -2669,7 +2669,7 @@ packages:
       acorn-walk: 8.2.0
       chai: 4.3.7
       debug: 4.3.4
-      happy-dom: 7.6.6
+      happy-dom: 7.6.7
       local-pkg: 0.4.2
       source-map: 0.6.1
       strip-literal: 0.4.2
