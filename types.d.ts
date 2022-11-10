@@ -62,6 +62,7 @@ export type Transformer = {
 export type InternalImage = OutputInfo & {
     aspect: number
     src: string
+    transformers: string[]
 }
 export type OutputImage = Partial<InternalImage>
 

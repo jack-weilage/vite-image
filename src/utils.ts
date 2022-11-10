@@ -88,20 +88,18 @@ export function create_configs(params: URLSearchParams, deliminator: string): Im
 }
 
 /** Apply all transformers to an image. */
-export function apply_transformers(image: Sharp, metadata: Metadata, config: ImageConfig, transforms: Transformer[])
+export function apply_transformers(image: Sharp, metadata: Metadata, config: ImageConfig, transformers: Transformer[])
 {
-    let img = image
-    // Used to check if any transformers applied to the image
-    let is_transformed = false
+    const applied_transformers = []
 
-    for (const { matcher, transform } of transforms)
+    for (const { matcher, transform, name } of transformers)
     {
         if (!matcher(config))
             continue
     
-        is_transformed = true
-        img = transform(img, config, metadata)
+        applied_transformers.push(name)
+        image = transform(image, config, metadata)
     }
 
-    return { img, is_transformed }
+    return { image, applied_transformers }
 }

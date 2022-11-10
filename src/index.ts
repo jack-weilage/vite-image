@@ -68,15 +68,15 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
                     continue
                 }
 
-                const { img, is_transformed } = apply_transformers(base_img.clone(), metadata, config, transformers)
+                const { image, applied_transformers } = apply_transformers(base_img.clone(), metadata, config, transformers)
 
                 // If the image didn't match a transformer, it shouldn't be processed
-                if (!is_transformed)
+                if (applied_transformers.length === 0)
                     continue
                 
                 // Convert the transformed image to a buffer. We only need the buffer for build mode, but always need the metadata.
                 //? Is there a way to get a transformed image's metadata without waiting for buffer?
-                const { info, data: source } = await img.toBuffer({ resolveWithObject: true })
+                const { info, data: source } = await image.toBuffer({ resolveWithObject: true })
 
                 // If we're in dev mode, we should supply an actual url here.
                 let src = DEV_PREFIX + hash
@@ -90,12 +90,13 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
                 }
 
 
-                const data = Object.assign(info, {
+                const data: InternalImage = Object.assign(info, {
                     aspect: info.width / info.height,
-                    src
+                    src,
+                    transformers: applied_transformers
                 })
 
-                cache.set(hash, { img, data })
+                cache.set(hash, { img: image, data })
                 images.push(data)
             }
             // If every config was skipped, we shouldn't change the output
