@@ -1,9 +1,10 @@
 import type { RollupOptions } from 'rollup'
 
 import esbuild from 'rollup-plugin-esbuild'
+import { builtinModules } from 'module'
 
 export default {
-    external: [ '@rollup/pluginutils', 'magic-string', 'sharp', 'crypto', 'path' ],
+    external: [ '@rollup/pluginutils', 'magic-string', 'sharp', ...builtinModules ],
     input: 'src/index.ts',
     output: [
         {
