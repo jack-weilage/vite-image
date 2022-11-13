@@ -6,10 +6,10 @@ specifiers:
   '@types/node': ^18.11.9
   '@types/sharp': ^0.31.0
   esbuild: ^0.15.13
-  happy-dom: ^7.6.7
+  happy-dom: ^7.7.0
   magic-string: ^0.26.7
   rimraf: ^3.0.2
-  rollup: ^3.2.5
+  rollup: ^3.3.0
   rollup-plugin-dts: ^5.0.0
   rollup-plugin-esbuild: ^5.0.0
   sharp: ^0.31.2
@@ -19,7 +19,7 @@ specifiers:
   vitest: ^0.25.1
 
 dependencies:
-  '@rollup/pluginutils': 5.0.2_rollup@3.2.5
+  '@rollup/pluginutils': 5.0.2_rollup@3.3.0
   magic-string: 0.26.7
   sharp: 0.31.2
 
@@ -28,15 +28,15 @@ devDependencies:
   '@types/node': 18.11.9
   '@types/sharp': 0.31.0
   esbuild: 0.15.13
-  happy-dom: 7.6.7
+  happy-dom: 7.7.0
   rimraf: 3.0.2
-  rollup: 3.2.5
-  rollup-plugin-dts: 5.0.0_oa2candk7eitu7usnsurwiyuuu
-  rollup-plugin-esbuild: 5.0.0_b76bwh2xfplsy4n4t42ms6ttgm
+  rollup: 3.3.0
+  rollup-plugin-dts: 5.0.0_aoc4guvlpr5bfeyf2nus4ubkpu
+  rollup-plugin-esbuild: 5.0.0_ybshfkrfijkvxo7pcbvh2aqrbq
   tslib: 2.4.1
   typescript: 4.8.4
   vite: 3.2.3_@types+node@18.11.9
-  vitest: 0.25.1_happy-dom@7.6.7
+  vitest: 0.25.1_happy-dom@7.7.0
 
 packages:
 
@@ -310,7 +310,7 @@ packages:
       fastq: 1.13.0
     dev: true
 
-  /@rollup/pluginutils/5.0.2_rollup@3.2.5:
+  /@rollup/pluginutils/5.0.2_rollup@3.3.0:
     resolution: {integrity: sha512-pTd9rIsP92h+B6wWwFbW8RkZv4hiR/xKsqre4SIuAOaOEQRxi0lqLke9k2/7WegC85GgUs9pjmOjCUi3In4vwA==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -322,7 +322,7 @@ packages:
       '@types/estree': 1.0.0
       estree-walker: 2.0.2
       picomatch: 2.3.1
-      rollup: 3.2.5
+      rollup: 3.3.0
 
   /@types/chai-subset/1.3.3:
     resolution: {integrity: sha512-frBecisrNGz+F4T6bcc+NLeolfiojh5FxW2klu669+8BARtyQv2C/GkNW6FUodVe4BroGMP/wER/YDGc7rEllw==}
@@ -352,7 +352,7 @@ packages:
   /@types/is-ci/3.0.0:
     resolution: {integrity: sha512-Q0Op0hdWbYd1iahB+IFNQcWXFq4O0Q5MwQP7uN0souuQ4rPg1vEYcnIOfr1gY+M+6rc8FGoRaBO1mOOvL29sEQ==}
     dependencies:
-      ci-info: 3.5.0
+      ci-info: 3.6.1
     dev: true
 
   /@types/minimist/1.2.2:
@@ -587,8 +587,9 @@ packages:
     resolution: {integrity: sha512-jJ0bqzaylmJtVnNgzTeSOs8DPavpbYgEr/b0YL8/2GO3xJEhInFmhKMUnEJQjZumK7KXGFhUy89PrsJWlakBVg==}
     dev: false
 
-  /ci-info/3.5.0:
-    resolution: {integrity: sha512-yH4RezKOGlOhxkmhbeNuC4eYZKAUsEaGtBuBzDDP1eFUKiccDWzBABxBfOx31IDwDIXMTxWuwAxUGModvkbuVw==}
+  /ci-info/3.6.1:
+    resolution: {integrity: sha512-up5ggbaDqOqJ4UqLKZ2naVkyqSJQgJi5lwD6b6mM748ysrghDBX0bx/qJTUHzw7zu6Mq4gycviSF5hJnwceD8w==}
+    engines: {node: '>=8'}
     dev: true
 
   /cliui/6.0.0:
@@ -1284,8 +1285,8 @@ packages:
     resolution: {integrity: sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==}
     dev: true
 
-  /happy-dom/7.6.7:
-    resolution: {integrity: sha512-9pOslsClyF5JX9ZM3dzRhLjTHqc4dha7v+ZB94u4PHMVTdLplXAnh5e5WXtPUU1n0J4tDUavslJqitqt/1W45g==}
+  /happy-dom/7.7.0:
+    resolution: {integrity: sha512-U10JXl5qSaHswXT5kyE7lvSDoyK48GyPGpe74qI9KT29frt1AlS+jnwy77RUJIknx+4b52DK1NllXTgHH8k20w==}
     dependencies:
       css.escape: 1.5.1
       he: 1.2.0
@@ -1453,7 +1454,7 @@ packages:
     resolution: {integrity: sha512-ZYvCgrefwqoQ6yTyYUbQu64HsITZ3NfKX1lzaEYdkTDcfKzzCI/wthRRYKkdjHKFVgNiXKAKm65Zo1pk2as/QQ==}
     hasBin: true
     dependencies:
-      ci-info: 3.5.0
+      ci-info: 3.6.1
     dev: true
 
   /is-core-module/2.11.0:
@@ -1937,8 +1938,8 @@ packages:
       find-up: 4.1.0
     dev: true
 
-  /postcss/8.4.18:
-    resolution: {integrity: sha512-Wi8mWhncLJm11GATDaQKobXSNEYGUHeQLiQqDFG1qQ5UTDPTEvKw0Xt5NsTpktGTwLps3ByrWsBrG0rB8YQ9oA==}
+  /postcss/8.4.19:
+    resolution: {integrity: sha512-h+pbPsyhlYj6N2ozBmHhHrs9DzGmbaarbLvWipMRO7RLS+v4onj26MPFXA5OBYFxyqYhUJK456SwDcY9H2/zsA==}
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
       nanoid: 3.3.4
@@ -2134,7 +2135,7 @@ packages:
       glob: 7.2.3
     dev: true
 
-  /rollup-plugin-dts/5.0.0_oa2candk7eitu7usnsurwiyuuu:
+  /rollup-plugin-dts/5.0.0_aoc4guvlpr5bfeyf2nus4ubkpu:
     resolution: {integrity: sha512-OO8ayCvuJCKaQSShyVTARxGurVVk4ulzbuvz+0zFd1f93vlnWFU5pBMT7HFeS6uj7MvvZLx4kUAarGATSU1+Ng==}
     engines: {node: '>=v14'}
     peerDependencies:
@@ -2142,26 +2143,26 @@ packages:
       typescript: ^4.1
     dependencies:
       magic-string: 0.26.7
-      rollup: 3.2.5
+      rollup: 3.3.0
       typescript: 4.8.4
     optionalDependencies:
       '@babel/code-frame': 7.18.6
     dev: true
 
-  /rollup-plugin-esbuild/5.0.0_b76bwh2xfplsy4n4t42ms6ttgm:
+  /rollup-plugin-esbuild/5.0.0_ybshfkrfijkvxo7pcbvh2aqrbq:
     resolution: {integrity: sha512-1cRIOHAPh8WQgdQQyyvFdeOdxuiyk+zB5zJ5+YOwrZP4cJ0MT3Fs48pQxrZeyZHcn+klFherytILVfE4aYrneg==}
     engines: {node: '>=14.18.0', npm: '>=8.0.0'}
     peerDependencies:
       esbuild: '>=0.10.1'
       rollup: ^1.20.0 || ^2.0.0 || ^3.0.0
     dependencies:
-      '@rollup/pluginutils': 5.0.2_rollup@3.2.5
+      '@rollup/pluginutils': 5.0.2_rollup@3.3.0
       debug: 4.3.4
       es-module-lexer: 1.1.0
       esbuild: 0.15.13
       joycon: 3.1.1
       jsonc-parser: 3.2.0
-      rollup: 3.2.5
+      rollup: 3.3.0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -2174,8 +2175,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /rollup/3.2.5:
-    resolution: {integrity: sha512-/Ha7HhVVofduy+RKWOQJrxe4Qb3xyZo+chcpYiD8SoQa4AG7llhupUtyfKSSrdBM2mWJjhM8wZwmbY23NmlIYw==}
+  /rollup/3.3.0:
+    resolution: {integrity: sha512-wqOV/vUJCYEbWsXvwCkgGWvgaEnsbn4jxBQWKpN816CqsmCimDmCNJI83c6if7QVD4v/zlyRzxN7U2yDT5rfoA==}
     engines: {node: '>=14.18.0', npm: '>=8.0.0'}
     hasBin: true
     optionalDependencies:
@@ -2636,14 +2637,14 @@ packages:
     dependencies:
       '@types/node': 18.11.9
       esbuild: 0.15.13
-      postcss: 8.4.18
+      postcss: 8.4.19
       resolve: 1.22.1
       rollup: 2.79.1
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.25.1_happy-dom@7.6.7:
+  /vitest/0.25.1_happy-dom@7.7.0:
     resolution: {integrity: sha512-eH74h6MkuEgsqR4mAQZeMK9O0PROiKY+i+1GMz/fBi5A3L2ml5U7JQs7LfPU7+uWUziZyLHagl+rkyfR8SLhlA==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
@@ -2672,7 +2673,7 @@ packages:
       acorn-walk: 8.2.0
       chai: 4.3.7
       debug: 4.3.4
-      happy-dom: 7.6.7
+      happy-dom: 7.7.0
       local-pkg: 0.4.2
       source-map: 0.6.1
       strip-literal: 0.4.2
