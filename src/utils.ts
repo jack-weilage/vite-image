@@ -3,6 +3,7 @@ import type { Sharp, Metadata } from 'sharp'
 
 import { type BinaryLike, createHash } from 'crypto'
 import { basename, extname } from 'path'
+import { CONFIG_SCHEMA } from './constants'
 
 /** Limit a number to between min and max. */
 export const minmax = (num: number, min: number, max: number) => Math.max(Math.min(num, max), min)
@@ -25,10 +26,17 @@ export function copy_only_keys<T>(obj: T, keys: (keyof T)[]): Partial<T> {
 
     return partial
 }
-//TODO: Add more parsing logic than just combining the two.
+
+/** Validate and combine a user config and default config. */
 export function parse_config(user_config: Partial<PluginConfig>, default_config: PluginConfig): PluginConfig
 {
-    return Object.assign(default_config, user_config)
+    const config = Object.assign({ ...default_config }, user_config)
+
+    const errors = CONFIG_SCHEMA.validate(config)
+    if (errors.length !== 0)
+        throw new AggregateError(errors)
+    
+    return config
 }
 
 /** Coerces values to string | number | boolean. */

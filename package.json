@@ -54,6 +54,7 @@
         "rollup-plugin-esbuild": "^5.0.0",
         "tslib": "^2.4.1",
         "typescript": "^4.8.4",
+        "validate": "^5.2.0",
         "vite": "^3.2.3",
         "vitest": "^0.25.1"
     },

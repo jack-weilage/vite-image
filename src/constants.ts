@@ -1,6 +1,8 @@
 import type { FormatEnum } from 'sharp'
 import type { PluginConfig } from '../types'
 
+import Schema from 'validate'
+
 export const DEFAULT_CONFIG: PluginConfig = {
     include: '**/*.{heic,heif,avif,jpeg,jpg,png,tiff,webp,gif}?*',
     exclude: '',
@@ -35,3 +37,16 @@ export const INPUT_FORMATS = [
 
 export const DEV_PREFIX = '/@image/'
 export const BUILD_PREFIX = '__VITE_IMAGE_ASSET__'
+
+export const CONFIG_SCHEMA = new Schema({
+    include: { type: String },
+    exclude: { type: String },
+    deliminator: { type: String },
+    transformers: [{
+        name: { type: String, required: true },
+        matcher: { type: Function, required: true },
+        transform: { type: Function, required: true }
+    }],
+    default_exports: [{ type: String }],
+    post_process: { type: Function }
+}, { strict: true })
