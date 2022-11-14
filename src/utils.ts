@@ -1,7 +1,7 @@
 import type { ImageConfig, Transformer, PluginConfig } from '../types'
 import type { Sharp, Metadata } from 'sharp'
 
-import { createHash } from 'crypto'
+import { type BinaryLike, createHash } from 'crypto'
 import { basename, extname } from 'path'
 
 /** Limit a number to between min and max. */
@@ -11,7 +11,7 @@ export const minmax = (num: number, min: number, max: number) => Math.max(Math.m
  * 
  * SHA256 is more secure, but speed matters more here.
 */
-export const create_hash = (str: string): string => createHash('sha1').update(str).digest('hex')
+export const create_hash = (str: BinaryLike): string => createHash('sha1').update(str).digest('hex')
 /** Extract the name of a file, without its extension. */
 export const filename = (path: string) => basename(path, extname(path))
 /** De-duplicate an array. */
