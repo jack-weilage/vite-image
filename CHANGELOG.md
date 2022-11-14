@@ -1,5 +1,12 @@
 # vite-image
 
+## 0.4.1
+
+### Patch Changes
+
+- Switch to `rollup-plugin-dts` for TypeScript bundling.
+- Fix some transformers not working.
+
 ## 0.4.0
 
 ### Minor Changes
