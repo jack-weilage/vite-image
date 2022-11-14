@@ -1,27 +1,30 @@
-import { Window } from 'happy-dom'
-import { beforeEach, expect, it } from 'vitest'
-import { test } from '../../tests/utils'
+import { expect, it } from 'vitest'
+import sharp from 'sharp'
+import { apply_transformers, create_hash } from '../utils'
 
-let window: Window
-beforeEach(() => { window = new Window() })
+import transformer from './modulate'
+const base_image = sharp('./tests/fixtures/images/dog.jpg')
+const metadata = await base_image.metadata()
 
-it.each([
-    [ 'brightness=0', '5faf72ab' ],
-    [ 'brightness=1000', 'a9f3e901' ],
+it.each([ 
+    { brightness: 0 }, { brightness: 50 },
+    { saturation: 0 }, { saturation: 50 },
+    { hue: 0 },        { hue: 50 },
+    { lightness: 0 },  { lightness: 50 }    
+])('applies the transform modulate=%s', async (input) => {
+    const { image } = apply_transformers(base_image.clone(), metadata, input, [ transformer ])
 
-    [ 'saturation=0', '3f1040b1' ],
-    [ 'saturation=1000', 'e43c536a' ],
-
-    [ 'hue=0', '9814cf28' ],
-    [ 'hue=1000', 'f162fcbf' ],
-
-    [ 'lightness=0', '9814cf28' ],
-    [ 'lightness=1000', '58671a02' ],
-])('applies the transform %s === %s', async (input, hash) => expect((await test(window, './images/dog.jpg?' + input))[0].src.split('.')[1]).toBe(hash))
+    expect(create_hash(await image.toBuffer())).toMatchSnapshot()
+})
 
 it.each([
-    [ 'brightness', '/assets/dog.1b15ce03.jpg?brightness' ],
-    [ 'brightness&saturation=100', '/assets/dog.1b15ce03.jpg?brightness&saturation=100' ],
-    [ 'lightness=foo', '/assets/dog.1b15ce03.jpg?lightness=foo' ],
-    [ 'hue=0&lightness=foo', '/assets/dog.1b15ce03.jpg?hue=0&lightness=foo' ]
-])('doesn\'t apply the transform %s === %s', async (input, output) => expect(await test(window, './images/dog.jpg?' + input)).toBe(output))
+    { brightness: true },
+    { brightness: true, saturation: 100 },
+    { lightness: 'foo' },
+    { hue: 0, lightness: 'foo' }
+])('doesn\'t apply the transform modulate=%s', async (input) => {
+    //@ts-expect-error: Config shouldn't have these values.
+    const { image } = apply_transformers(base_image.clone(), metadata, input, [ transformer ])
+
+    expect(create_hash(await image.toBuffer())).toMatchSnapshot()
+})

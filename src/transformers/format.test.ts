@@ -1,20 +1,21 @@
-import { Window } from 'happy-dom'
-import { beforeEach, expect, it } from 'vitest'
-import { test } from '../../tests/utils'
+import { expect, it } from 'vitest'
+import sharp from 'sharp'
+import type { FormatEnum } from 'sharp'
+import { apply_transformers, create_hash } from '../utils'
 
-let window: Window
-beforeEach(() => { window = new Window() })
+import transformer from './format'
+const base_image = sharp('./tests/fixtures/images/dog.jpg')
+const metadata = await base_image.metadata()
 
-it.each([
-    [ 'format=jpeg', '9814cf28' ],
-    [ 'format=webp', '7bb66aee' ],
-    [ 'format=png', '812fd15d' ]
-])('applies the transform %s === %s', async (input, hash) => expect((await test(window, './images/dog.jpg?' + input))[0].src.split('.')[1]).toBe(hash), 30 * 1000)
+it.each([ 'jpeg', 'webp', 'png' ])('applies the transform format=%s', async (input) => {
+    const { image } = apply_transformers(base_image.clone(), metadata, { format: input as keyof FormatEnum }, [ transformer ])
 
-it.each([
-    [ 'format=foo', '/assets/dog.1b15ce03.jpg?format=foo' ],
-    [ 'format=true', '/assets/dog.1b15ce03.jpg?format=true' ],
-    [ 'format=false', '/assets/dog.1b15ce03.jpg?format=false' ],
-    [ 'format=1', '/assets/dog.1b15ce03.jpg?format=1' ],
-    [ 'format=0', '/assets/dog.1b15ce03.jpg?format=0' ]
-])('doesn\'t apply the transform %s === %s', async (input, output) => expect(await test(window, './images/dog.jpg?' + input)).toBe(output))
+    expect(create_hash(await image.toBuffer())).toMatchSnapshot()
+})
+
+it.each([ 'foo', true, false, 1, 0 ])('doesn\'t apply the transform format=%s', async (input) => {
+    //@ts-expect-error: Config shouldn't have these values.
+    const { image } = apply_transformers(base_image.clone(), metadata, { format: input }, [ transformer ])
+
+    expect(create_hash(await image.toBuffer())).toMatchSnapshot()
+})

@@ -1,18 +1,20 @@
-import { Window } from 'happy-dom'
-import { beforeEach, expect, it } from 'vitest'
-import { test } from '../../tests/utils'
+import { expect, it } from 'vitest'
+import sharp from 'sharp'
+import { apply_transformers, create_hash } from '../utils'
 
-let window: Window
-beforeEach(() => { window = new Window() })
+import transformer from './blur'
+const base_image = sharp('./tests/fixtures/images/dog.jpg')
+const metadata = await base_image.metadata()
 
-it.each([
-    [ 'blur', 'f04613f5' ],
-    [ 'blur=true', 'f04613f5' ],
-    [ 'blur=1', 'd9accbaa' ],
-    [ 'blur=0', '9814cf28' ]
-])('applies the transform %s === %s', async (input, hash) => expect((await test(window, './images/dog.jpg?' + input))[0].src.split('.')[1]).toBe(hash))
+it.each([ true, 1, 10, 0 ])('applies the transform blur=%s', async (input) => {
+    const { image } = apply_transformers(base_image.clone(), metadata, { blur: input as number | true }, [ transformer ])
 
-it.each([
-    [ 'blur=false', '/assets/dog.1b15ce03.jpg?blur=false' ],
-    [ 'blur=foo', '/assets/dog.1b15ce03.jpg?blur=foo' ]
-])('doesn\'t apply the transform %s === %s', async (input, output) => expect(await test(window, './images/dog.jpg?' + input)).toBe(output))
+    expect(create_hash(await image.toBuffer())).toMatchSnapshot()
+})
+
+it.each([ false, 'foo' ])('doesn\'t apply the transform blur=%s', async (input) => {
+    //@ts-expect-error: Config shouldn't have these values.
+    const { image } = apply_transformers(base_image.clone(), metadata, { blur: input }, [ transformer ])
+
+    expect(create_hash(await image.toBuffer())).toMatchSnapshot()
+})

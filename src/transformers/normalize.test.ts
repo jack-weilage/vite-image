@@ -1,18 +1,20 @@
-import { Window } from 'happy-dom'
-import { beforeEach, expect, it } from 'vitest'
-import { test } from '../../tests/utils'
+import { expect, it } from 'vitest'
+import sharp from 'sharp'
+import { apply_transformers, create_hash } from '../utils'
 
-let window: Window
-beforeEach(() => { window = new Window() })
+import transformer from './normalize'
+const base_image = sharp('./tests/fixtures/images/dog.jpg')
+const metadata = await base_image.metadata()
 
-it.each([
-    [ 'normalize', 'd6351e5a' ],
-    [ 'normalize=true', 'd6351e5a' ],
-    [ 'normalize=false', '9814cf28' ]
-])('applies the transform %s === %s', async (input, hash) => expect((await test(window, './images/dog.jpg?' + input))[0].src.split('.')[1]).toBe(hash))
+it.each([ true, false ])('applies the transform normalize=%s', async (input) => {
+    const { image } = apply_transformers(base_image.clone(), metadata, { normalize: input }, [ transformer ])
 
-it.each([
-    [ 'normalize=foo', '/assets/dog.1b15ce03.jpg?normalize=foo' ],
-    [ 'normalize=1', '/assets/dog.1b15ce03.jpg?normalize=1' ],
-    [ 'normalize=0', '/assets/dog.1b15ce03.jpg?normalize=0' ]
-])('doesn\'t apply the transform %s === %s', async (input, output) => expect(await test(window, './images/dog.jpg?' + input)).toBe(output))
+    expect(create_hash(await image.toBuffer())).toMatchSnapshot()
+})
+
+it.each([ false, 'foo', 0, 1 ])('doesn\'t apply the transform normalize=%s', async (input) => {
+    //@ts-expect-error: Config shouldn't have these values.
+    const { image } = apply_transformers(base_image.clone(), metadata, { normalize: input }, [ transformer ])
+
+    expect(create_hash(await image.toBuffer())).toMatchSnapshot()
+})

@@ -1,18 +1,20 @@
-import { Window } from 'happy-dom'
-import { beforeEach, expect, it } from 'vitest'
-import { test } from '../../tests/utils'
+import { expect, it } from 'vitest'
+import sharp from 'sharp'
+import { apply_transformers, create_hash } from '../utils'
 
-let window: Window
-beforeEach(() => { window = new Window() })
+import transformer from './negate'
+const base_image = sharp('./tests/fixtures/images/dog.jpg')
+const metadata = await base_image.metadata()
 
-it.each([
-    [ 'negate', '969d15e4' ],
-    [ 'negate=true', '969d15e4' ],
-    [ 'negate=false', '9814cf28' ]
-])('applies the transform %s === %s', async (input, hash) => expect((await test(window, './images/dog.jpg?' + input))[0].src.split('.')[1]).toBe(hash))
+it.each([ true, false ])('applies the transform negate=%s', async (input) => {
+    const { image } = apply_transformers(base_image.clone(), metadata, { negate: input }, [ transformer ])
 
-it.each([
-    [ 'negate=foo', '/assets/dog.1b15ce03.jpg?negate=foo' ],
-    [ 'negate=1', '/assets/dog.1b15ce03.jpg?negate=1' ],
-    [ 'negate=0', '/assets/dog.1b15ce03.jpg?negate=0' ]
-])('doesn\'t apply the transform %s === %s', async (input, output) => expect(await test(window, './images/dog.jpg?' + input)).toBe(output))
+    expect(create_hash(await image.toBuffer())).toMatchSnapshot()
+})
+
+it.each([ false, 'foo', 0, 1 ])('doesn\'t apply the transform negate=%s', async (input) => {
+    //@ts-expect-error: Config shouldn't have these values.
+    const { image } = apply_transformers(base_image.clone(), metadata, { negate: input }, [ transformer ])
+
+    expect(create_hash(await image.toBuffer())).toMatchSnapshot()
+})

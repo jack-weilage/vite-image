@@ -1,20 +1,20 @@
-import { Window } from 'happy-dom'
-import { beforeEach, expect, it } from 'vitest'
-import { test } from '../../tests/utils'
+import { expect, it } from 'vitest'
+import sharp from 'sharp'
+import { apply_transformers, create_hash } from '../utils'
 
-let window: Window
-beforeEach(() => { window = new Window() })
+import transformer from './rotate'
+const base_image = sharp('./tests/fixtures/images/dog.jpg')
+const metadata = await base_image.metadata()
 
-it.each([
-    [ 'rotate=1', '3d98f96b' ],
-    [ 'rotate=0', '9814cf28' ],
-    [ 'rotate=35', '34b02428' ],
-    [ 'rotate=90', '9814cf28' ]
-])('applies the transform %s === %s', async (input, hash) => expect((await test(window, './images/dog.jpg?' + input))[0].src.split('.')[1]).toBe(hash))
+it.each([ 0, -45, 90, 540 ])('applies the transform rotate=%s', async (input) => {
+    const { image } = apply_transformers(base_image.clone(), metadata, { rotate: input as number }, [ transformer ])
 
-it.each([
-    [ 'rotate', '/assets/dog.1b15ce03.jpg?rotate' ],
-    [ 'rotate=true', '/assets/dog.1b15ce03.jpg?rotate=true' ],
-    [ 'rotate=false', '/assets/dog.1b15ce03.jpg?rotate=false' ],
-    [ 'rotate=foo', '/assets/dog.1b15ce03.jpg?rotate=foo' ]
-])('doesn\'t apply the transform %s === %s', async (input, output) => expect(await test(window, './images/dog.jpg?' + input)).toBe(output))
+    expect(create_hash(await image.toBuffer())).toMatchSnapshot()
+})
+
+it.each([ true, false, 'foo' ])('doesn\'t apply the transform rotate=%s', async (input) => {
+    //@ts-expect-error: Config shouldn't have these values.
+    const { image } = apply_transformers(base_image.clone(), metadata, { rotate: input }, [ transformer ])
+
+    expect(create_hash(await image.toBuffer())).toMatchSnapshot()
+})
