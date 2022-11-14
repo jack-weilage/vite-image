@@ -1,0 +1,13 @@
+// Vitest Snapshot v1
+
+exports[`applies the transform threshold=0 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
+
+exports[`applies the transform threshold=1 1`] = `"2c279fde3f316665338dcf0f855f6adf6a6fe5f6"`;
+
+exports[`applies the transform threshold=10 1`] = `"ac347695c3cf9d2de50550db9d6dc8e9c26eafb8"`;
+
+exports[`applies the transform threshold=true 1`] = `"83ffe6552fb3fe6b12afc1c9ff0323cabdef3a97"`;
+
+exports[`doesn't apply the transform threshold=false 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
+
+exports[`doesn't apply the transform threshold=foo 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;

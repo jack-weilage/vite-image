@@ -1,0 +1,13 @@
+// Vitest Snapshot v1
+
+exports[`applies the transform gamma=0 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
+
+exports[`applies the transform gamma=1 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
+
+exports[`applies the transform gamma=10 1`] = `"67b027232e057968da9a6d9aedbd57c4fd2bb260"`;
+
+exports[`applies the transform gamma=true 1`] = `"5e2a10c8919b9b9ac35a2bb26c5a66d4cb79ef97"`;
+
+exports[`doesn't apply the transform gamma=false 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
+
+exports[`doesn't apply the transform gamma=foo 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;

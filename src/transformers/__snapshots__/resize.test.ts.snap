@@ -1,0 +1,15 @@
+// Vitest Snapshot v1
+
+exports[`applies the transform resize={ height: 100 } 1`] = `"2d037cab519f9d2ef4dc2e2f857fdb871271facf"`;
+
+exports[`applies the transform resize={ width: 100 } 1`] = `"9393a7b45b0e2a891ecb65aaa800278ce63135e8"`;
+
+exports[`applies the transform resize={ width: 100, height: 100 } 1`] = `"a8713634c76967a5651c8f6e3341933a4cccfe9e"`;
+
+exports[`doesn't apply the transform resize={ height: false } 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
+
+exports[`doesn't apply the transform resize={ width: 'foo', height: 100 } 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
+
+exports[`doesn't apply the transform resize={ width: 100, height: 'foo' } 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
+
+exports[`doesn't apply the transform resize={ width: false } 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;

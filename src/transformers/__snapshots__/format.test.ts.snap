@@ -1,0 +1,17 @@
+// Vitest Snapshot v1
+
+exports[`applies the transform format=jpeg 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
+
+exports[`applies the transform format=png 1`] = `"08f6793b0df7e4fdc3a9e52166015cb4fb62f8d4"`;
+
+exports[`applies the transform format=webp 1`] = `"e28b8383971f599b2efe8ea3a128e284a1cb5cb4"`;
+
+exports[`doesn't apply the transform format=0 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
+
+exports[`doesn't apply the transform format=1 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
+
+exports[`doesn't apply the transform format=false 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
+
+exports[`doesn't apply the transform format=foo 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
+
+exports[`doesn't apply the transform format=true 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;

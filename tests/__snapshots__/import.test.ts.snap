@@ -1,0 +1,62 @@
+// Vitest Snapshot v1
+
+exports[`imports > affects custom imports: blur 1`] = `
+[
+  "/assets/dog.27d22a77.jpeg",
+]
+`;
+
+exports[`imports > affects custom imports: blur=true 1`] = `
+[
+  "/assets/dog.27d22a77.jpeg",
+]
+`;
+
+exports[`imports > affects custom imports: width=500,600&height=800&width=400 1`] = `
+[
+  "/assets/dog.a537a5ea.jpeg",
+  "/assets/dog.9c6d67c4.jpeg",
+  "/assets/dog.3c6787e8.jpeg",
+]
+`;
+
+exports[`imports > affects custom imports: width=600 1`] = `
+[
+  "/assets/dog.9c6d67c4.jpeg",
+]
+`;
+
+exports[`imports > affects custom imports: width=600&blur&height=400 1`] = `
+[
+  "/assets/dog.f09dc829.jpeg",
+]
+`;
+
+exports[`imports > affects custom imports: width=600&height=400 1`] = `
+[
+  "/assets/dog.f6452f6a.jpeg",
+]
+`;
+
+exports[`imports > affects custom imports: width=600,800&height=400,500 1`] = `
+[
+  "/assets/dog.f6452f6a.jpeg",
+  "/assets/dog.2fc8af80.jpeg",
+  "/assets/dog.c99affe8.jpeg",
+  "/assets/dog.edae5ad4.jpeg",
+]
+`;
+
+exports[`imports > affects custom imports: width=600,800,1000 1`] = `
+[
+  "/assets/dog.9c6d67c4.jpeg",
+  "/assets/dog.70d36db8.jpeg",
+  "/assets/dog.4ce67943.jpeg",
+]
+`;
+
+exports[`imports > does not affect default imports:  1`] = `"/assets/dog.1b15ce03.jpg"`;
+
+exports[`imports > does not affect default imports: ?foo=bar 1`] = `"/assets/dog.1b15ce03.jpg?foo=bar"`;
+
+exports[`imports > does not affect default imports: ?foo=bar#baz-qux 1`] = `"/assets/dog.1b15ce03.jpg?foo=bar#baz-qux"`;
