@@ -1,3 +1,5 @@
+import type { OutputImage } from '../types'
+
 import { Window } from 'happy-dom'
 import { test } from './utils'
 import { it, expect, describe, beforeEach } from 'vitest'
@@ -35,7 +37,7 @@ describe('imports', () => {
         // An import containing multiple copies of the same input.
         'width=500,600&height=800&width=400'
     ])('affects custom imports: %s', async (input) => {
-        const data = await test(window, './images/dog.jpg?' + input)
+        const data: OutputImage[] = await test(window, './images/dog.jpg?' + input)
         
         expect(data.map(obj => obj.src)).toMatchSnapshot()
     })
