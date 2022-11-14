@@ -50,9 +50,11 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
             // Remove `export` from search params to prevent having to deal with it later.
             url.searchParams.delete('export')
 
-            const base_img = sharp(url.pathname)
-                .rotate()   // Automatically rotate the image based on EXIF orientation.
+            // This feels wrong, but seems to be the best way to rotate the image and allow later rotation.
+            const rotated_image = sharp(url.pathname).rotate()
+            const base_img = sharp(await rotated_image.toBuffer())
 
+            //TODO: This metadata call might not be required. Evaluate?
             const metadata = await base_img.metadata()
             const transformers = [ ...plugin_config.transformers, ...default_transformers ]
 
