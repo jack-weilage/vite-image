@@ -1,9 +1,6 @@
 import type { Transformer } from '../../types'
-import type { Sharp } from 'sharp'
 
 const max = (...numbers: number[]) => Math.round(Math.max(...numbers))
-const resize = (img: Sharp, width: number, height: number) => 
-    img.resize(max(width, 1), max(height, 1), { fit: 'fill' })
 
 export default {
     name: 'resize',
@@ -11,15 +8,10 @@ export default {
     matcher: (config) => typeof (config['width'] ?? config['height']) === 'number'
         && (typeof config['width']  === 'number' || typeof config['width']  === 'undefined') 
         && (typeof config['height'] === 'number' || typeof config['height'] === 'undefined'),
-    transform: (img, config, metadata) => {
-        // Something must be terribly wrong with the image if it doesn't have a width/height.
-        if (!metadata.width || !metadata.height)
-            return img
-        
-        const { width, height } = config
+    transform: (img, config) => {
+        const width  = typeof config['width']  === 'number' ? Math.round(Math.max(config['width'],  1)) : undefined
+        const height = typeof config['height'] === 'number' ? Math.round(Math.max(config['height'], 1)) : undefined
 
-        return resize(img, 
-            typeof width === 'number' ? width : metadata.height / metadata.width * (height ?? 1), 
-            typeof height === 'number' ? height : metadata.width / metadata.height * (width ?? 1))
+        return img.resize(width, height, width && height ? { fit: 'fill' } : undefined)
     }
 } as Transformer
