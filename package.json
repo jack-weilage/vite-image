@@ -18,6 +18,7 @@
     "scripts": {
         "test": "vitest --run --no-threads",
         "test:gen": "vitest --run --no-threads --update",
+        "check:types": "tsc",
         "build": "rimraf dist && rollup -c rollup.config.ts --configPlugin rollup-plugin-esbuild",
         "release": "pnpm build && pnpm changeset publish"
     },
