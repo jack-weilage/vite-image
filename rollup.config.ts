@@ -6,7 +6,7 @@ import { builtinModules } from 'module'
 
 export default [
     {
-        external: [ '@rollup/pluginutils', 'magic-string', 'sharp', ...builtinModules ],
+        external: [ '@rollup/pluginutils', 'magic-string', 'sharp', 'validate', ...builtinModules ],
         input: 'src/index.ts',
         output: [
             {
