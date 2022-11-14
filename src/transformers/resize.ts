@@ -1,7 +1,5 @@
 import type { Transformer } from '../../types'
 
-const max = (...numbers: number[]) => Math.round(Math.max(...numbers))
-
 export default {
     name: 'resize',
     // See modulate.ts
