@@ -18,9 +18,12 @@
     "scripts": {
         "test": "vitest --run --no-threads",
         "test:gen": "vitest --run --no-threads --update",
+        "prepare": "husky install",
         "check:types": "tsc",
         "build": "rimraf dist && rollup -c rollup.config.ts --configPlugin rollup-plugin-esbuild",
-        "release": "pnpm build && pnpm changeset publish"
+        "release": "pnpm build && pnpm changeset publish",
+        "pre-commit": "pnpm check:types",
+        "pre-push": "pnpm test"
     },
     "keywords": [
         "vite",
@@ -48,6 +51,7 @@
         "@types/sharp": "^0.31.0",
         "esbuild": "^0.15.13",
         "happy-dom": "^7.7.0",
+        "husky": "^8.0.2",
         "rimraf": "^3.0.2",
         "rollup": "^3.3.0",
         "rollup-plugin-dts": "^5.0.0",
