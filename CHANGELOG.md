@@ -1,5 +1,16 @@
 # vite-image
 
+## 0.5.0
+
+### Minor Changes
+
+- Boolean values can now be inverted. `!flip` will be treated like `flip=false`.
+
+### Patch Changes
+
+- Optimize build/dev mode.
+- The plugin's config is now validated via [validate](https://npmjs.org/package/validate).
+
 ## 0.4.1
 
 ### Patch Changes
