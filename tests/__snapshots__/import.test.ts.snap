@@ -1,6 +1,18 @@
 // Vitest Snapshot v1
 
+exports[`affects custom imports: !flip 1`] = `
+[
+  "/assets/dog.982e89c6.jpeg",
+]
+`;
+
 exports[`affects custom imports: blur 1`] = `
+[
+  "/assets/dog.27d22a77.jpeg",
+]
+`;
+
+exports[`affects custom imports: blur&!flip 1`] = `
 [
   "/assets/dog.27d22a77.jpeg",
 ]
