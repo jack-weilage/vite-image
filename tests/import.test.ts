@@ -31,6 +31,10 @@ it.each([
     'blur=true',
     // An import with a shorthand boolean value.
     'blur',
+    // An import with a negated shorthand boolean value.
+    '!flip',
+    // An import with both a shorthand boolean value and a negated shorthand boolean value.
+    'blur&!flip',
     // An import combining both normal and shorthand values.
     'width=600&blur&height=400',
     // An import containing multiple copies of the same input.
