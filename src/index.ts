@@ -38,15 +38,7 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
             
             const exports = dedupe(user_exports ?? (plugin_config.default_exports || []))
                 .filter(Boolean)
-
-            // If nothing is going to be output, why even process the image?
-            if (exports.length === 0)
-            {
-                if (this.meta.watchMode)
-                    console.warn('Image', url.toString(), 'did not export any metadata.')
-                
-                return null
-            }
+            
             // Remove `export` from search params to prevent having to deal with it later.
             url.searchParams.delete('export')
 
