@@ -53,19 +53,23 @@ const format_value = (val: string) => {
     return val
 }
 
-//TODO: Handle `!blur` as `blur=false`
 /** Create unique configs from arrays of values. */
 export function create_configs(params: URLSearchParams, deliminator: string): ImageConfig[]
 {
     const aggregated = {} as Record<string, (string | number | boolean)[]>
     for (const key of dedupe([ ...params.keys() ]))
     {
+        const is_inverted = key.startsWith('!')
+        
         // Get every occurrence of the key, then split by the deliminator.
+        // If the key is inverted, invert the values.
         const values = params.getAll(key)
             .flatMap(value => value.split(deliminator))
-            .map(format_value)
-
-        aggregated[key] = dedupe(values)
+            .map(val => is_inverted ? !format_value(val): format_value(val))
+        
+        const final_key = is_inverted ? key.slice(1) : key
+        // If we've already defined key, just tack the new values on to the end of the old ones.
+        aggregated[final_key] = dedupe(aggregated[final_key] ? aggregated[final_key].concat(values) : values)
     }
     
     const keys = Object.keys(aggregated)
