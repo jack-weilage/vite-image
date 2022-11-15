@@ -42,8 +42,7 @@ export function parse_config(user_config: Partial<PluginConfig>, default_config:
 /** Coerces values to string | number | boolean. */
 const format_value = (val: string) => {
     if (val === '' || val === 'true')
-        // return true
-        return false
+        return true
 
     if (val === 'false')
         return false
