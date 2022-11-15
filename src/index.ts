@@ -118,13 +118,13 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
                 if (!req.url)
                     return next()
 
-                const result = req.url.match(regex)
-
-                // If the path does not match our regex, skip.
-                if (!result)
+                // Use regex.test here, as most resources will likely not be images.
+                //TODO: Is this actually true?
+                if (!regex.test(req.url))
                     return next()
                 
-                const hash = result[1]
+                const [ , hash ] = req.url.match(regex)!
+                
                 if (!cache.has(hash))
                     return next()
                 
@@ -142,14 +142,19 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
             if (!code.includes(BUILD_PREFIX))
                 return null
             
-            //TODO: Add a second code path if sourcemap is disabled.
-            //? Is MagicString slow enough to matter?
+            const replacer = (_: string, hash: string) => vite_config.base + this.getFileName(hash)
+
+            // If we don't need to generate a sourcemap, return early without using MagicString.
+            // MagicString is becomes exponentially slower as string length increases.
+            if (!vite_config.build.sourcemap)
+                return { code: code.replace(regex, replacer) }
+
             const magic = new MagicString(code)
-            magic.replace(regex, (_, hash) => vite_config.base + this.getFileName(hash))
+            magic.replace(regex, replacer)
 
             return {
                 code: magic.toString(),
-                map: vite_config.build.sourcemap ? magic.generateMap({ hires: true }) : null
+                map: magic.generateMap({ hires: true })
             }
         }
     }
