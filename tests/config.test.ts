@@ -16,7 +16,7 @@ it.each([
     } catch (error) {
         if (!(error instanceof AggregateError))
             throw error
-        // console.log((error as AggregateError).errors)
+        
         expect(error.errors).toMatchSnapshot()
     }
 })
