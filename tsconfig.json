@@ -1,5 +1,6 @@
 {
-    "exclude": [ "node_modules" ],
+    "exclude": [ "*.test.ts" ],
+    "include": [ "src" ],
     "compilerOptions": {
         "target": "es2022",
         "noErrorTruncation": true,
