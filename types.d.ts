@@ -10,6 +10,7 @@ export interface PluginConfig {
     default_exports: (keyof InternalImage)[]
     post_process: (images: OutputImage[]) => OutputImage[]
 }
+
 export type ImageConfig = Partial<{
     // format
     format: keyof FormatEnum
@@ -51,15 +52,13 @@ export interface CacheEntry {
 }
 export type Cache = Map<string, CacheEntry>
 
-export type Transformer = {
+export interface Transformer {
     name: string
     matcher: (config: ImageConfig) => boolean
     transform: (img: Sharp, config: ImageConfig, metadata: Metadata) => Sharp
 }
 
-
-
-export type InternalImage = OutputInfo & {
+export interface InternalImage extends OutputInfo {
     aspect: number
     src: string
     transformers: string[]
