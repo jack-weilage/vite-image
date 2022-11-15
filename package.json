@@ -23,7 +23,7 @@
         "build": "rimraf dist && rollup -c rollup.config.ts --configPlugin rollup-plugin-esbuild",
         "release": "pnpm build && pnpm changeset publish",
         "pre-commit": "pnpm check:types",
-        "pre-push": "pnpm test"
+        "pre-push": "pnpm build && pnpm test"
     },
     "keywords": [
         "vite",
