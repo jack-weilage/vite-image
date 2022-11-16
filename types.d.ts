@@ -65,4 +65,4 @@ export interface InternalImage extends OutputInfo {
 }
 export type OutputImage = Partial<InternalImage>
 
-export type TypedImage<T extends keyof InternalImage> = Pick<InternalImage, T>[]
+export type TypedImage<T extends keyof InternalImage = 'src' | 'aspect' | 'width' | 'height' | 'format'> = Pick<InternalImage, T>[]
