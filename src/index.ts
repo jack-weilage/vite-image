@@ -1,4 +1,5 @@
 import type { Cache, CacheEntry, PluginConfig, InternalImage, OutputImage } from '../types'
+import type { FormatEnum, OutputInfo } from 'sharp'
 import type { Plugin, ResolvedConfig } from 'vite'
 
 import { BUILD_PREFIX, DEFAULT_CONFIG, DEV_PREFIX } from './constants'
@@ -84,7 +85,7 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
                 }
 
 
-                const data: InternalImage = Object.assign(info, {
+                const data: InternalImage = Object.assign(info as OutputInfo & { format: keyof FormatEnum }, {
                     aspect: info.width / info.height,
                     src,
                     transformers: applied_transformers
