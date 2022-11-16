@@ -1,5 +1,12 @@
 # vite-image
 
+## 0.5.1
+
+### Patch Changes
+
+- Add default value to `TypedImage`.
+- Fix `TypedImage` not autocompleting keys.
+
 ## 0.5.0
 
 ### Minor Changes
