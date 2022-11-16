@@ -1,6 +1,6 @@
 {
     "name": "vite-image",
-    "version": "0.5.1",
+    "version": "0.5.2",
     "description": "A vitejs plugin to streamline image processing.",
     "module": "dist/index.mjs",
     "main": "dist/index.mjs",

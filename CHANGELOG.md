@@ -1,5 +1,11 @@
 # vite-image
 
+## 0.5.2
+
+### Patch Changes
+
+- _Actually_ fix `TypedImage` not autocompleting keys.
+
 ## 0.5.1
 
 ### Patch Changes
