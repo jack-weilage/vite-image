@@ -11,6 +11,7 @@ import sharp from 'sharp'
 
 export type { PluginConfig, Transformer, TypedImage } from '../types'
 
+/** The plugin, to be supplied to vite. */
 export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
     const plugin_config: PluginConfig = parse_config(user_config, DEFAULT_CONFIG)
 
@@ -22,9 +23,9 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
     return {
         name: 'image',
         enforce: 'pre',
-        /** Called when the vite config is finalized. */
+        // Called when the vite config is finalized.
         configResolved(config) { vite_config = config },
-        /** Called when a resource is being processed. */
+        // Called when a resource is being processed.
         async load(id: string) {
             if (!filter(id))
                 return null
@@ -102,7 +103,7 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
             return dataToEsm(plugin_config.post_process(final_images))
         },
         //TODO: Add testing for dev mode (not 100% sure this works).
-        /** Called in dev/preview mode. */
+        // Called in dev/preview mode.
         configureServer(server) {
             const regex = new RegExp(`^${DEV_PREFIX}(.*)$`)
 
@@ -126,7 +127,8 @@ export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
                     .pipe(res)
             })
         },
-        /** Called in build mode. */
+        //TODO: Write dedicated build tests.
+        // Called in build mode.
         renderChunk(code) {
             const regex = new RegExp(`${BUILD_PREFIX}([a-z0-9]{8})`, 'g')
             
