@@ -1,5 +1,11 @@
 # vite-image
 
+## 0.5.3
+
+### Patch Changes
+
+- Another attempt to fix strange problems with TypeScript definitions.
+
 ## 0.5.2
 
 ### Patch Changes
