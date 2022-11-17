@@ -61,13 +61,13 @@ export interface CacheEntry {
 export type Cache = Map<string, CacheEntry>
 
 /** A function to "transform" an image. */
-export interface Transformer {
+export interface Transformer<T extends keyof ImageConfig = keyof ImageConfig> {
     /** Name to include in errors/output. */
     name: string
     /** Function to match config against. */
     matcher: (config: ImageConfig) => boolean
     /** Function to transform image. */
-    transform: (img: Sharp, config: ImageConfig, metadata: Metadata) => Sharp
+    transform: (img: Sharp, config: Pick<Required<ImageConfig>, T>, metadata: Metadata) => Sharp
 }
 
 /** The complete list of possible output values. */
