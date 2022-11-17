@@ -1,5 +1,11 @@
 # vite-image
 
+## 0.5.4
+
+### Patch Changes
+
+- _Sigh_. Trying to track problems without a second computer is hard (Try to _finally_ fix types).
+
 ## 0.5.3
 
 ### Patch Changes
