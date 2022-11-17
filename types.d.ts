@@ -1,4 +1,4 @@
-import type { FormatEnum, OutputInfo, Sharp, Metadata } from 'sharp'
+import type { FormatEnum, Sharp, Metadata } from 'sharp'
 
 export interface PluginConfig {
     include: string
@@ -58,11 +58,16 @@ export interface Transformer {
     transform: (img: Sharp, config: ImageConfig, metadata: Metadata) => Sharp
 }
 
-// This _could_ be an interface extending `OutputInfo`, but that won't expose keys for `TypedImage`.
-export type InternalImage = OutputInfo & {
+export interface InternalImage {
     aspect: number
     src: string
     transformers: string[]
+
+    format: string
+    size: number
+    width: number
+    height: number
+    channels: 1 | 2 | 3 | 4
 }
 export type OutputImage = Partial<InternalImage>
 
