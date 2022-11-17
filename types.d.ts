@@ -60,6 +60,8 @@ export interface CacheEntry {
 }
 export type Cache = Map<string, CacheEntry>
 
+//TODO: When specifying multiple keys, TypeScript expects _all_ of them to be defined.
+//? Can this be fixed?
 /** A function to "transform" an image. */
 export interface Transformer<T extends keyof ImageConfig = keyof ImageConfig> {
     /** Name to include in errors/output. */
