@@ -25,6 +25,7 @@ dependencies:
   '@rollup/pluginutils': 5.0.2_rollup@3.3.0
   magic-string: 0.26.7
   sharp: 0.31.2
+  validate: 5.2.0
 
 devDependencies:
   '@changesets/cli': 2.25.2
@@ -40,7 +41,6 @@ devDependencies:
   rollup-plugin-esbuild: 5.0.0_vptnk7svfr2xs3ijh3nt63nvgm
   tslib: 2.4.1
   typescript: 4.9.3
-  validate: 5.2.0
   vite: 3.2.4_@types+node@18.11.9
   vitest: 0.25.2_happy-dom@7.7.0
 
@@ -259,7 +259,7 @@ packages:
 
   /@eivifj/dot/1.0.3:
     resolution: {integrity: sha512-UE2x9N7XD/1qqtXA+4CZPD1RQAlM0lEdXdy09CJ/wNR+mgGKqwLRH4BGGfOAWwwz06pIT3c2tC4gvXbntGAeMA==}
-    dev: true
+    dev: false
 
   /@esbuild/android-arm/0.15.14:
     resolution: {integrity: sha512-+Rb20XXxRGisNu2WmNKk+scpanb7nL5yhuI1KR9wQFiC43ddPj/V1fmNyzlFC9bKiG4mYzxW7egtoHVcynr+OA==}
@@ -734,7 +734,7 @@ packages:
 
   /component-type/1.2.1:
     resolution: {integrity: sha512-Kgy+2+Uwr75vAi6ChWXgHuLvd+QLD7ssgpaRq2zCvt80ptvAfMc/hijcJxXkBa2wMlEZcJvC2H8Ubo+A9ATHIg==}
-    dev: true
+    dev: false
 
   /concat-map/0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
@@ -2928,7 +2928,7 @@ packages:
 
   /typecast/0.0.1:
     resolution: {integrity: sha512-L2f5OCLKsJdCjSyN0d5O6CkNxhiC8EQ2XlXnHpWZVNfF+mj2OTaXhAVnP0/7SY/sxO1DHZpOFMpIuGlFUZEGNA==}
-    dev: true
+    dev: false
 
   /typedarray/0.0.6:
     resolution: {integrity: sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==}
@@ -2971,7 +2971,7 @@ packages:
       '@eivifj/dot': 1.0.3
       component-type: 1.2.1
       typecast: 0.0.1
-    dev: true
+    dev: false
 
   /vite/3.2.4_@types+node@18.11.9:
     resolution: {integrity: sha512-Z2X6SRAffOUYTa+sLy3NQ7nlHFU100xwanq1WDwqaiFiCe+25zdxP1TfCS5ojPV2oDDcXudHIoPnI1Z/66B7Yw==}
