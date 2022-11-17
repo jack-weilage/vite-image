@@ -1,9 +1,9 @@
 import type { Cache, CacheEntry, PluginConfig, InternalImage, OutputImage } from '../types'
 import type { Plugin, ResolvedConfig } from 'vite'
 
-import { BUILD_PREFIX, DEFAULT_CONFIG, DEV_PREFIX } from './constants'
+import { BUILD_PREFIX, DEV_PREFIX } from './constants'
 import default_transformers from './transformers'
-import { apply_transformers, copy_only_keys, create_configs, create_hash, dedupe, filename, parse_config } from './utils'
+import { apply_transformers, copy_only_keys, create_configs, create_hash, dedupe, filename, parse_plugin_config } from './utils'
 
 import { createFilter, dataToEsm } from '@rollup/pluginutils'
 import MagicString from 'magic-string'
@@ -12,8 +12,8 @@ import sharp from 'sharp'
 export type { PluginConfig, Transformer, TypedImage } from '../types'
 
 /** The plugin, to be supplied to vite. */
-export default function image(user_config: Partial<PluginConfig> = {}): Plugin {
-    const plugin_config: PluginConfig = parse_config(user_config, DEFAULT_CONFIG)
+export default function image(user_plugin_config: Partial<PluginConfig> = {}): Plugin {
+    const plugin_config: PluginConfig = parse_plugin_config(user_plugin_config)
 
     const cache = new Map() as Cache
     const filter = createFilter(plugin_config.include, plugin_config.exclude)

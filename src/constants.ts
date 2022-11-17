@@ -3,7 +3,7 @@ import type { PluginConfig } from '../types'
 
 import Schema from 'validate'
 
-export const DEFAULT_CONFIG: PluginConfig = {
+export const DEFAULT_PLUGIN_CONFIG: PluginConfig = {
     include: '**/*.{heic,heif,avif,jpeg,jpg,png,tiff,webp,gif}?*',
     exclude: '',
     deliminator: ',',
