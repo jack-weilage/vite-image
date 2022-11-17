@@ -1,5 +1,11 @@
 # vite-image
 
+## 0.5.5
+
+### Patch Changes
+
+- Move `validate` to `dependencies` (solves issues with startup).
+
 ## 0.5.4
 
 ### Patch Changes
