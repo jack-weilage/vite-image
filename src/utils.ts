@@ -108,9 +108,14 @@ export function apply_transformers(image: Sharp, metadata: Metadata, config: Ima
     {
         if (!matcher(config))
             continue
-    
+        
+        try {
+            image = transform(image, config, metadata)
+        } catch (e) {
+            throw new Error(`vite-image: Transformer "${name}" threw an error: ${(e as Error).message}`)
+        }
+        
         applied_transformers.push(name)
-        image = transform(image, config, metadata)
     }
 
     return { image, applied_transformers }
