@@ -17,4 +17,4 @@ export default {
         hue:        config['hue']        ?? 0,
         lightness:  config['lightness']  ?? 0
     })
-} as Transformer
+} as Transformer<'brightness' | 'saturation' | 'hue' | 'lightness'>

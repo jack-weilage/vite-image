@@ -11,4 +11,4 @@ export default {
 
         return img.sharpen({ sigma: minmax(config['sharpen'] as number, 0.01, 10000) })
     }
-} as Transformer
+} as Transformer<'sharpen'>

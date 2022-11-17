@@ -9,6 +9,6 @@ export default {
         if (config['threshold'] === true)
             return img.threshold()
 
-        return img.threshold(minmax(config['threshold'] as number, 0, 255))
+        return img.threshold(minmax(config['threshold'], 0, 255))
     }
-} as Transformer
+} as Transformer<'threshold'>

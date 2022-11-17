@@ -12,4 +12,4 @@ export default {
 
         return img.resize(width, height, width && height ? { fit: 'fill' } : undefined)
     }
-} as Transformer
+} as Transformer<'width' | 'height'>

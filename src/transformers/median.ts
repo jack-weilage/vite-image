@@ -9,6 +9,6 @@ export default {
         if (config['median'] === true)
             return img.median()
 
-        return img.median(minmax(config['median'] as number, 1, 1000))
+        return img.median(minmax(config['median'], 1, 1000))
     }
-} as Transformer
+} as Transformer<'median'>

@@ -7,6 +7,6 @@ export default {
         if (config['blur'] === true)
             return img.blur()
 
-        return img.blur(Math.max(config['blur'] as number, 0.3))
+        return img.blur(Math.max(config['blur'], 0.3))
     }
-} as Transformer
+} as Transformer<'blur'>

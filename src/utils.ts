@@ -110,7 +110,7 @@ export function apply_transformers(image: Sharp, metadata: Metadata, config: Ima
             continue
         
         try {
-            image = transform(image, config, metadata)
+            image = transform(image, config as Required<ImageConfig>, metadata)
         } catch (e) {
             throw new Error(`vite-image: Transformer "${name}" threw an error: ${(e as Error).message}`)
         }
