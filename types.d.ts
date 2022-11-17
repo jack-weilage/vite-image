@@ -60,9 +60,6 @@ export interface Transformer {
 
 // This _could_ be an interface extending `OutputInfo`, but that won't expose keys for `TypedImage`.
 export type InternalImage = OutputInfo & {
-    // For some reason, OutputInfo thinks `format` is just a `string`.
-    format: keyof FormatEnum
-
     aspect: number
     src: string
     transformers: string[]
