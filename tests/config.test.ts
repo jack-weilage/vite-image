@@ -1,7 +1,6 @@
 import type { PluginConfig } from '../types'
 
-import { parse_config } from '../src/utils'
-import { DEFAULT_CONFIG } from '../src/constants'
+import { parse_plugin_config } from '../src/utils'
 import { it, expect } from 'vitest'
 
 it.each([
@@ -12,7 +11,7 @@ it.each([
     // This seems to be the best way to match an AggregateError.
     try {
         //@ts-expect-error: The config _should_ be invalid here.
-        parse_config(input, DEFAULT_CONFIG)
+        parse_plugin_config(input)
     } catch (error) {
         if (!(error instanceof AggregateError))
             throw error
@@ -34,5 +33,5 @@ it.each([
         }]
     }
 ])('affects custom imports: %s', async (input) => {
-    expect(parse_config(input as Partial<PluginConfig>, DEFAULT_CONFIG)).toMatchSnapshot()
+    expect(parse_plugin_config(input as Partial<PluginConfig>)).toMatchSnapshot()
 })
