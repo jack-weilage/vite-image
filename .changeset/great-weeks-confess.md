@@ -2,4 +2,4 @@
 "vite-image": patch
 ---
 
-`TypedImage` is now only a single image object, not a full array.
+[breaking]: `TypedImage` is now only a single image object, not a full array.
