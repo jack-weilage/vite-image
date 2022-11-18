@@ -96,4 +96,4 @@ export interface InternalImage {
 export type OutputImage = Partial<InternalImage>
 
 /** A type to help with type-checking imports with custom exports. */
-export type TypedImage<T extends keyof InternalImage = 'src' | 'aspect' | 'width' | 'height' | 'format'> = Pick<InternalImage, T>[]
+export type TypedImage<T extends keyof InternalImage = 'src' | 'aspect' | 'width' | 'height' | 'format'> = Pick<InternalImage, T>
