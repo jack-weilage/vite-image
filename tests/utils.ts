@@ -4,23 +4,9 @@ import image_plugin from '../'
 import sharp from 'sharp'
 
 import type { Window } from 'happy-dom'
-import type { Plugin, UserConfig } from 'vite'
+import type { UserConfig } from 'vite'
 import type { RollupOutput, OutputChunk } from 'rollup'
 import type { PluginConfig } from '../'
-
-/** Replaces `index.js` with the code supplied */
-export const test_plugin = (source: string): Plugin => ({
-    name: 'test-entry',
-
-    resolveId(source, importer) {
-        if (source === 'index.js')
-            return join(dirname(importer || ''), 'index.js')
-    },
-    load(id) {
-        if (id === join(__dirname, 'fixtures', 'index.js')) 
-            return source
-    }
-})
 
 /** Builds and returns the result of importing a resource. */
 export const test = async function (window: Window, url: string, image_config: Partial<PluginConfig> = {}, vite_config: Partial<UserConfig> = {})
@@ -37,10 +23,18 @@ export const test = async function (window: Window, url: string, image_config: P
             }
         },
         plugins: [
-            test_plugin(`
-                import ${id} from '${url}'
-                window['${id}'] = ${id}
-            `),
+            {
+                name: 'test-entry',
+            
+                resolveId(source, importer) {
+                    if (source === 'index.js')
+                        return join(dirname(importer || ''), 'index.js')
+                },
+                load(file_id) {
+                    if (file_id === join(__dirname, 'fixtures', 'index.js')) 
+                        return `import ${id} from '${url}'; window['${id}'] = ${id}`
+                }
+            },
             image_plugin(image_config)
         ],
         ...vite_config
