@@ -1,10 +1,8 @@
 import { expect, it } from 'vitest'
-import sharp from 'sharp'
 import { apply_transformers, create_hash } from '../utils'
 
+import { base_image, metadata } from '../../tests/utils'
 import transformer from './resize'
-const base_image = sharp('./tests/fixtures/images/dog.jpg')
-const metadata = await base_image.metadata()
 
 it.each([ { width: 100 }, { height: 100 }, { width: 100, height: 100 } ])('applies the transform resize=%s', async (input) => {
     const { image } = apply_transformers(base_image.clone(), metadata, input, [ transformer ])

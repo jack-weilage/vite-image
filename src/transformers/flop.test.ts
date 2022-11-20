@@ -1,10 +1,8 @@
 import { expect, it } from 'vitest'
-import sharp from 'sharp'
 import { apply_transformers, create_hash } from '../utils'
 
+import { base_image, metadata } from '../../tests/utils'
 import transformer from './flop'
-const base_image = sharp('./tests/fixtures/images/dog.jpg')
-const metadata = await base_image.metadata()
 
 it.each([ true, false ])('applies the transform flop=%s', async (input) => {
     const { image } = apply_transformers(base_image.clone(), metadata, { flop: input }, [ transformer ])

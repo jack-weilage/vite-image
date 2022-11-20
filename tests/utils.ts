@@ -1,6 +1,7 @@
 import { join, dirname, extname } from 'path'
 import { build } from 'vite'
 import image_plugin from '../'
+import sharp from 'sharp'
 
 import type { Window } from 'happy-dom'
 import type { Plugin, UserConfig } from 'vite'
@@ -51,3 +52,6 @@ export const test = async function (window: Window, url: string, image_config: P
     //@ts-expect-error
     return window[id]
 }
+
+export const base_image = sharp('./tests/fixtures/images/dog.jpg')
+export const metadata = await base_image.metadata()
