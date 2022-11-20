@@ -1,5 +1,5 @@
 import type { FormatEnum } from 'sharp'
-import type { PluginConfig } from '../types'
+import type { ColorspaceEnum, PluginConfig } from '../types'
 
 import Schema from 'validate'
 
@@ -34,6 +34,31 @@ export const INPUT_FORMATS = [
     'v', 
     'webp' 
 ] as (keyof FormatEnum)[]
+
+/** @see https://github.com/libvips/libvips/blob/41cff4e9d0838498487a00623462204eb10ee5b8/libvips/iofuncs/enumtypes.c#L774-L797 */
+export const INPUT_COLORSPACES = [
+    'error',
+    'multiband',
+    'b-w',
+    'histogram',
+    'xyz',
+    'lab',
+    'cmyk',
+    'labq',
+    'rgb',
+    'cmc',
+    'lch',
+    'labs',
+    'srgb',
+    'yxy',
+    'fourier',
+    'rgb16',
+    'grey16',
+    'matrix',
+    'scrgb',
+    'hsv',
+    'last'
+] as (keyof typeof ColorspaceEnum)[]
 
 export const DEV_PREFIX = '/@image/'
 export const BUILD_PREFIX = '__VITE_IMAGE_ASSET__'

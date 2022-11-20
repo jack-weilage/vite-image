@@ -14,9 +14,14 @@ import normalize from './normalize'
 import threshold from './threshold'
 import modulate from './modulate'
 
+import tint from './tint'
+import grayscale from './grayscale'
+import colorspace from './colorspace'
+
 
 export default [
     format,
     resize,
-    rotate, flip, flop, sharpen, median, blur, gamma, negate, normalize, threshold, modulate
+    rotate, flip, flop, sharpen, median, blur, gamma, negate, normalize, threshold, modulate,
+    tint, grayscale, colorspace
 ]

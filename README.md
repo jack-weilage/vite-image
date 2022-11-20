@@ -124,7 +124,7 @@ for (const image of CustomImages as TypedImage<'width' | 'src'>)
   - [ ] Output options
   - [ ] Resizing images
   - [x] Image operations
-  - [ ] Color manipulation
+  - [x] Color manipulation
   - [ ] Channel manipulation
 - [ ] React/Vue/Svelte helper component
 

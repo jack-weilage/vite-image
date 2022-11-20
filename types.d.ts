@@ -1,5 +1,28 @@
 import type { FormatEnum, Sharp, Metadata } from 'sharp'
 
+export enum ColorspaceEnum {
+    'error',
+    'multiband',
+    'b-w',
+    'histogram',
+    'xyz',
+    'lab',
+    'cmyk',
+    'labq',
+    'rgb',
+    'cmc',
+    'lch',
+    'labs',
+    'srgb',
+    'yxy',
+    'fourier',
+    'rgb16',
+    'grey16',
+    'matrix',
+    'scrgb',
+    'hsv',
+    'last'
+}
 /** The config supplied to the plugin on startup. */
 export interface PluginConfig {
     /** A glob string matching images to include. */
@@ -52,6 +75,13 @@ export type ImageConfig = Partial<{
     saturation: number
     hue: number
     lightness: number
+
+    // tint
+    tint: string
+    // grayscale (american spelling)
+    grayscale: boolean
+    // toColorspace
+    colorspace: keyof typeof ColorspaceEnum
 }>
 
 export interface CacheEntry {
