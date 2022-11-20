@@ -5,7 +5,7 @@ import image_plugin from '../'
 import type { Window } from 'happy-dom'
 import type { Plugin, UserConfig } from 'vite'
 import type { RollupOutput, OutputChunk } from 'rollup'
-import type { PluginConfig } from '../src'
+import type { PluginConfig } from '../'
 
 /** Replaces `index.js` with the code supplied */
 export const test_plugin = (source: string): Plugin => ({
