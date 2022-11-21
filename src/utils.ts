@@ -6,7 +6,7 @@ import { basename, extname } from 'path'
 import { CONFIG_SCHEMA, DEFAULT_PLUGIN_CONFIG } from './constants'
 
 /** Limit a number to between min and max. */
-export const minmax = (num: number, min: number, max: number) => Math.max(Math.min(num, max), min)
+export const clamp = (num: number, min: number, max: number) => Math.max(Math.min(num, max), min)
 /** 
  * Create a SHA1 hash from a string.
  * 

@@ -1,6 +1,6 @@
 import type { Transformer } from '../../types'
 
-import { minmax } from '../utils'
+import { clamp } from '../utils'
 
 export default {
     name: 'gamma',
@@ -9,6 +9,6 @@ export default {
         if (config['gamma'] === true)
             return img.gamma()
 
-        return img.gamma(minmax(config['gamma'], 1, 3))
+        return img.gamma(clamp(config['gamma'], 1, 3))
     }
 } as Transformer<'gamma'>

@@ -1,6 +1,6 @@
 import type { Transformer } from '../../types'
 
-import { minmax } from '../utils'
+import { clamp } from '../utils'
 
 export default {
     name: 'median',
@@ -9,6 +9,6 @@ export default {
         if (config['median'] === true)
             return img.median()
 
-        return img.median(minmax(config['median'], 1, 1000))
+        return img.median(clamp(config['median'], 1, 1000))
     }
 } as Transformer<'median'>

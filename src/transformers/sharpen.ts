@@ -1,6 +1,6 @@
 import type { Transformer } from '../../types'
 
-import { minmax } from '../utils'
+import { clamp } from '../utils'
 
 export default {
     name: 'sharpen',
@@ -9,6 +9,6 @@ export default {
         if (config['sharpen'] === true)
             return img.sharpen()
 
-        return img.sharpen({ sigma: minmax(config['sharpen'] as number, 0.01, 10000) })
+        return img.sharpen({ sigma: clamp(config['sharpen'] as number, 0.01, 10000) })
     }
 } as Transformer<'sharpen'>
