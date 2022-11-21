@@ -4,8 +4,11 @@ import esbuild from 'rollup-plugin-esbuild'
 import dts from 'rollup-plugin-dts'
 import { builtinModules } from 'module'
 
-export default [
-    {
+const config = [] as RollupOptions[]
+const type = process.env['BUILD_TYPE']
+
+if (type === 'code' || !type)
+    config.push({
         external: [ '@rollup/pluginutils', 'magic-string', 'sharp', 'validate', ...builtinModules ],
         input: 'src/index.ts',
         output: [
@@ -21,13 +24,16 @@ export default [
             }
         ],
         plugins: [ esbuild({ minify: true }) ]
-    },
-    {
+    })
+
+if (type === 'types' || !type)
+    config.push({
         input: 'src/index.ts',
         output: {
             file: 'dist/index.d.ts',
             format: 'esm'
         },
         plugins: [ dts() ]
-    }
-] as RollupOptions
+    })
+
+export default config

@@ -3,7 +3,7 @@ export default {
         filenames
             .map(filename => `bash -c "tsc ${filename} --target es2022 --noErrorTruncation --skipLibCheck --importsNotUsedAsValues error --noEmit --module esnext --moduleResolution node --allowSyntheticDefaultImports --strict"`)
             .join(' & '),
-        `pnpm build`,
+        `pnpm build:code`,
         `vitest --run --no-threads related ${filenames.join(' ')}`
     ]
 }
