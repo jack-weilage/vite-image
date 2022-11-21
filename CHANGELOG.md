@@ -1,5 +1,16 @@
 # vite-image
 
+## 0.6.0
+
+### Minor Changes
+
+- 557a70a: Implement [color manipulation](https://sharp.pixelplumbing.com/api-colour) functions.
+
+### Patch Changes
+
+- c0a278f: [breaking]: `TypedImage` is now only a single image object, not a full array.
+- b8b7281: Properly comment types and functions.
+
 ## 0.5.5
 
 ### Patch Changes
