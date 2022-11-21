@@ -48,4 +48,3 @@ export const test = async function (window: Window, url: string, image_config: P
 }
 
 export const base_image = sharp('./tests/fixtures/images/dog.jpg')
-export const metadata = await base_image.metadata()
