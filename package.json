@@ -19,7 +19,7 @@
         "test": "vitest --run --no-threads",
         "test:gen": "vitest --run --no-threads --update",
         "prepare": "husky install",
-        "build": "rollup -c rollup.config.ts --configPlugin rollup-plugin-esbuild",
+        "build": "rimraf dist && rollup -c rollup.config.ts --configPlugin rollup-plugin-esbuild",
         "build:code": "BUILD_TYPE=code pnpm build",
         "build:types": "BUILD_TYPE=types pnpm build",
         "release": "pnpm build && pnpm changeset publish",
