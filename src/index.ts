@@ -30,7 +30,7 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
             if (!filter(id))
                 return null
 
-            // `pathToFileURL` should be used here, but it doesn't parse like a normal url. Should be fine?
+            //TODO: Special characters aren't properly escaped. `pathToFileURL` fixes this, but doesn't parse search params..
             const url = new URL(id, 'file://')
 
             // Deal with export tags here so it can be removed from url.
@@ -43,12 +43,12 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
             // Remove `export` from search params to prevent having to deal with it later.
             url.searchParams.delete('export')
 
-            // This feels wrong, but seems to be the best way to rotate the image and allow later rotation.
-            const rotated_image = sharp(url.pathname).rotate()
-            const base_img = sharp(await rotated_image.toBuffer())
+            //HACK: Grabs the image, rotates it according to EXIF data, then pretends it's a new image to allow secondary rotations.
+            //TODO: Implement passing metadata to the final image.
+            const base_image = sharp(await sharp(url.pathname).rotate().toBuffer())
 
             //TODO: This metadata call might not be required. Evaluate?
-            const metadata = await base_img.metadata()
+            const metadata = await base_image.metadata()
             const transformers = [ ...plugin_config.transformers, ...default_transformers ]
 
             const images = [] as InternalImage[]
@@ -63,13 +63,13 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
                     continue
                 }
 
-                const { image, applied_transformers } = queue_transformers(base_img.clone(), metadata, config, transformers)
+                const { image, applied_transformers } = queue_transformers(base_image.clone(), metadata, config, transformers)
 
                 // If the image didn't match a transformer, it shouldn't be processed
                 if (applied_transformers.length === 0)
                     continue
                 
-                // `apply_transformers` doesn't actually run the transformations, only queue them.
+                // `apply_transformers` doesn't actually run the transformations, only queues them.
                 // We don't need the source in dev mode, but will always need the metadata.
                 const { info, data: source } = await image.toBuffer({ resolveWithObject: true })
 
@@ -97,10 +97,8 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
             // If every config was skipped, we shouldn't change the output.
             if (images.length === 0)
                 return null
-
-            const final_images = images.map(img => copy_only_keys(img, exports))
             
-            return dataToEsm(plugin_config.post_process(final_images))
+            return dataToEsm(plugin_config.post_process(images.map(img => copy_only_keys(img, exports))))
         },
         //TODO: Add testing for dev mode (not 100% sure this works).
         // Called in dev/preview mode.
