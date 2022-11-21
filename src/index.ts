@@ -47,8 +47,6 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
             //TODO: Implement passing metadata to the final image.
             const base_image = sharp(await sharp(url.pathname).rotate().toBuffer())
 
-            //TODO: This metadata call might not be required. Evaluate?
-            const metadata = await base_image.metadata()
             const transformers = [ ...plugin_config.transformers, ...default_transformers ]
 
             const images = [] as InternalImage[]
@@ -63,7 +61,7 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
                     continue
                 }
 
-                const { image, applied_transformers } = queue_transformers(base_image.clone(), metadata, config, transformers)
+                const { image, applied_transformers } = queue_transformers(base_image.clone(), config, transformers)
 
                 // If the image didn't match a transformer, it shouldn't be processed
                 if (applied_transformers.length === 0)

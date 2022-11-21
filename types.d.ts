@@ -99,7 +99,7 @@ export interface Transformer<T extends keyof ImageConfig = keyof ImageConfig> {
     /** Function to match config against. */
     matcher: (config: ImageConfig) => boolean
     /** Function to transform image. */
-    transform: (img: Sharp, config: Pick<Required<ImageConfig>, T>, metadata: Metadata) => Sharp
+    transform: (img: Sharp, config: Pick<Required<ImageConfig>, T>) => Sharp
 }
 
 /** The complete list of possible output values. */
