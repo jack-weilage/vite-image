@@ -1,4 +1,4 @@
-import type { FormatEnum, Sharp, Metadata } from 'sharp'
+import type { FormatEnum, Sharp } from 'sharp'
 
 export enum ColorspaceEnum {
     'error',
