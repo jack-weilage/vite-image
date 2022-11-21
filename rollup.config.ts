@@ -5,9 +5,9 @@ import dts from 'rollup-plugin-dts'
 import { builtinModules } from 'module'
 
 const config = [] as RollupOptions[]
-const type = process.env['BUILD_TYPE']
+const mode = process.env['BUILD_TYPE']
 
-if (type === 'code' || !type)
+if (mode === 'code' || !mode)
     config.push({
         external: [ '@rollup/pluginutils', 'magic-string', 'sharp', 'validate', ...builtinModules ],
         input: 'src/index.ts',
@@ -26,7 +26,7 @@ if (type === 'code' || !type)
         plugins: [ esbuild({ minify: true }) ]
     })
 
-if (type === 'types' || !type)
+if (mode === 'types' || !mode)
     config.push({
         input: 'src/index.ts',
         output: {
