@@ -100,7 +100,7 @@ export function create_configs(params: URLSearchParams, deliminator: string): Im
 }
 
 /** Apply all transformers to an image. */
-export function apply_transformers(image: Sharp, metadata: Metadata, config: ImageConfig, transformers: Transformer[])
+export function queue_transformers(image: Sharp, metadata: Metadata, config: ImageConfig, transformers: Transformer[])
 {
     const applied_transformers = []
 

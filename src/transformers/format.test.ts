@@ -1,19 +1,19 @@
 import { expect, it } from 'vitest'
 import type { FormatEnum } from 'sharp'
-import { apply_transformers, create_hash } from '../utils'
+import { queue_transformers, create_hash } from '../utils'
 
 import { base_image, metadata } from '../../tests/utils'
 import transformer from './format'
 
 it.each([ 'jpeg', 'webp', 'png' ])('applies the transform format=%s', async (input) => {
-    const { image } = apply_transformers(base_image.clone(), metadata, { format: input as keyof FormatEnum }, [ transformer ])
+    const { image } = queue_transformers(base_image.clone(), metadata, { format: input as keyof FormatEnum }, [ transformer ])
 
     expect(create_hash(await image.toBuffer())).toMatchSnapshot()
 })
 
 it.each([ 'foo', true, false, 1, 0 ])('doesn\'t apply the transform format=%s', async (input) => {
     //@ts-expect-error: Config shouldn't have these values.
-    const { image } = apply_transformers(base_image.clone(), metadata, { format: input }, [ transformer ])
+    const { image } = queue_transformers(base_image.clone(), metadata, { format: input }, [ transformer ])
 
     expect(create_hash(await image.toBuffer())).toMatchSnapshot()
 })

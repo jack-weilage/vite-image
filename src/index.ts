@@ -3,7 +3,7 @@ import type { Plugin, ResolvedConfig } from 'vite'
 
 import { BUILD_PREFIX, DEV_PREFIX } from './constants'
 import default_transformers from './transformers'
-import { apply_transformers, copy_only_keys, create_configs, create_hash, dedupe, filename, parse_plugin_config } from './utils'
+import { queue_transformers, copy_only_keys, create_configs, create_hash, dedupe, filename, parse_plugin_config } from './utils'
 
 import { createFilter, dataToEsm } from '@rollup/pluginutils'
 import MagicString from 'magic-string'
@@ -63,7 +63,7 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
                     continue
                 }
 
-                const { image, applied_transformers } = apply_transformers(base_img.clone(), metadata, config, transformers)
+                const { image, applied_transformers } = queue_transformers(base_img.clone(), metadata, config, transformers)
 
                 // If the image didn't match a transformer, it shouldn't be processed
                 if (applied_transformers.length === 0)
