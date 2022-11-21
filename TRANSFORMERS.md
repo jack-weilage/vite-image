@@ -143,3 +143,38 @@
 | `saturation` | `number` |
 | `hue` | `number` |
 | `lightness` | `number` |
+
+
+<br>
+
+## Color Manipulation
+
+### `tint`
+
+> Tint the image using the provided chroma while preserving the image luminance. An alpha channel may be present and will be unchanged by the operation.
+
+[Sharp reference](https://sharp.pixelplumbing.com/api-colour#tint)
+
+| Key | Type |
+| :-: | :-: |
+| `tint` | `string` |
+
+### `grayscale`
+
+> Convert to 8-bit greyscale; 256 shades of grey.
+
+[Sharp reference](https://sharp.pixelplumbing.com/api-colour#greyscale)
+
+| Key | Type |
+| :-: | :-: |
+| `grayscale` | `boolean` |
+
+### `colorspace`
+
+> Set the output colourspace. By default output image will be web-friendly sRGB, with additional channels interpreted as alpha channels.
+
+[Sharp reference](https://sharp.pixelplumbing.com/api-colour#tocolourspace)
+
+| Key | Type |
+| :-: | :-: |
+| `colorspace` | `string` |
