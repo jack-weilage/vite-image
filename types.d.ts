@@ -93,13 +93,13 @@ export type Cache = Map<string, CacheEntry>
 //TODO: When specifying multiple keys, TypeScript expects _all_ of them to be defined.
 //? Can this be fixed?
 /** A function to "transform" an image. */
-export interface Transformer<T extends keyof ImageConfig = keyof ImageConfig> {
+export interface Transformer<T extends keyof (ImageConfig & K) = keyof (ImageConfig & K), K extends Record<string, any> = {}> {
     /** Name to include in errors/output. */
     name: string
     /** Function to match config against. */
-    matcher: (config: ImageConfig) => boolean
+    matcher: (config: ImageConfig & K) => boolean
     /** Function to transform image. */
-    transform: (img: Sharp, config: Pick<Required<ImageConfig>, T>) => Sharp
+    transform: (img: Sharp, config: Pick<Required<ImageConfig & K>, T>) => Sharp
 }
 
 /** The complete list of possible output values. */

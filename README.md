@@ -116,6 +116,29 @@ for (const image of CustomImages as TypedImage<'width' | 'src'>)
 }
 ```
 
+If you are developing a transformer, the transformer type is also supplied, and can be extended.
+
+```ts
+import type { Transformer } from 'vite-image'
+
+export default {
+    name: 'test-transformer',
+    matcher: (config) => typeof config['foo'] === 'boolean' && typeof config['bar'] === 'string',
+    transform: (img, config) => {
+        if (config['foo'])
+            return img.withMetadata({
+                exif: {
+                    IFD0: {
+                        Copyright: config['bar']
+                    }
+                }
+            })
+        return img
+    }
+} as Transformer<'foo' | 'bar', { foo: boolean, bar: string }>
+
+```
+
 <br>
 
 ## Roadmap
