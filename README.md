@@ -153,6 +153,12 @@ export default {
 
 <br>
 
+## Final Notes
+
+If on Linux, `jemalloc` will improve image processing times by enabling concurrent operations. [This stackoverflow answer](https://stackoverflow.com/a/53412679) explains how to install and use `jemalloc`.
+
+<br>
+
 ## Contributing
 
 For small changes, feel free to open a pull request and solve whatever issue is plaguing you.
