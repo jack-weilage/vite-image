@@ -1,11 +1,13 @@
-<h1 align="center"><pre>vite-image</pre></h1>
-<p align="center" style="font-style: italic; font-weight: bold">
-    fast · extensible · powerful
-</p>
+<div align="center">
+    <h1 style="border-bottom: 0"><pre>vite-image</pre></h1>
+    <p style="font-style: italic; font-weight: bold">
+        fast · extensible · easy
+    </p>
+</div>
 
 <br>
 
-With an easily readable search-param-style syntax, `vite-image` brings the image processing of [sharp](https://sharp.pixelplumbing.com/) to the simple API of [vitejs](https://vitejs.dev/).
+With an URL-style syntax, `vite-image` brings the image processing power of [`sharp`](https://sharp.pixelplumbing.com/) to the simplicity of [`vitejs`](https://vitejs.dev/).
 
 <br>
 
@@ -25,14 +27,15 @@ export default {
 import CoolImage from './cool-image.jpg?width=300,600,900'
 ```
 
-**IMPORTANT:** Don't use your `public` folder to store images. Imports are based on the *project* `root`, not `public` folder.
+**IMPORTANT:** Don't use your `public` folder to store images. Imports will be relative to the *project* root (specified in `vite.config.js`), not vite's public folder.
 
 <br>
 
 ## Further Explanation
 
 - A param like `?blur` will be treated the same as `?blur=true`.
-- Passing `true` to a param will trigger the default action from the corresponding `sharp` function.
+- A param like `?!blur` will be treated the same as `?blur=false`.
+- Passing `true` to a param will (usually) trigger the default action from the corresponding `sharp` function.
 
 <br>
 
@@ -42,7 +45,7 @@ A simple example of making multiple image sizes with a single import:
 
 ```jsx
 <script>
-    // Svelte!
+    // Returns 3 images (400px, 700px, 900px)
     import DogImages from './images/dog.jpg?width=400,700,900'
 </script>
 
@@ -51,18 +54,21 @@ A simple example of making multiple image sizes with a single import:
 {/each}
 ```
 
-A slightly more complex version, using `srcset`:
+A more complex version, creating a `srcset` with TypeScript:
 
-```jsx
-<script>
+```tsx
+<script lang="ts">
+    import type { TypedImage } from 'vite-image'
     // A normal vite import as fallback.
     import src from './images/dog.jpg'
     // A special vite-image import.
-    import Images from './images/dog.jpg?width=400,500,900'
+    import Images from './images/dog.jpg?width=400,500,900&export=src,width'
 
     // Creates an srcset, with only one line of code!
     // To adjust or add sizes, just change the original import!
-    const srcset = Images.map(img => `${img.src} ${img.width}w`).join()
+    const srcset = (Images as TypedImage<'src' | 'width'>)
+        .map(img => `${img.src} ${img.width}w`)
+        .join(', ')
 </script>
 
 <img {src} {srcset}>
@@ -74,12 +80,12 @@ A slightly more complex version, using `srcset`:
 
 | Name | Default Value | Description |
 | :---: | --- | --- |
-| `include` | `'**/*.{heic,heif,avif,jpeg,jpg,png,tiff,webp,gif}?*'` | A picomatch pattern to match images against. |
-| `exclude` | `''` | Another picomatch pattern, this time excluding images. |
-| `deliminator` | `,` | The character used to split multiple values in a query. |
-| `transformers` | `[]` | User-specified custom image transformers. |
-| `default_exports` | `['src', 'aspect', 'width', 'height', 'format']` | By default, `vite-image` exports these 5 image attributes. [More attributes can be found here.](https://sharp.pixelplumbing.com/api-input#metadata) |
-| `post_process` | `images => images` | A function to process images *after* `vite-image` |
+| `include`         | `'**/*.{heic,heif,avif,jpeg,jpg,png,tiff,webp,gif}?*'` | A picomatch pattern to match images against. |
+| `exclude`         | `''`                                                   | Another picomatch pattern, this time excluding images. |
+| `deliminator`     | `,`                                                    | The character used to split multiple values in a query. |
+| `transformers`    | `[]`                                                   | User-specified custom image transformers. |
+| `default_exports` | `['src', 'aspect', 'width', 'height', 'format']`       | By default, `vite-image` exports these 5 image attributes. [More attributes can be found here. (Scroll down to "`info` contains the output image")](https://sharp.pixelplumbing.com/api-output#tobuffer) |
+| `post_process`    | `images => images`                                     | A function to process images *after* `vite-image` |
 
 <br>
 
