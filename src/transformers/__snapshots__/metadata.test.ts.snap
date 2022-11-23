@@ -1,0 +1,11 @@
+// Vitest Snapshot v1
+
+exports[`applies the transform metadata=false 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
+
+exports[`applies the transform metadata=true 1`] = `"0b95256618bd832e887e1169cacde6e29bee2ac2"`;
+
+exports[`doesn't apply the transform metadata=0 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
+
+exports[`doesn't apply the transform metadata=1 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
+
+exports[`doesn't apply the transform metadata=foo 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
