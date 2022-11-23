@@ -20,7 +20,8 @@ export const test = async function (window: Window, url: string, image_config: P
             write: false,
             modulePreload: {
                 polyfill: false
-            }
+            },
+            minify: false
         },
         plugins: [
             {

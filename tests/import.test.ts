@@ -2,10 +2,9 @@ import type { OutputImage } from '../types'
 
 import { Window } from 'happy-dom'
 import { test } from './utils'
-import { it, expect, beforeEach } from 'vitest'
+import { it, expect } from 'vitest'
 
-let window = new Window()
-beforeEach(() => { window = new Window() })
+const window = new Window()
 
 it.each([
     // Just a normal import.
