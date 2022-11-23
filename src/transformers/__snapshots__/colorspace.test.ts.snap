@@ -12,10 +12,8 @@ exports[`doesn't apply the transform colorspace=1 1`] = `"64db99769cd8b1dfe79a5e
 
 exports[`doesn't apply the transform colorspace=100 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
 
+exports[`doesn't apply the transform colorspace=error 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
+
 exports[`doesn't apply the transform colorspace=false 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
-
-exports[`doesn't apply the transform colorspace=foo 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
-
-exports[`doesn't apply the transform colorspace=not-a-colorspace 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
 
 exports[`doesn't apply the transform colorspace=true 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
