@@ -44,9 +44,11 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
             // Remove `export` from search params to prevent having to deal with it later.
             url.searchParams.delete('export')
 
-            //HACK: Grabs the image, rotates it according to EXIF data, then pretends it's a new image to allow secondary rotations.
-            //TODO: Implement passing metadata to the final image.
-            const base_image = sharp(await sharp(pathname).rotate().toBuffer())
+            // Rotate the image, then create a "new" image with that data, containing the original metadata.
+            const base_image = sharp(await sharp(pathname)
+                .rotate()
+                .withMetadata()
+                .toBuffer())
 
             const transformers = [ ...plugin_config.transformers, ...default_transformers ]
 
