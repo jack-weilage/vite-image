@@ -11,7 +11,7 @@ it.each([ 'b-w', 'hsv', 'cmyk', 'rgb16' ] as typeof INPUT_COLORSPACES)('applies 
     expect(create_hash(await image.toBuffer())).toMatchSnapshot()
 })
 
-it.each([ true, false, 'foo', 'not-a-colorspace', 1, 100 ])('doesn\'t apply the transform colorspace=%s', async (input) => {
+it.each([ true, false, 'error', 1, 100 ])('doesn\'t apply the transform colorspace=%s', async (input) => {
     //@ts-expect-error: Config shouldn't have these values.
     const { image } = queue_transformers(base_image.clone(), { colorspace: input }, [ transformer ])
 

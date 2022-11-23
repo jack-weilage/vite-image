@@ -1,8 +1,8 @@
 import type { FormatEnum, Sharp } from 'sharp'
 
 export enum ColorspaceEnum {
-    'error',
-    'multiband',
+    // 'error',
+    // 'multiband',
     'b-w',
     'histogram',
     'xyz',
@@ -21,7 +21,7 @@ export enum ColorspaceEnum {
     'matrix',
     'scrgb',
     'hsv',
-    'last'
+    // 'last'
 }
 /** The config supplied to the plugin on startup. */
 export interface PluginConfig {

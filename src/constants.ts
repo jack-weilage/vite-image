@@ -35,14 +35,10 @@ export const INPUT_FORMATS = [
     'webp' 
 ] as (keyof FormatEnum)[]
 
-/**
- * @see https://github.com/libvips/libvips/blob/41cff4e9d0838498487a00623462204eb10ee5b8/libvips/iofuncs/enumtypes.c#L774-L797
-
-TODO: `error`, `multiband`, and `last` don't seem to be proper colorspaces, but there isn't documentation supporting this.
-*/
+/** @see https://github.com/libvips/libvips/blob/41cff4e9d0838498487a00623462204eb10ee5b8/libvips/iofuncs/enumtypes.c#L776-L796 */
 export const INPUT_COLORSPACES = [
-    'error',
-    'multiband',
+    // 'error',
+    // 'multiband',
     'b-w',
     'histogram',
     'xyz',
@@ -61,7 +57,7 @@ export const INPUT_COLORSPACES = [
     'matrix',
     'scrgb',
     'hsv',
-    'last'
+    // 'last'
 ] as (keyof typeof ColorspaceEnum)[]
 
 export const DEV_PREFIX = '/@image/'
