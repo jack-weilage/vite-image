@@ -42,13 +42,13 @@ export interface PluginConfig {
     post_process: (images: OutputImage[]) => OutputImage[]
 }
 /** The config supplied to transformers when processing. */
-export type ImageConfig = Partial<{
+export interface ImageConfig {
     // format
     format: keyof FormatEnum
 
     // resize
-    width: number
-    height: number
+    width?: number
+    height?: number
 
     // blur
     blur: number | true
@@ -71,10 +71,10 @@ export type ImageConfig = Partial<{
     // threshold
     threshold: number | true
     // modulate
-    brightness: number
-    saturation: number
-    hue: number
-    lightness: number
+    brightness?: number
+    saturation?: number
+    hue?: number
+    lightness?: number
 
     // tint
     tint: string
@@ -85,7 +85,7 @@ export type ImageConfig = Partial<{
 
     // metadata
     metadata: boolean
-}>
+}
 
 export interface CacheEntry {
     img: Sharp
@@ -93,16 +93,14 @@ export interface CacheEntry {
 }
 export type Cache = Map<string, CacheEntry>
 
-//TODO: When specifying multiple keys, TypeScript expects _all_ of them to be defined.
-//? Can this be fixed?
 /** A function to "transform" an image. */
 export interface Transformer<T extends keyof (ImageConfig & K) = keyof (ImageConfig & K), K extends Record<string, any> = {}> {
     /** Name to include in errors/output. */
     name: string
     /** Function to match config against. */
-    matcher: (config: ImageConfig & K) => boolean
+    matcher: (config: Partial<ImageConfig & K>) => boolean
     /** Function to transform image. */
-    transform: (img: Sharp, config: Pick<Required<ImageConfig & K>, T>) => Sharp
+    transform: (img: Sharp, config: Pick<ImageConfig & K, T>) => Sharp
 }
 
 /** The complete list of possible output values. */

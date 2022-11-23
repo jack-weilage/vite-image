@@ -1,5 +1,5 @@
 import type { ImageConfig, Transformer, PluginConfig } from '../types'
-import type { Sharp, Metadata } from 'sharp'
+import type { Sharp } from 'sharp'
 
 import { type BinaryLike, createHash } from 'crypto'
 import { basename, extname } from 'path'
@@ -54,7 +54,7 @@ const format_value = (val: string) => {
 }
 
 /** Create unique configs from arrays of values. */
-export function create_configs(params: URLSearchParams, deliminator: string): ImageConfig[]
+export function create_configs(params: URLSearchParams, deliminator: string): Partial<ImageConfig>[]
 {
     const aggregated = {} as Record<string, (string | number | boolean)[]>
     for (const key of dedupe([ ...params.keys() ]))
@@ -85,7 +85,7 @@ export function create_configs(params: URLSearchParams, deliminator: string): Im
         //@ts-expect-error: This reducer will take in (string | number | boolean)[] and return (string | number | boolean)[][]
         .reduce((acc, cur) => acc.flatMap(a => cur.map(b => [ a, b ].flat()))) as any as (string | number | boolean)[][]
     
-    const configs = [] as ImageConfig[]
+    const configs = [] as Partial<ImageConfig>[]
     for (const group of groups) {
         const config = {} as Record<string, string | number | boolean>
 
@@ -100,7 +100,7 @@ export function create_configs(params: URLSearchParams, deliminator: string): Im
 }
 
 /** Apply all transformers to an image. */
-export function queue_transformers(image: Sharp, config: ImageConfig, transformers: Transformer[])
+export function queue_transformers(image: Sharp, config: Partial<ImageConfig>, transformers: Transformer[])
 {
     const applied_transformers = []
 
@@ -110,7 +110,7 @@ export function queue_transformers(image: Sharp, config: ImageConfig, transforme
             continue
         
         try {
-            image = transform(image, config as Required<ImageConfig>)
+            image = transform(image, config)
         } catch (e) {
             throw new Error(`vite-image: Transformer "${name}" threw an error: ${(e as Error).message}`)
         }
