@@ -10,7 +10,7 @@ it.each([ true, false ])('applies the transform negate=%s', async (input) => {
     expect(create_hash(await image.toBuffer())).toMatchSnapshot()
 })
 
-it.each([ false, 'foo', 0, 1 ])('doesn\'t apply the transform negate=%s', async (input) => {
+it.each([ 'foo', 0, 1 ])('doesn\'t apply the transform negate=%s', async (input) => {
     //@ts-expect-error: Config shouldn't have these values.
     const { image } = queue_transformers(base_image.clone(), { negate: input }, [ transformer ])
 
