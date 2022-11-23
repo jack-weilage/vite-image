@@ -8,6 +8,4 @@ exports[`doesn't apply the transform flop=0 1`] = `"64db99769cd8b1dfe79a5e5d2ab0
 
 exports[`doesn't apply the transform flop=1 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
 
-exports[`doesn't apply the transform flop=false 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
-
 exports[`doesn't apply the transform flop=foo 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
