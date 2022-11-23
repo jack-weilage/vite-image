@@ -18,10 +18,13 @@ import tint from './tint'
 import grayscale from './grayscale'
 import colorspace from './colorspace'
 
+import metadata from './metadata'
+
 
 export default [
     format,
     resize,
     rotate, flip, flop, sharpen, median, blur, gamma, negate, normalize, threshold, modulate,
-    tint, grayscale, colorspace
+    tint, grayscale, colorspace,
+    metadata
 ]

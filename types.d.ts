@@ -82,6 +82,9 @@ export type ImageConfig = Partial<{
     grayscale: boolean
     // toColorspace
     colorspace: keyof typeof ColorspaceEnum
+
+    // metadata
+    metadata: boolean
 }>
 
 export interface CacheEntry {
