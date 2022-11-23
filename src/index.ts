@@ -8,6 +8,7 @@ import { queue_transformers, copy_only_keys, create_configs, create_hash, dedupe
 import { createFilter, dataToEsm } from '@rollup/pluginutils'
 import MagicString from 'magic-string'
 import sharp from 'sharp'
+import { pathToFileURL } from 'url'
 
 export type { PluginConfig, Transformer, TypedImage } from '../types'
 
@@ -30,8 +31,8 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
             if (!filter(id))
                 return null
 
-            //TODO: Special characters aren't properly escaped. `pathToFileURL` fixes this, but doesn't parse search params..
-            const url = new URL(id, 'file://')
+            const url = new URL(id, 'file:')
+            const { pathname } = pathToFileURL(url.pathname)
 
             // Deal with export tags here so it can be removed from url.
             const user_exports = url.searchParams.get('export')
@@ -45,14 +46,14 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
 
             //HACK: Grabs the image, rotates it according to EXIF data, then pretends it's a new image to allow secondary rotations.
             //TODO: Implement passing metadata to the final image.
-            const base_image = sharp(await sharp(url.pathname).rotate().toBuffer())
+            const base_image = sharp(await sharp(pathname).rotate().toBuffer())
 
             const transformers = [ ...plugin_config.transformers, ...default_transformers ]
 
             const images = [] as InternalImage[]
             for (const config of create_configs(url.searchParams, plugin_config.deliminator)) {
                 // Create a unique hash based on the filename and config (prevents accidentally ingesting the same image twice).
-                const hash = create_hash(url.pathname + JSON.stringify(config))
+                const hash = create_hash(pathname + JSON.stringify(config))
 
                 // If we've already processed this exact image/config...
                 if (cache.has(hash)) {
@@ -75,7 +76,7 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
                 let src = DEV_PREFIX + hash
                 // If we're not in dev mode...
                 if (!this.meta.watchMode) {
-                    const name = `${filename(url.pathname)}.${info.format}`
+                    const name = `${filename(pathname)}.${info.format}`
 
                     const handle = this.emitFile({ name, source, type: 'asset' })
                     // We should make this path recognizable for `renderChunk`.
