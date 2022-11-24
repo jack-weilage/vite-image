@@ -7,7 +7,3 @@ exports[`applies the transform sharpen=1 1`] = `"26194e16687d68984e03593666f4686
 exports[`applies the transform sharpen=10 1`] = `"ff93e49652e1edc65c585d070998f2eb4c09da82"`;
 
 exports[`applies the transform sharpen=true 1`] = `"aa2fd5583a0ec2f10a9b3f5411b63f6f8aba913f"`;
-
-exports[`doesn't apply the transform sharpen=false 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
-
-exports[`doesn't apply the transform sharpen=foo 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;

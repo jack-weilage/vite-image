@@ -15,11 +15,3 @@ exports[`applies the transform modulate={ lightness: 50 } 1`] = `"c9ca9af78fd7b0
 exports[`applies the transform modulate={ saturation: 0 } 1`] = `"3ea24af7eb09728fd5a326bb368aa0f95b311a85"`;
 
 exports[`applies the transform modulate={ saturation: 50 } 1`] = `"274b6fa0b55114f973ce7fe5ceea202efdb58f68"`;
-
-exports[`doesn't apply the transform modulate={ brightness: true } 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
-
-exports[`doesn't apply the transform modulate={ brightness: true, saturation: 100 } 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
-
-exports[`doesn't apply the transform modulate={ hue: 0, lightness: 'foo' } 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
-
-exports[`doesn't apply the transform modulate={ lightness: 'foo' } 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;

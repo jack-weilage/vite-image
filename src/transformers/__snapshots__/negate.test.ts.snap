@@ -3,9 +3,3 @@
 exports[`applies the transform negate=false 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
 
 exports[`applies the transform negate=true 1`] = `"f4040a8bcc6c3cbcebca62633c05aaa8fc0959d7"`;
-
-exports[`doesn't apply the transform negate=0 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
-
-exports[`doesn't apply the transform negate=1 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
-
-exports[`doesn't apply the transform negate=foo 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;

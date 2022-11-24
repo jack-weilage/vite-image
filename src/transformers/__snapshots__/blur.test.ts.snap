@@ -7,7 +7,3 @@ exports[`applies the transform blur=1 1`] = `"5dac7f88d6aa730b1ed328369b4d7be001
 exports[`applies the transform blur=10 1`] = `"b1a156f1864accf9ed82d4fb6840fbf414b807b7"`;
 
 exports[`applies the transform blur=true 1`] = `"4ccad1f3d216cd50c1751e2832ed61c6bbaef017"`;
-
-exports[`doesn't apply the transform blur=false 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
-
-exports[`doesn't apply the transform blur=foo 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
