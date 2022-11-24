@@ -11,8 +11,10 @@ it.each([ true, false ])('applies the transform normalize=%s', async (input) => 
 })
 
 it.each([ false, 'foo', 0, 1 ])('doesn\'t apply the transform normalize=%s', async (input) => {
-    //@ts-expect-error: Config shouldn't have these values.
-    const { image } = queue_transformers(base_image.clone(), { normalize: input }, [ transformer ])
+    const { image } = queue_transformers(base_image.clone(), {
+        //@ts-expect-error: Config shouldn't have these values.
+        normalize: input
+    }, [ transformer ])
 
     expect(create_hash(await image.toBuffer())).toBe(base_hash)
 })

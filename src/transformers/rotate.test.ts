@@ -11,8 +11,10 @@ it.each([ 0, -45, 90, 540 ])('applies the transform rotate=%s', async (input) =>
 })
 
 it.each([ true, false, 'foo' ])('doesn\'t apply the transform rotate=%s', async (input) => {
-    //@ts-expect-error: Config shouldn't have these values.
-    const { image } = queue_transformers(base_image.clone(), { rotate: input }, [ transformer ])
+    const { image } = queue_transformers(base_image.clone(), {
+        //@ts-expect-error: Config shouldn't have these values.
+        rotate: input
+    }, [ transformer ])
 
     expect(create_hash(await image.toBuffer())).toBe(base_hash)
 })

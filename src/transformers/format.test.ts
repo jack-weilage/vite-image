@@ -12,8 +12,10 @@ it.each([ 'jpeg', 'webp', 'png' ])('applies the transform format=%s', async (inp
 })
 
 it.each([ 'foo', true, false, 1, 0 ])('doesn\'t apply the transform format=%s', async (input) => {
-    //@ts-expect-error: Config shouldn't have these values.
-    const { image } = queue_transformers(base_image.clone(), { format: input }, [ transformer ])
+    const { image } = queue_transformers(base_image.clone(), {
+        //@ts-expect-error: Config shouldn't have these values.
+        format: input
+    }, [ transformer ])
 
     expect(create_hash(await image.toBuffer())).toBe(base_hash)
 })
