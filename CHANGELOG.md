@@ -1,5 +1,17 @@
 # vite-image
 
+## 0.7.0
+
+### Minor Changes
+
+- 20793e6: [breaking] Image metadata is no longer provided to transformers.
+
+### Patch Changes
+
+- 0b36fb2: `Transformer` type can now be extended for more flexible and better typed development.`
+- bbe0d7d: Added a new transformer: `metadata`. When `metadata=true`, all image metadata will be kept.
+- 22b5027: Transformers with multiple possible inputs are now properly typed.
+
 ## 0.6.0
 
 ### Minor Changes
