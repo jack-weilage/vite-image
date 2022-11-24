@@ -1,7 +1,7 @@
 import { expect, it } from 'vitest'
 import { queue_transformers, create_hash } from '../utils'
 
-import { base_image } from '../../tests/utils'
+import { base_hash, base_image } from '../../tests/utils'
 import transformer from './modulate'
 
 it.each([ 
@@ -24,5 +24,5 @@ it.each([
     //@ts-expect-error: Config shouldn't have these values.
     const { image } = queue_transformers(base_image.clone(), input, [ transformer ])
 
-    expect(create_hash(await image.toBuffer())).toMatchSnapshot()
+    expect(create_hash(await image.toBuffer())).toBe(base_hash)
 })

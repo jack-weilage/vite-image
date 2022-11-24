@@ -2,6 +2,7 @@ import { join, dirname, extname } from 'path'
 import { build } from 'vite'
 import image_plugin from '../'
 import sharp from 'sharp'
+import { create_hash } from '../src/utils'
 
 import type { Window } from 'happy-dom'
 import type { UserConfig } from 'vite'
@@ -49,3 +50,4 @@ export const test = async function (window: Window, url: string, image_config: P
 }
 
 export const base_image = sharp('./tests/fixtures/images/dog.jpg')
+export const base_hash = create_hash(await base_image.toBuffer())
