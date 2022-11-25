@@ -1,7 +1,7 @@
 import type { Cache, CacheEntry, PluginConfig, InternalImage, OutputImage } from '../types'
 import type { Plugin, ResolvedConfig } from 'vite'
 
-import { BUILD_PREFIX, DEV_PREFIX } from './constants'
+import { BUILD_PREFIX, BUILD_REGEX, DEV_PREFIX, DEV_REGEX } from './constants'
 import default_transformers from './transformers'
 import { queue_transformers, copy_only_keys, create_configs, create_hash, dedupe, filename, parse_plugin_config } from './utils'
 
@@ -64,10 +64,10 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
                     continue
                 }
 
-                const { image, applied_transformers } = queue_transformers(base_image.clone(), config, transformers)
+                const { image, queued_transformers } = queue_transformers(base_image.clone(), config, transformers)
 
                 // If the image didn't match a transformer, it shouldn't be processed
-                if (applied_transformers.length === 0)
+                if (queued_transformers.length === 0)
                     continue
                 
                 // `apply_transformers` doesn't actually run the transformations, only queues them.
@@ -76,6 +76,7 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
 
                 // If we're in dev mode, we should supply an actual url here.
                 let src = DEV_PREFIX + hash
+                console.log(src)
                 // If we're not in dev mode...
                 if (!this.meta.watchMode) {
                     const name = `${filename(pathname)}.${info.format}`
@@ -85,52 +86,55 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
                     src = BUILD_PREFIX + handle
                 }
 
-
+                // Create the final object.
                 const data: InternalImage = Object.assign(info, {
                     aspect: info.width / info.height,
                     src,
-                    transformers: applied_transformers
+                    transformers: queued_transformers
                 })
 
-                cache.set(hash, { img: image, data })
+                // We haven't run across this image before, so cache the current image.
+                cache.set(hash, { image, data })
                 images.push(data)
             }
             // If every config was skipped, we shouldn't change the output.
             if (images.length === 0)
                 return null
-            
-            return dataToEsm(plugin_config.post_process(images.map(img => copy_only_keys(img, exports))))
+
+            // Run user-specified post-processing.
+            const post_processed = plugin_config.post_process(images.map(img => copy_only_keys(img, exports)))
+
+            // Transform the final data to an importable JavaScript file.
+            return dataToEsm(post_processed)
         },
         //TODO: Add testing for dev mode (not 100% sure this works).
         // Called in dev/preview mode.
         configureServer(server) {
-            const regex = new RegExp(`^${DEV_PREFIX}(.*)$`)
-
             server.middlewares.use((req, res, next) => {
+                // If there's somehow no URL, this couldn't be an image.
                 if (!req.url)
                     return next()
 
-                // Use regex.test here, as most resources will likely not be images.
-                //TODO: Is this actually true?
-                if (!regex.test(req.url))
+                // If the URL doesn't match the regex, this couldn't be in cache.
+                if (!DEV_REGEX.test(req.url))
                     return next()
                 
-                const [ , hash ] = req.url.match(regex)!
+                const [, hash ] = req.url.match(DEV_REGEX)!
                 
+                // If the image isn't in the cache, we can't do anything with it.
                 if (!cache.has(hash))
                     return next()
                 
-                const { img } = cache.get(hash) as CacheEntry
+                const { image } = cache.get(hash) as CacheEntry
 
-                return img.clone()
+                // Pipe the image to response.
+                return image.clone()
                     .pipe(res)
             })
         },
         //TODO: Write dedicated build tests.
         // Called in build mode.
         renderChunk(code) {
-            const regex = new RegExp(`${BUILD_PREFIX}([a-z0-9]{8})`, 'g')
-            
             // string.includes is quite a bit faster here.
             if (!code.includes(BUILD_PREFIX))
                 return null
@@ -138,12 +142,12 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
             const replacer = (_: string, hash: string) => vite_config.base + this.getFileName(hash)
 
             // If we don't need to generate a sourcemap, return early without using MagicString.
-            // MagicString is becomes exponentially slower as string length increases.
             if (!vite_config.build.sourcemap)
-                return { code: code.replace(regex, replacer) }
+                return { code: code.replace(BUILD_REGEX, replacer) }
 
+            // Use MagicString to generate a sourcemap (slower than a simple replace).
             const magic = new MagicString(code)
-            magic.replace(regex, replacer)
+            magic.replace(BUILD_REGEX, replacer)
 
             return {
                 code: magic.toString(),

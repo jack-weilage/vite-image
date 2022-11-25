@@ -68,7 +68,7 @@ export function create_configs(params: URLSearchParams, deliminator: string): Pa
             .map(val => is_inverted ? !format_value(val): format_value(val))
         
         const final_key = is_inverted ? key.slice(1) : key
-        // If we've already defined key, just tack the new values on to the end of the old ones.
+        // If we've already defined the key, just tack the new values on to the end of the old ones.
         aggregated[final_key] = dedupe(aggregated[final_key] ? aggregated[final_key].concat(values) : values)
     }
     
@@ -102,7 +102,7 @@ export function create_configs(params: URLSearchParams, deliminator: string): Pa
 /** Apply all transformers to an image. */
 export function queue_transformers(image: Sharp, config: Partial<ImageConfig>, transformers: Transformer[])
 {
-    const applied_transformers = []
+    const queued_transformers = []
 
     for (const { matcher, transform, name } of transformers)
     {
@@ -115,8 +115,8 @@ export function queue_transformers(image: Sharp, config: Partial<ImageConfig>, t
             throw new Error(`vite-image: Transformer "${name}" threw an error: ${(e as Error).message}`)
         }
         
-        applied_transformers.push(name)
+        queued_transformers.push(name)
     }
 
-    return { image, applied_transformers }
+    return { image, queued_transformers }
 }

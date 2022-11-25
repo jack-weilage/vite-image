@@ -88,7 +88,7 @@ export interface ImageConfig {
 }
 
 export interface CacheEntry {
-    img: Sharp
+    image: Sharp
     data: InternalImage
 }
 export type Cache = Map<string, CacheEntry>

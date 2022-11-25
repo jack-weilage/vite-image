@@ -61,7 +61,9 @@ export const INPUT_COLORSPACES = [
 ] as (keyof typeof ColorspaceEnum)[]
 
 export const DEV_PREFIX = '/@image/'
+export const DEV_REGEX = new RegExp(`^${DEV_PREFIX}([a-z0-9]{40})$`)
 export const BUILD_PREFIX = '__VITE_IMAGE_ASSET__'
+export const BUILD_REGEX = new RegExp(`${BUILD_PREFIX}([a-z0-9]{8})`, 'g')
 
 export const CONFIG_SCHEMA = new Schema({
     include: { type: String },
