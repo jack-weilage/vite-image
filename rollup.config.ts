@@ -2,14 +2,17 @@ import type { RollupOptions } from 'rollup'
 
 import esbuild from 'rollup-plugin-esbuild'
 import dts from 'rollup-plugin-dts'
-import { builtinModules } from 'module'
+import { builtinModules, createRequire } from 'module'
+
+const require = createRequire(import.meta.url)
+const pkg = require('./package.json')
 
 const config = [] as RollupOptions[]
 const mode = process.env['BUILD_TYPE']
 
 if (mode === 'code' || !mode)
     config.push({
-        external: [ '@rollup/pluginutils', 'magic-string', 'sharp', 'validate', ...builtinModules ],
+        external: [ ...Object.keys(pkg.dependencies), ...builtinModules ],
         input: 'src/index.ts',
         output: [
             {
