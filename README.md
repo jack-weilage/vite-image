@@ -148,6 +148,7 @@ export default {
 <br>
 
 ## Roadmap
+
 - [ ] Implement static import of web images.
 - [ ] 1-1 implementations of most `sharp` utils.
   - [ ] Output options
