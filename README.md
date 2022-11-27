@@ -27,11 +27,11 @@ export default {
 import CoolImage from './custom-images/cool-image.jpg?width=300,600,900&blur=5'
 ```
 
-> **NOTE**
+> **Note**
 >
 > Boolean values can be shortened to just their key name, so `./img.jpg?flip` is `./img.jpg?flip=true` and `./img.jpg?!flip` is `./img.jpg?flip=false`.
 
-> **WARNING**
+> **Warning**
 > 
 > Don't use your `public` folder to store images. Imports are relative to the *project* root (specified in `vite.config.js`), not vite's public folder.
 
