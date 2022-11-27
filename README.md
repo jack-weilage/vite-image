@@ -24,54 +24,44 @@ export default {
 
 **`Anywhere inside your project`**
 ```js
-import CoolImage from './cool-image.jpg?width=300,600,900'
+import CoolImage from './custom-images/cool-image.jpg?width=300,600,900&blur=5'
 ```
 
-**IMPORTANT:** Don't use your `public` folder to store images. Imports will be relative to the *project* root (specified in `vite.config.js`), not vite's public folder.
+> **NOTE**
+>
+> Boolean values can be shortened to just their key name, so `./img.jpg?flip` is `./img.jpg?flip=true` and `./img.jpg?!flip` is `./img.jpg?flip=false`.
 
-<br>
-
-## Further Explanation
-
-- A param like `?blur` will be treated the same as `?blur=true`.
-- A param like `?!blur` will be treated the same as `?blur=false`.
-- Passing `true` to a param will (usually) trigger the default action from the corresponding `sharp` function.
+> **WARNING**
+> 
+> Don't use your `public` folder to store images. Imports are relative to the *project* root (specified in `vite.config.js`), not vite's public folder.
 
 <br>
 
 ## Examples
 
-A simple example of making multiple image sizes with a single import:
+ - Import an image.
+ - Resize to 400px, 700px, and 900px wide.
+ - Flip across the Y axis.
 
-```jsx
-<script>
-    // Returns 3 images (400px, 700px, 900px)
-    import DogImages from './images/dog.jpg?width=400,700,900'
-</script>
-
-{#each DogImages as image}
-    <img src={image.src} alt="A happy dog.">
-{/each}
+```js
+import DogImages from './images/dog.jpg?width=400,700,900&flip'
 ```
 
-A more complex version, creating a `srcset` with TypeScript:
+ - Import an image.
+ - Resize like above.
+ - Only output `src` and `width`.
+ - Use `TypedImage` to describe the output type.
 
-```tsx
-<script lang="ts">
-    import type { TypedImage } from 'vite-image'
-    // A normal vite import as fallback.
-    import src from './images/dog.jpg'
-    // A special vite-image import.
-    import Images from './images/dog.jpg?width=400,500,900&export=src,width'
+```ts
+import type { TypedImage } from 'vite-image'
+// A normal vite import as fallback.
+import src from './images/dog.jpg'
+// A special vite-image import.
+import Images from './images/dog.jpg?width=400,700,900&export=src,width'
 
-    // Creates an srcset, with only one line of code!
-    // To adjust or add sizes, just change the original import!
-    const srcset = (Images as TypedImage<'src' | 'width'>)
-        .map(img => `${img.src} ${img.width}w`)
-        .join(', ')
-</script>
-
-<img {src} {srcset}>
+const srcset = (Images as TypedImage<'src' | 'width'>[])
+    .map(img => `${img.src} ${img.width}w`)
+    .join(', ')
 ```
 
 <br>
@@ -93,6 +83,8 @@ A more complex version, creating a `srcset` with TypeScript:
 
 To learn about the default transformers, [click here](TRANSFORMERS.md)
 
+<br>
+
 ## Return Type
 
 `vite-image` will return a modified `sharp` instance, trimmed down for the web. 3 extra values are included: `aspect` (width / height), `src` (an href pointing to the image), and `transformers` (an array of the transformers applied to the image).
@@ -104,6 +96,8 @@ There are two ways to modify what's returned:
  2. Add a `export` input, like `image?export=width,height,src`. This will override whatever's in your `config.default_exports`.
 
 Try to trim down your exports to only what's necessary to keep your bundle as small as possible!
+
+<br>
 
 ### Typescript
 
