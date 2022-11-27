@@ -76,7 +76,6 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
 
                 // If we're in dev mode, we should supply an actual url here.
                 let src = DEV_PREFIX + hash
-                console.log(src)
                 // If we're not in dev mode...
                 if (!this.meta.watchMode) {
                     const name = `${filename(pathname)}.${info.format}`
