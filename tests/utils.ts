@@ -10,7 +10,7 @@ import type { RollupOutput, OutputChunk } from 'rollup'
 import type { PluginConfig } from '../'
 
 /** Builds and returns the result of importing a resource. */
-export const test = async function (window: Window, url: string, image_config: Partial<PluginConfig> = {}, vite_config: Partial<UserConfig> = {})
+export const test = async function (window: Window, url: string, image_config: Partial<PluginConfig> = {}, vite_config: Partial<UserConfig> = {}) 
 {
     const id = 'id_' + Math.random().toString().replace('.', '')
 
@@ -27,13 +27,15 @@ export const test = async function (window: Window, url: string, image_config: P
         plugins: [
             {
                 name: 'test-entry',
-            
-                resolveId(source, importer) {
+
+                resolveId(source, importer)
+                {
                     if (source === 'index.js')
                         return join(dirname(importer || ''), 'index.js')
                 },
-                load(file_id) {
-                    if (file_id === join(__dirname, 'fixtures', 'index.js')) 
+                load(file_id)
+                {
+                    if (file_id === join(__dirname, 'fixtures', 'index.js'))
                         return `import ${id} from '${url}'; window['${id}'] = ${id}`
                 }
             },
