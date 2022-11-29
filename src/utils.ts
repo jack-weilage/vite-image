@@ -19,7 +19,8 @@ export const filename = (path: string) => basename(path, extname(path))
 export const dedupe = <T>(arr: T[]) => [ ...new Set(arr) ]
 
 /** Create a `Partial` of any object. */
-export function copy_only_keys<T>(obj: T, keys: (keyof T)[]): Partial<T> {
+export function copy_only_keys<T>(obj: T, keys: (keyof T)[]): Partial<T>
+{
     const partial = {} as Partial<T>
     for (const key of keys)
         partial[key] = obj[key]
@@ -35,7 +36,7 @@ export function parse_plugin_config(user_plugin_config: Partial<PluginConfig>): 
     const errors = CONFIG_SCHEMA.validate(config)
     if (errors.length !== 0)
         throw new AggregateError(errors)
-    
+
     return config
 }
 
@@ -46,7 +47,7 @@ const format_value = (val: string) => {
 
     if (val === 'false')
         return false
-    
+
     if (!Number.isNaN(+val))
         return +val
 
@@ -57,42 +58,43 @@ const format_value = (val: string) => {
 export function create_configs(params: URLSearchParams, deliminator: string): Partial<ImageConfig>[]
 {
     const aggregated = {} as Record<string, (string | number | boolean)[]>
-    for (const key of dedupe([ ...params.keys() ]))
+    for (const key of dedupe([...params.keys()]))
     {
         const is_inverted = key.startsWith('!')
-        
+
         // Get every occurrence of the key, then split by the deliminator.
         // If the key is inverted, invert the values.
         const values = params.getAll(key)
             .flatMap(value => value.split(deliminator))
-            .map(val => is_inverted ? !format_value(val): format_value(val))
-        
+            .map(val => is_inverted ? !format_value(val) : format_value(val))
+
         const final_key = is_inverted ? key.slice(1) : key
         // If we've already defined the key, just tack the new values on to the end of the old ones.
         aggregated[final_key] = dedupe(aggregated[final_key] ? aggregated[final_key].concat(values) : values)
     }
-    
+
     const keys = Object.keys(aggregated)
     const values = Object.values(aggregated)
 
     // If there is only one key, the code below won't work.
     if (keys.length === 1)
         return values[0].map(value => ({ [keys[0]]: value }))
-    
+
     // Create an array of unique configs.
     // Each value will have the index of the corresponding keys.
     const groups = values
         //@ts-expect-error: This reducer will take in (string | number | boolean)[] and return (string | number | boolean)[][]
-        .reduce((acc, cur) => acc.flatMap(a => cur.map(b => [ a, b ].flat()))) as any as (string | number | boolean)[][]
-    
+        .reduce((acc, cur) => acc.flatMap(a => cur.map(b => [a, b].flat()))) as any as (string | number | boolean)[][]
+
     const configs = [] as Partial<ImageConfig>[]
-    for (const group of groups) {
+    for (const group of groups) 
+    {
         const config = {} as Record<string, string | number | boolean>
 
         // For every value, assign the corresponding key.
         for (let i = 0; i < keys.length; i++)
             config[keys[i]] = group[i]
-        
+
         configs.push(config)
     }
 
@@ -108,13 +110,13 @@ export function queue_transformers(image: Sharp, config: Partial<ImageConfig>, t
     {
         if (!matcher(config))
             continue
-        
+
         try {
             image = transform(image, config)
         } catch (e) {
             throw new Error(`vite-image: Transformer "${name}" threw an error: ${(e as Error).message}`)
         }
-        
+
         queued_transformers.push(name)
     }
 
