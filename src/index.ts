@@ -31,18 +31,17 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
             if (!filter(id))
                 return null
 
-            const url = new URL(id, 'file:')
-            const { pathname } = pathToFileURL(url.pathname)
+            const { searchParams, pathname } = new URL(id, 'file:')
 
             // Deal with export tags here so it can be removed from url.
-            const user_exports = url.searchParams.get('export')
+            const user_exports = searchParams.get('export')
                 ?.split(plugin_config.deliminator) as (keyof OutputImage)[] | undefined
             
             const exports = dedupe(user_exports ?? (plugin_config.default_exports || []))
                 .filter(Boolean)
             
             // Remove `export` from search params to prevent having to deal with it later.
-            url.searchParams.delete('export')
+            searchParams.delete('export')
 
             // Rotate the image, then create a "new" image with that data, containing the original metadata.
             const base_image = sharp(await sharp(pathname)
@@ -53,7 +52,7 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
             const transformers = [ ...plugin_config.transformers, ...default_transformers ]
 
             const images = [] as InternalImage[]
-            for (const config of create_configs(url.searchParams, plugin_config.deliminator)) {
+            for (const config of create_configs(searchParams, plugin_config.deliminator)) {
                 // Create a unique hash based on the filename and config (prevents accidentally ingesting the same image twice).
                 const hash = create_hash(pathname + JSON.stringify(config))
 
