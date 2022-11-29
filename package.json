@@ -20,10 +20,9 @@
         "test:gen": "vitest --run --no-threads --update",
         "prepare": "husky install",
         "build": "rollup -c rollup.config.ts --configPlugin rollup-plugin-esbuild",
-        "build:code": "BUILD_TYPE=code pnpm build",
-        "build:types": "BUILD_TYPE=types pnpm build",
-        "release": "pnpm build && pnpm changeset publish",
-        "pre-push": "pnpm build && pnpm test"
+        "build:code": "BUILD_TYPE=code npm run build",
+        "build:types": "BUILD_TYPE=types npm run build",
+        "release": "npm run build && changeset publish"
     },
     "keywords": [
         "vite",
@@ -49,6 +48,7 @@
         "@changesets/cli": "^2.25.2",
         "@types/node": "^18.11.9",
         "@types/sharp": "^0.31.0",
+        "concurrently": "^7.6.0",
         "esbuild": "^0.15.16",
         "happy-dom": "^7.7.0",
         "husky": "^8.0.2",
