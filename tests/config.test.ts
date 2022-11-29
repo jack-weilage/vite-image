@@ -13,10 +13,7 @@ it.each([
         //@ts-expect-error: The config _should_ be invalid here.
         parse_plugin_config(input)
     } catch (error) {
-        if (!(error instanceof AggregateError))
-            throw error
-        
-        expect(error.errors).toMatchSnapshot()
+        expect(error).toMatchSnapshot()
     }
 })
 

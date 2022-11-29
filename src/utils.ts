@@ -35,7 +35,7 @@ export function parse_plugin_config(user_plugin_config: Partial<PluginConfig>): 
 
     const errors = CONFIG_SCHEMA.validate(config)
     if (errors.length !== 0)
-        throw new AggregateError(errors)
+        throw errors
 
     return config
 }
