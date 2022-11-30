@@ -74,6 +74,7 @@
         "key-spacing": [ "warn", { "mode": "minimum" } ],
         "linebreak-style": "error",
         "space-infix-ops": "warn",
-        "space-unary-ops": "warn"
+        "space-unary-ops": "warn",
+        "eol-last": [ "warn", "never" ]
     }    
 }
