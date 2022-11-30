@@ -22,7 +22,7 @@
         "build": "rollup -c rollup.config.ts --configPlugin rollup-plugin-esbuild",
         "build:code": "BUILD_TYPE=code npm run build",
         "build:types": "BUILD_TYPE=types npm run build",
-        "lint": "npx eslint .",
+        "lint": "npx eslint . --format friendly",
         "release": "npm run build && changeset publish"
     },
     "keywords": [
@@ -54,6 +54,7 @@
         "concurrently": "^7.6.0",
         "esbuild": "^0.15.16",
         "eslint": "^8.28.0",
+        "eslint-formatter-friendly": "^7.0.0",
         "happy-dom": "^7.7.0",
         "husky": "^8.0.2",
         "lint-staged": "^13.0.4",
