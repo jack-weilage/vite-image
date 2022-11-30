@@ -4,7 +4,8 @@
     "plugins": [ "@typescript-eslint" ],
     "root": true,
     "env": {
-        "node": true
+        "node": true,
+        "es2022": true
     },
 
     "rules": {
@@ -76,5 +77,5 @@
         "space-infix-ops": "warn",
         "space-unary-ops": "warn",
         "eol-last": [ "warn", "never" ]
-    }    
+    }
 }
