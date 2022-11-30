@@ -6,7 +6,7 @@ export default {
         `npm run lint ${filenames.join(' ')} --fix`,
         `concurrently ${filenames
             .map(filename => `"tsc ${filename} ${tsconfig}"`)
-            .join(' ')}`,
+            .join(' ')} -m 50%`,
         'npm run build:code',
         `vitest --run --no-threads related ${filenames.join(' ')}`
     ]
