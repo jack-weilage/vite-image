@@ -1,7 +1,7 @@
 const tsconfig = '--target es2022 --noErrorTruncation --skipLibCheck --importsNotUsedAsValues error --noEmit --module esnext --moduleResolution node --allowSyntheticDefaultImports --strict'
 
 export default {
-    //eslint-disable-next-line no-inline-comments
+    //eslint-disable-next-line no-inline-comments -- JSDOC comments are needed to properly type this.
     '**/*.ts': (/** @type string[] */ filenames) => [
         `npm run lint ${filenames.join(' ')} --fix`,
         `concurrently ${filenames

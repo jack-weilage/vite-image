@@ -34,7 +34,7 @@ export function copy_only_keys<T>(obj: T, keys: (keyof T)[]): Partial<T>
 export function parse_plugin_config(user_plugin_config: Partial<PluginConfig>): PluginConfig
 {
     // Create a copy of the default config, then copy the user's config onto that.
-    //eslint-disable-next-line prefer-object-spread
+    //eslint-disable-next-line prefer-object-spread -- Object.assign would permanently alter the default config without this.
     const config = Object.assign({ ...DEFAULT_PLUGIN_CONFIG }, user_plugin_config)
 
     const errors = CONFIG_SCHEMA.validate(config)
