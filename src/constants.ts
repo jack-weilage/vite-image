@@ -13,26 +13,26 @@ export const DEFAULT_PLUGIN_CONFIG: PluginConfig = {
     post_process: images => images
 }
 
-export const INPUT_FORMATS = [ 
-    'avif', 
-    'dz', 
-    'fits', 
-    'gif', 
-    'heif', 
-    'input', 
-    'jpeg', 
-    'jpg', 
-    'magick', 
-    'openslide', 
-    'pdf', 
-    'png', 
-    'ppm', 
-    'raw', 
-    'svg', 
-    'tif', 
-    'tiff', 
-    'v', 
-    'webp' 
+export const INPUT_FORMATS = [
+    'avif',
+    'dz',
+    'fits',
+    'gif',
+    'heif',
+    'input',
+    'jpeg',
+    'jpg',
+    'magick',
+    'openslide',
+    'pdf',
+    'png',
+    'ppm',
+    'raw',
+    'svg',
+    'tif',
+    'tiff',
+    'v',
+    'webp'
 ] as (keyof FormatEnum)[]
 
 /** @see https://github.com/libvips/libvips/blob/41cff4e9d0838498487a00623462204eb10ee5b8/libvips/iofuncs/enumtypes.c#L776-L796 */

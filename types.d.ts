@@ -35,7 +35,7 @@ export interface PluginConfig {
     transformers: Transformer[]
     /** An array of default outputs. */
     default_exports: (keyof InternalImage)[]
-    /** 
+    /**
      * A function to run _after_ an image has been processed.
      * Receives an array of images output by `vite-image`, and should return another array of images.
      */
@@ -94,7 +94,7 @@ export interface CacheEntry {
 export type Cache = Map<string, CacheEntry>
 
 /** A function to "transform" an image. */
-export interface Transformer<T extends keyof (ImageConfig & K) = keyof (ImageConfig & K), K extends Record<string, any> = {}> {
+export interface Transformer<T extends keyof (ImageConfig & K) = keyof (ImageConfig & K), K extends Record<string, unknown> = unknown> {
     /** Name to include in errors/output. */
     name: string
     /** Function to match config against. */

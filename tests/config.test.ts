@@ -9,10 +9,13 @@ it.each([
     { transformers: [ 'foo', 'bar' ] }
 ])('does not apply invalid config: %s', (input) => {
     // This seems to be the best way to match an AggregateError.
-    try {
+    try
+    {
         //@ts-expect-error: The config _should_ be invalid here.
         parse_plugin_config(input)
-    } catch (error) {
+    }
+    catch (error)
+    {
         expect(error).toMatchSnapshot()
     }
 })
@@ -22,13 +25,13 @@ it.each([
     {  },
     { include: '**/*' },
     { include: '**/*', exclude: '**/*.jpeg' },
-    { 
+    {
         transformers: [{
             name: 'noop',
             matcher: () => true,
-            transform: (img: any) => img
+            transform: img => img
         }]
     }
-])('affects custom imports: %s', (input) => {
-    expect(parse_plugin_config(input as Partial<PluginConfig>)).toMatchSnapshot()
+] as Partial<PluginConfig>[])('affects custom imports: %s', (input) => {
+    expect(parse_plugin_config(input)).toMatchSnapshot()
 })

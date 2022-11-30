@@ -4,7 +4,7 @@ export default {
     name: 'resize',
     // See modulate.ts
     matcher: (config) => typeof (config['width'] ?? config['height']) === 'number'
-        && (typeof config['width']  === 'number' || typeof config['width']  === 'undefined') 
+        && (typeof config['width']  === 'number' || typeof config['width']  === 'undefined')
         && (typeof config['height'] === 'number' || typeof config['height'] === 'undefined'),
     transform: (img, config) => {
         const width  = typeof config['width']  === 'number' ? Math.round(Math.max(config['width'],  1)) : undefined

@@ -2,7 +2,7 @@ import type { Transformer } from '../../types'
 
 export default {
     name: 'modulate',
-    // Surprisingly simple. 
+    // Surprisingly simple.
     // First, make sure that at least _one_ of the options is a number.
     // Then make sure that _every_ option is either a number or undefined.
     // This will skip checking _every_ option if a single option isn't valid.

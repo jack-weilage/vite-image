@@ -50,7 +50,7 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
                 .withMetadata()
                 .toBuffer())
 
-            const transformers = [...plugin_config.transformers, ...default_transformers]
+            const transformers = [ ...plugin_config.transformers, ...default_transformers ]
 
             const images = [] as InternalImage[]
             for (const config of create_configs(searchParams, plugin_config.deliminator))
@@ -118,11 +118,12 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
                 if (!req.url)
                     return next()
 
+                const exec = DEV_REGEX.exec(req.url)
                 // If the URL doesn't match the regex, this couldn't be in cache.
-                if (!DEV_REGEX.test(req.url))
+                if (!exec || !exec.groups)
                     return next()
 
-                const [, hash] = req.url.match(DEV_REGEX)!
+                const hash = exec.groups[0]
 
                 // If the image isn't in the cache, we can't do anything with it.
                 if (!cache.has(hash))

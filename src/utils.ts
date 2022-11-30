@@ -7,12 +7,14 @@ import { CONFIG_SCHEMA, DEFAULT_PLUGIN_CONFIG } from './constants'
 
 /** Limit a number to between min and max. */
 export const clamp = (num: number, min: number, max: number) => Math.max(Math.min(num, max), min)
-/** 
+/**
  * Create a SHA1 hash from a string.
- * 
+ *
  * SHA256 is more secure, but speed matters more here.
 */
-export const create_hash = (str: BinaryLike): string => createHash('sha1').update(str).digest('hex')
+export const create_hash = (str: BinaryLike): string => createHash('sha1')
+    .update(str)
+    .digest('hex')
 /** Extract the name of a file, without its extension. */
 export const filename = (path: string) => basename(path, extname(path))
 /** De-duplicate an array. */
@@ -31,6 +33,8 @@ export function copy_only_keys<T>(obj: T, keys: (keyof T)[]): Partial<T>
 /** Validate and combine a user config and default config. */
 export function parse_plugin_config(user_plugin_config: Partial<PluginConfig>): PluginConfig
 {
+    // Create a copy of the default config, then copy the user's config onto that.
+    //eslint-disable-next-line prefer-object-spread
     const config = Object.assign({ ...DEFAULT_PLUGIN_CONFIG }, user_plugin_config)
 
     const errors = CONFIG_SCHEMA.validate(config)
@@ -58,7 +62,7 @@ const format_value = (val: string) => {
 export function create_configs(params: URLSearchParams, deliminator: string): Partial<ImageConfig>[]
 {
     const aggregated = {} as Record<string, (string | number | boolean)[]>
-    for (const key of dedupe([...params.keys()]))
+    for (const key of dedupe([ ...params.keys() ]))
     {
         const is_inverted = key.startsWith('!')
 
@@ -66,7 +70,7 @@ export function create_configs(params: URLSearchParams, deliminator: string): Pa
         // If the key is inverted, invert the values.
         const values = params.getAll(key)
             .flatMap(value => value.split(deliminator))
-            .map(val => is_inverted ? !format_value(val) : format_value(val))
+            .map(val => (is_inverted ? !format_value(val) : format_value(val)))
 
         const final_key = is_inverted ? key.slice(1) : key
         // If we've already defined the key, just tack the new values on to the end of the old ones.
@@ -84,10 +88,10 @@ export function create_configs(params: URLSearchParams, deliminator: string): Pa
     // Each value will have the index of the corresponding keys.
     const groups = values
         //@ts-expect-error: This reducer will take in (string | number | boolean)[] and return (string | number | boolean)[][]
-        .reduce((acc, cur) => acc.flatMap(a => cur.map(b => [a, b].flat()))) as any as (string | number | boolean)[][]
+        .reduce((acc, cur) => acc.flatMap(a => cur.map(b => [ a, b ].flat()))) as unknown as (string | number | boolean)[][]
 
     const configs = [] as Partial<ImageConfig>[]
-    for (const group of groups) 
+    for (const group of groups)
     {
         const config = {} as Record<string, string | number | boolean>
 

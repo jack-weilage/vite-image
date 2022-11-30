@@ -8,11 +8,12 @@ import type { Window } from 'happy-dom'
 import type { UserConfig } from 'vite'
 import type { RollupOutput, OutputChunk } from 'rollup'
 import type { PluginConfig } from '../'
+import type { OutputImage } from '../types'
 
 /** Builds and returns the result of importing a resource. */
-export const test = async function (window: Window, url: string, image_config: Partial<PluginConfig> = {}, vite_config: Partial<UserConfig> = {}) 
+export async function test(window: Window, url: string, image_config: Partial<PluginConfig> = {}, vite_config: Partial<UserConfig> = {})
 {
-    const id = 'id_' + Math.random().toString().replace('.', '')
+    const id = `id_${create_hash(Math.random().toString())}`
 
     const { output } = await build({
         root: join(__dirname, 'fixtures'),
@@ -47,8 +48,8 @@ export const test = async function (window: Window, url: string, image_config: P
     const script = output.find(({ fileName }) => extname(fileName) === '.js') as OutputChunk
     window.eval(script.code)
 
-    //@ts-expect-error
-    return window[id]
+    //@ts-expect-error: `string` cannot index window, but it doesn't matter here.
+    return window[id] as OutputImage[]
 }
 
 export const base_image = sharp('./tests/fixtures/images/dog.jpg')
