@@ -1,6 +1,7 @@
 import type { PluginConfig, InternalImage, OutputImage } from '../types'
 import type { Plugin, ResolvedConfig } from 'vite'
 import type { Sharp } from 'sharp'
+import type { SourceMap } from 'magic-string'
 
 import { BUILD_PREFIX, BUILD_REGEX, DEV_PREFIX, DEV_REGEX } from './constants'
 import default_transformers from './transformers'
@@ -17,10 +18,7 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
 {
     const plugin_config: PluginConfig = parse_plugin_config(user_plugin_config)
 
-    const cache = new Map() as Map<string, {
-        image: Sharp
-        data: InternalImage
-    }>
+    const cache = new Map<string, { image: Sharp; data: InternalImage }>()
     const filter = createFilter(plugin_config.include, plugin_config.exclude)
 
     let vite_config: ResolvedConfig
@@ -29,9 +27,9 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
         name: 'image',
         enforce: 'pre',
         // Called when the vite config is finalized.
-        configResolved(config) { vite_config = config },
+        configResolved(config): void { vite_config = config },
         // Called when a resource is being processed.
-        async load(id: string)
+        async load(id: string): Promise<string | null>
         {
             if (!filter(id))
                 return null
@@ -115,7 +113,7 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
         },
         //TODO: Add testing for dev mode (not 100% sure this works).
         // Called in dev/preview mode.
-        configureServer(server)
+        configureServer(server): void
         {
             server.middlewares.use((req, res, next) => {
                 // If there's somehow no URL, this couldn't be an image.
@@ -142,13 +140,13 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
         },
         //TODO: Write dedicated build tests.
         // Called in build mode.
-        renderChunk(code)
+        renderChunk(code): { code: string; map?: SourceMap } | null
         {
             // string.includes is quite a bit faster here.
             if (!code.includes(BUILD_PREFIX))
                 return null
 
-            const replacer = (_: string, hash: string) => vite_config.base + this.getFileName(hash)
+            const replacer = (_: string, hash: string): string => vite_config.base + this.getFileName(hash)
 
             // If we don't need to generate a sourcemap, return early without using MagicString.
             if (!vite_config.build.sourcemap)

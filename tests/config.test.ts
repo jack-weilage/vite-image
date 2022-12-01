@@ -1,4 +1,5 @@
 import type { PluginConfig } from '../types'
+import type { Sharp } from 'sharp'
 
 import { parse_plugin_config } from '../src/utils'
 import { it, expect } from 'vitest'
@@ -18,7 +19,7 @@ it.each([
     {
         if (!(error instanceof AggregateError))
             throw error
-        
+
         expect(error.errors).toMatchSnapshot()
     }
 })
@@ -31,8 +32,8 @@ it.each([
     {
         transformers: [{
             name: 'noop',
-            matcher: () => true,
-            transform: img => img
+            matcher: (): true => true,
+            transform: (img): Sharp => img
         }]
     }
 ] as Partial<PluginConfig>[])('affects custom imports: %s', (input) => {

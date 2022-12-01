@@ -6,7 +6,7 @@ import { basename, extname } from 'path'
 import { CONFIG_SCHEMA, DEFAULT_PLUGIN_CONFIG } from './constants'
 
 /** Limit a number to between min and max. */
-export const clamp = (num: number, min: number, max: number) => Math.max(Math.min(num, max), min)
+export const clamp = (num: number, min: number, max: number): number => Math.max(Math.min(num, max), min)
 /**
  * Create a SHA1 hash from a string.
  *
@@ -16,9 +16,9 @@ export const create_hash = (str: BinaryLike): string => createHash('sha1')
     .update(str)
     .digest('hex')
 /** Extract the name of a file, without its extension. */
-export const filename = (path: string) => basename(path, extname(path))
+export const filename = (path: string): string => basename(path, extname(path))
 /** De-duplicate an array. */
-export const dedupe = <T>(arr: T[]) => [ ...new Set(arr) ]
+export const dedupe = <T>(arr: T[]): T[] => [ ...new Set(arr) ]
 
 /** Create a `Partial` of any object. */
 export function copy_only_keys<T>(obj: T, keys: (keyof T)[]): Partial<T>
@@ -45,7 +45,7 @@ export function parse_plugin_config(user_plugin_config: Partial<PluginConfig>): 
 }
 
 /** Coerces values to string | number | boolean. */
-const format_value = (val: string) => {
+const format_value = (val: string): string | number | boolean => {
     if (val === '' || val === 'true')
         return true
 
@@ -108,9 +108,9 @@ export function create_configs(params: URLSearchParams, deliminator: string): Pa
 }
 
 /** Apply all transformers to an image. */
-export function queue_transformers(image: Sharp, config: Partial<ImageConfig>, transformers: Transformer[])
+export function queue_transformers(image: Sharp, config: Partial<ImageConfig>, transformers: Transformer[]): { image: Sharp; queued_transformers: string[] }
 {
-    const queued_transformers = []
+    const queued_transformers: string[] = []
     const errors = []
 
     for (const { matcher, transform, name } of transformers)

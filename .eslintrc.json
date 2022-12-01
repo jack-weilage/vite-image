@@ -19,7 +19,18 @@
     "rules": {
         "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/dot-notation": "off",
-        
+
+        "@typescript-eslint/consistent-type-exports": "warn",
+        "@typescript-eslint/consistent-type-imports": "warn",
+        "@typescript-eslint/explicit-function-return-type": "warn",
+        "@typescript-eslint/no-redundant-type-constituents": "error",
+        "@typescript-eslint/no-unnecessary-qualifier": "warn",
+        "@typescript-eslint/no-useless-empty-export": "error",
+        "@typescript-eslint/prefer-regexp-exec": "error",
+        "@typescript-eslint/promise-function-async": "error",
+        "@typescript-eslint/require-array-sort-compare": "warn",
+
+
         "array-bracket-spacing": [ "warn", "always", { "objectsInArrays": false } ],
         "arrow-body-style": "warn",
         "arrow-spacing": "warn",

@@ -11,7 +11,7 @@ import type { PluginConfig } from '../'
 import type { OutputImage } from '../types'
 
 /** Builds and returns the result of importing a resource. */
-export async function test(window: Window, url: string, image_config: Partial<PluginConfig> = {}, vite_config: Partial<UserConfig> = {})
+export async function test(window: Window, url: string, image_config: Partial<PluginConfig> = {}, vite_config: Partial<UserConfig> = {}): Promise<OutputImage[]>
 {
     const id = `id_${create_hash(Math.random().toString())}`
 
@@ -29,12 +29,12 @@ export async function test(window: Window, url: string, image_config: Partial<Pl
             {
                 name: 'test-entry',
 
-                resolveId(source, importer)
+                resolveId(source, importer): string | undefined
                 {
                     if (source === 'index.js')
                         return join(dirname(importer ?? ''), 'index.js')
                 },
-                load(file_id)
+                load(file_id): string | undefined
                 {
                     if (file_id === join(__dirname, 'fixtures', 'index.js'))
                         return `import ${id} from '${url}'; window['${id}'] = ${id}`
