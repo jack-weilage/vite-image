@@ -91,27 +91,8 @@ exports[`affects custom imports: undefined 1`] = `
 }
 `;
 
-exports[`does not apply invalid config: { include: 10 } 1`] = `
-[
-  [Error: include must be of type String.],
-]
-`;
+exports[`does not apply invalid config: { include: 10 } 1`] = `[Error: Error: include must be of type String.]`;
 
-exports[`does not apply invalid config: { test: true } 1`] = `
-[
-  [Error: test is not allowed.],
-]
-`;
+exports[`does not apply invalid config: { test: true } 1`] = `[Error: Error: test is not allowed.]`;
 
-exports[`does not apply invalid config: { transformers: [Array] } 1`] = `
-[
-  [Error: transformers.0 must be of type Object.],
-  [Error: transformers.1 must be of type Object.],
-  [Error: transformers.0.name is required.],
-  [Error: transformers.1.name is required.],
-  [Error: transformers.0.matcher is required.],
-  [Error: transformers.1.matcher is required.],
-  [Error: transformers.0.transform is required.],
-  [Error: transformers.1.transform is required.],
-]
-`;
+exports[`does not apply invalid config: { transformers: [Array] } 1`] = `[Error: Error: transformers.0 must be of type Object.,Error: transformers.1 must be of type Object.,Error: transformers.0.name is required.,Error: transformers.1.name is required.,Error: transformers.0.matcher is required.,Error: transformers.1.matcher is required.,Error: transformers.0.transform is required.,Error: transformers.1.transform is required.]`;
