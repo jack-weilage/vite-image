@@ -39,7 +39,7 @@ export function parse_plugin_config(user_plugin_config: Partial<PluginConfig>): 
 
     const errors = CONFIG_SCHEMA.validate(config)
     if (errors.length !== 0)
-        throw errors
+        throw new Error(errors.toString())
 
     return config
 }
@@ -73,8 +73,10 @@ export function create_configs(params: URLSearchParams, deliminator: string): Pa
             .map(val => (is_inverted ? !format_value(val) : format_value(val)))
 
         const final_key = is_inverted ? key.slice(1) : key
+        // If we haven't used this key before (it's been modified above), then we need to define the value as an array.
+        aggregated[final_key] ??= []
         // If we've already defined the key, just tack the new values on to the end of the old ones.
-        aggregated[final_key] = dedupe(aggregated[final_key] ? aggregated[final_key].concat(values) : values)
+        aggregated[final_key] = dedupe(aggregated[final_key].concat(values))
     }
 
     const keys = Object.keys(aggregated)

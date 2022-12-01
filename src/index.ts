@@ -1,5 +1,6 @@
-import type { Cache, CacheEntry, PluginConfig, InternalImage, OutputImage } from '../types'
+import type { PluginConfig, InternalImage, OutputImage } from '../types'
 import type { Plugin, ResolvedConfig } from 'vite'
+import type { Sharp } from 'sharp'
 
 import { BUILD_PREFIX, BUILD_REGEX, DEV_PREFIX, DEV_REGEX } from './constants'
 import default_transformers from './transformers'
@@ -16,7 +17,10 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
 {
     const plugin_config: PluginConfig = parse_plugin_config(user_plugin_config)
 
-    const cache = new Map() as Cache
+    const cache = new Map() as Map<string, {
+        image: Sharp
+        data: InternalImage
+    }>
     const filter = createFilter(plugin_config.include, plugin_config.exclude)
 
     let vite_config: ResolvedConfig
@@ -38,7 +42,7 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
             const user_exports = searchParams.get('export')
                 ?.split(plugin_config.deliminator) as (keyof OutputImage)[] | undefined
 
-            const exports = dedupe(user_exports ?? (plugin_config.default_exports || []))
+            const exports = dedupe(user_exports ?? plugin_config.default_exports)
                 .filter(Boolean)
 
             // Remove `export` from search params to prevent having to deal with it later.
@@ -62,7 +66,7 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
                 if (cache.has(hash))
                 {
                     // Just grab what we already have from the digest.
-                    images.push((cache.get(hash) as CacheEntry).data)
+                    images.push(cache.get(hash)!.data)
                     continue
                 }
 
@@ -120,7 +124,7 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
 
                 const exec = DEV_REGEX.exec(req.url)
                 // If the URL doesn't match the regex, this couldn't be in cache.
-                if (!exec || !exec.groups)
+                if (!exec?.groups)
                     return next()
 
                 const hash = exec.groups[0]
@@ -129,7 +133,7 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
                 if (!cache.has(hash))
                     return next()
 
-                const { image } = cache.get(hash) as CacheEntry
+                const { image } = cache.get(hash)!
 
                 // Pipe the image to response.
                 return image.clone()

@@ -32,7 +32,7 @@ export async function test(window: Window, url: string, image_config: Partial<Pl
                 resolveId(source, importer)
                 {
                     if (source === 'index.js')
-                        return join(dirname(importer || ''), 'index.js')
+                        return join(dirname(importer ?? ''), 'index.js')
                 },
                 load(file_id)
                 {

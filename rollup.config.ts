@@ -5,6 +5,7 @@ import dts from 'rollup-plugin-dts'
 import { builtinModules, createRequire } from 'module'
 
 const require = createRequire(import.meta.url)
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- We're importing a JSON file, TypeScript won't be happy.
 const pkg = require('./package.json')
 
 const config = [] as RollupOptions[]
@@ -12,6 +13,7 @@ const mode = process.env['BUILD_TYPE']
 
 if (mode === 'code' || !mode)
     config.push({
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- Again, importing JSON.
         external: [ ...Object.keys(pkg.dependencies), ...builtinModules ],
         input: 'src/index.ts',
         output: [

@@ -87,12 +87,6 @@ export interface ImageConfig {
     metadata: boolean
 }
 
-export interface CacheEntry {
-    image: Sharp
-    data: InternalImage
-}
-export type Cache = Map<string, CacheEntry>
-
 /** A function to "transform" an image. */
 export interface Transformer<T extends keyof (ImageConfig & K) = keyof (ImageConfig & K), K extends Record<string, unknown> = unknown> {
     /** Name to include in errors/output. */
