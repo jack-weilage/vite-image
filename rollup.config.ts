@@ -2,7 +2,6 @@ import type { RollupOptions } from 'rollup'
 
 import esbuild from 'rollup-plugin-esbuild'
 import dts from 'rollup-plugin-dts'
-import { getBabelOutputPlugin } from '@rollup/plugin-babel'
 
 import { builtinModules, createRequire } from 'module'
 
@@ -30,13 +29,7 @@ if (mode === 'code' || !mode)
                 exports: 'auto'
             }
         ],
-        plugins: [
-            esbuild({ minify: true }),
-            getBabelOutputPlugin({
-                targets: { node: '14' },
-                presets: [ '@babel/preset-env' ]
-            })
-        ]
+        plugins: [ esbuild({ minify: true }) ]
     })
 
 if (mode === 'types' || !mode)

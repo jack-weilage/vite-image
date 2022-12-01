@@ -16,7 +16,10 @@ it.each([
     }
     catch (error)
     {
-        expect(error).toMatchSnapshot()
+        if (!(error instanceof AggregateError))
+            throw error
+        
+        expect(error.errors).toMatchSnapshot()
     }
 })
 
