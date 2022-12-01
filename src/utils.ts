@@ -111,20 +111,27 @@ export function create_configs(params: URLSearchParams, deliminator: string): Pa
 export function queue_transformers(image: Sharp, config: Partial<ImageConfig>, transformers: Transformer[])
 {
     const queued_transformers = []
+    const errors = []
 
     for (const { matcher, transform, name } of transformers)
     {
         if (!matcher(config))
             continue
 
-        try {
+        try
+        {
             image = transform(image, config)
-        } catch (e) {
-            throw new Error(`vite-image: Transformer "${name}" threw an error: ${(e as Error).message}`)
+        }
+        catch (e)
+        {
+            errors.push(e)
         }
 
         queued_transformers.push(name)
     }
+
+    if (errors.length !== 0)
+        throw new AggregateError(errors)
 
     return { image, queued_transformers }
 }
