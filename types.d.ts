@@ -87,6 +87,9 @@ export interface ImageConfig {
     metadata: boolean
 }
 
+/** A helper type to better nail down the possible values of an ImageConfig. */
+export type ImageConfigValue = Required<ImageConfig>[keyof ImageConfig]
+
 /** A function to "transform" an image. */
 export interface Transformer<T extends keyof (ImageConfig & K) = keyof (ImageConfig & K), K extends Record<string, unknown> = unknown> {
     /** Name to include in errors/output. */
