@@ -1,6 +1,14 @@
 {
-    "extends": [ "eslint:recommended", "plugin:@typescript-eslint/recommended" ],
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "plugin:@typescript-eslint/strict"
+    ],
     "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "project": "./tsconfig.json"
+    },
     "plugins": [ "@typescript-eslint" ],
     "root": true,
     "env": {
@@ -9,6 +17,9 @@
     },
 
     "rules": {
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/dot-notation": "off",
+        
         "array-bracket-spacing": [ "warn", "always", { "objectsInArrays": false } ],
         "arrow-body-style": "warn",
         "arrow-spacing": "warn",
