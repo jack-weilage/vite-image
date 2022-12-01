@@ -23,6 +23,38 @@
         "@typescript-eslint/consistent-type-exports": "warn",
         "@typescript-eslint/consistent-type-imports": "warn",
         "@typescript-eslint/explicit-function-return-type": "warn",
+        "@typescript-eslint/naming-convention": [
+            "warn",
+            {
+                "selector": [ "variable", "function" ],
+                "format": [ "snake_case" ]
+            },
+            {
+                "selector": "variable",
+                "types": [ "boolean" ],
+                "prefix": [ "is_", "was_", "will_", "has_", "can_", "should_", "would_", "might_", "did_" ],
+                "format": [ "snake_case" ]
+            },
+            {
+                "selector": "variable",
+                "modifiers": [ "const", "global" ],
+                "format": [ "UPPER_CASE", "snake_case" ]
+            },
+            {
+                "selector": [ "variable", "function" ],
+                "modifiers": [ "destructured" ],
+                "format": null
+            },
+            {
+                "selector": [ "interface", "typeAlias" ],
+                "format": [ "PascalCase" ]
+            },
+            {
+                "selector": "enum",
+                "format": [ "PascalCase" ],
+                "suffix": [ "Enum" ]
+            }
+        ],
         "@typescript-eslint/no-redundant-type-constituents": "error",
         "@typescript-eslint/no-unnecessary-qualifier": "warn",
         "@typescript-eslint/no-useless-empty-export": "error",
