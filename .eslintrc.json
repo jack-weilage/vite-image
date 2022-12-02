@@ -62,11 +62,15 @@
         "@typescript-eslint/promise-function-async": "error",
         "@typescript-eslint/require-array-sort-compare": "warn",
 
-
+        "array-bracket-newline": [ "warn", "consistent" ],
         "array-bracket-spacing": [ "warn", "always", { "objectsInArrays": false } ],
+        "array-callback-return": "error",
         "arrow-body-style": "warn",
         "arrow-spacing": "warn",
         "block-spacing": "warn",
+        "comma-dangle": "warn",
+        "comma-spacing": "warn",
+        "comma-style": "warn",
         "curly": [ "warn", "multi" ],
         "default-case-last": "error",
         "default-param-last": "error",
