@@ -5,13 +5,13 @@ import { base_hash, base_image } from '../../tests/utils'
 import transformer from './gamma'
 
 it.each([ true, 1, 10, 0 ])('applies the transform gamma=%s', async (input) => {
-    const { image } = queue_transformers(base_image.clone(), { gamma: input as number | true }, [ transformer ])
+    const { image } = await queue_transformers(base_image.clone(), { gamma: input as number | true }, [ transformer ])
 
     expect(create_hash(await image.toBuffer())).toMatchSnapshot()
 })
 
 it.each([ false, 'foo' ])('doesn\'t apply the transform gamma=%s', async (input) => {
-    const { image } = queue_transformers(base_image.clone(), {
+    const { image } = await queue_transformers(base_image.clone(), {
         //@ts-expect-error: Config shouldn't have these values.
         gamma: input
     }, [ transformer ])

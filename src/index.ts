@@ -68,7 +68,7 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
                     continue
                 }
 
-                const { image, queued_transformers } = queue_transformers(base_image.clone(), config, transformers)
+                const { image, queued_transformers } = await queue_transformers(base_image.clone(), config, transformers)
 
                 // If the image didn't match a transformer, it shouldn't be processed
                 if (queued_transformers.length === 0)

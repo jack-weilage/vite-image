@@ -1,5 +1,9 @@
 import type { FormatEnum, Sharp } from 'sharp'
 
+/** A helper type to describe something that could either be a promise or not. */
+export type Awaitable<T> = T | PromiseLike<T>
+
+/** An enum containing all available colorspaces. */
 export enum ColorspaceEnum {
     // 'error',
     // 'multiband',
@@ -23,6 +27,7 @@ export enum ColorspaceEnum {
     'hsv',
     // 'last'
 }
+
 /** The config supplied to the plugin on startup. */
 export interface PluginConfig {
     /** A glob string matching images to include. */
@@ -41,6 +46,7 @@ export interface PluginConfig {
      */
     post_process: (images: OutputImage[]) => OutputImage[]
 }
+
 /** The config supplied to transformers when processing. */
 export interface ImageConfig {
     // format
@@ -95,9 +101,9 @@ export interface Transformer<T extends keyof (ImageConfig & K) = keyof (ImageCon
     /** Name to include in errors/output. */
     name: string
     /** Function to match config against. */
-    matcher: (config: Partial<ImageConfig & K>) => boolean
+    matcher: (config: Partial<ImageConfig & K>) => Awaitable<boolean>
     /** Function to transform image. */
-    transform: (img: Sharp, config: Pick<ImageConfig & K, T>) => Sharp
+    transform: (img: Sharp, config: Pick<ImageConfig & K, T>) => Awaitable<Sharp>
 }
 
 /** The complete list of possible output values. */
@@ -120,6 +126,7 @@ export interface InternalImage {
     /** The number of color bands (channels) in the image. */
     channels: 1 | 2 | 3 | 4
 }
+
 /** The type of an outputted image. Every value _could_ be undefined, because the key might be not exported. */
 export type OutputImage = Partial<InternalImage>
 

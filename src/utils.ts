@@ -7,6 +7,7 @@ import { CONFIG_SCHEMA, DEFAULT_PLUGIN_CONFIG } from './constants'
 
 /** Limit a number to between min and max. */
 export const clamp = (num: number, min: number, max: number): number => Math.max(Math.min(num, max), min)
+
 /**
  * Create a SHA1 hash from a string.
  *
@@ -15,8 +16,10 @@ export const clamp = (num: number, min: number, max: number): number => Math.max
 export const create_hash = (str: BinaryLike): string => createHash('sha1')
     .update(str)
     .digest('hex')
+
 /** Extract the name of a file, without its extension. */
 export const filename = (path: string): string => basename(path, extname(path))
+
 /** De-duplicate an array. */
 export const dedupe = <T>(arr: T[]): T[] => [ ...new Set(arr) ]
 
@@ -109,19 +112,19 @@ export function create_configs(params: URLSearchParams, deliminator: string): Pa
 }
 
 /** Apply all transformers to an image. */
-export function queue_transformers(image: Sharp, config: Partial<ImageConfig>, transformers: Transformer[]): { image: Sharp; queued_transformers: string[] }
+export async function queue_transformers(image: Sharp, config: Partial<ImageConfig>, transformers: Transformer[]): Promise<{ image: Sharp; queued_transformers: string[] }>
 {
     const queued_transformers: string[] = []
     const errors = []
 
     for (const { matcher, transform, name } of transformers)
     {
-        if (!matcher(config))
+        if (!await matcher(config))
             continue
 
         try
         {
-            image = transform(image, config)
+            image = await transform(image, config)
         }
         catch (e)
         {

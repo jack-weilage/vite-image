@@ -6,13 +6,13 @@ import transformer from './colorspace'
 import type { INPUT_COLORSPACES } from '../constants'
 
 it.each([ 'b-w', 'hsv', 'cmyk', 'rgb16' ] as typeof INPUT_COLORSPACES)('applies the transform colorspace=%s', async (input) => {
-    const { image } = queue_transformers(base_image.clone(), { colorspace: input }, [ transformer ])
+    const { image } = await queue_transformers(base_image.clone(), { colorspace: input }, [ transformer ])
 
     expect(create_hash(await image.toBuffer())).toMatchSnapshot()
 })
 
 it.each([ true, false, 'error', 1, 100 ])('doesn\'t apply the transform colorspace=%s', async (input) => {
-    const { image } = queue_transformers(base_image.clone(), {
+    const { image } = await queue_transformers(base_image.clone(), {
         //@ts-expect-error: Config shouldn't have these values.
         colorspace: input
     }, [ transformer ])

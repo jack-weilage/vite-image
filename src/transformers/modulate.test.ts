@@ -10,7 +10,7 @@ it.each([
     { hue: 0 },        { hue: 50 },
     { lightness: 0 },  { lightness: 50 }
 ])('applies the transform modulate=%s', async (input) => {
-    const { image } = queue_transformers(base_image.clone(), input, [ transformer ])
+    const { image } = await queue_transformers(base_image.clone(), input, [ transformer ])
 
     expect(create_hash(await image.toBuffer())).toMatchSnapshot()
 })
@@ -21,7 +21,7 @@ it.each([
     { lightness: 'foo' },
     { hue: 0, lightness: 'foo' }
 ])('doesn\'t apply the transform modulate=%s', async (input) => {
-    const { image } = queue_transformers(base_image.clone(),
+    const { image } = await queue_transformers(base_image.clone(),
         //@ts-expect-error: Config shouldn't have these values.
         input,
         [ transformer ])
