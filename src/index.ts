@@ -1,11 +1,11 @@
-import type { PluginConfig, InternalImage, OutputImage } from '../types'
+import type { PluginConfig, InternalImage } from '../types'
 import type { Plugin, ResolvedConfig } from 'vite'
 import type { Sharp } from 'sharp'
 import type { SourceMap } from 'magic-string'
 
 import { BUILD_PREFIX, BUILD_REGEX, DEV_PREFIX, DEV_REGEX } from './constants'
 import default_transformers from './transformers'
-import { queue_transformers, copy_only_keys, create_configs, create_hash, dedupe, filename, parse_plugin_config } from './utils'
+import { queue_transformers, create_partial, create_configs, create_hash, dedupe, filename, parse_plugin_config } from './utils'
 
 import { createFilter, dataToEsm } from '@rollup/pluginutils'
 import MagicString from 'magic-string'
@@ -38,7 +38,7 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
 
             // Deal with export tags here so it can be removed from url.
             const user_exports = searchParams.get('export')
-                ?.split(plugin_config.deliminator) as (keyof OutputImage)[] | undefined
+                ?.split(plugin_config.deliminator)
 
             const exports = dedupe(user_exports ?? plugin_config.default_exports)
                 .filter(Boolean)
@@ -106,7 +106,7 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
                 return null
 
             // Run user-specified post-processing.
-            const post_processed = plugin_config.post_process(images.map(img => copy_only_keys(img, exports)))
+            const post_processed = plugin_config.post_process(images.map(img => create_partial(img, exports)))
 
             // Transform the final data to an importable JavaScript file.
             return dataToEsm(post_processed)

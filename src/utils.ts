@@ -24,10 +24,14 @@ export const filename = (path: string): string => basename(path, extname(path))
 export const dedupe = <T>(arr: T[]): T[] => [ ...new Set(arr) ]
 
 /** Create a `Partial` of any object. */
-export function copy_only_keys<T>(obj: T, keys: (keyof T)[]): Partial<T>
+export function create_partial<T extends object>(obj: T, keys: string[]): Partial<T>
 {
     const partial: Partial<T> = {}
-    for (const key of keys)
+    // Only include keys which are in the object to avoid random unknown values.
+    const keys_in_obj = keys.filter(key => key in obj) as (keyof typeof obj)[]
+
+    // Create the partial.
+    for (const key of keys_in_obj)
         partial[key] = obj[key]
 
     return partial
