@@ -26,7 +26,7 @@ export const dedupe = <T>(arr: T[]): T[] => [ ...new Set(arr) ]
 /** Create a `Partial` of any object. */
 export function copy_only_keys<T>(obj: T, keys: (keyof T)[]): Partial<T>
 {
-    const partial = {} as Partial<T>
+    const partial: Partial<T> = {}
     for (const key of keys)
         partial[key] = obj[key]
 
@@ -65,7 +65,7 @@ function format_value(val: string): ImageConfigValue
 /** Create unique configs from arrays of values. */
 export function create_configs(params: URLSearchParams, deliminator: string): Partial<ImageConfig>[]
 {
-    const aggregated = {} as Record<string, ImageConfigValue[]>
+    const aggregated: Record<string, ImageConfigValue[]> = {}
     for (const key of dedupe([ ...params.keys() ]))
     {
         const is_inverted = key.startsWith('!')
@@ -96,10 +96,10 @@ export function create_configs(params: URLSearchParams, deliminator: string): Pa
         //@ts-expect-error: This reducer will take in (string | number | boolean)[] and return (string | number | boolean)[][]
         .reduce((acc, cur) => acc.flatMap(a => cur.map(b => [ a, b ].flat()))) as unknown as ImageConfigValue[][]
 
-    const configs = [] as Partial<ImageConfig>[]
+    const configs = []
     for (const group of groups)
     {
-        const config = {} as Record<string, ImageConfigValue>
+        const config: Record<string, ImageConfigValue> = {}
 
         // For every value, assign the corresponding key.
         for (let i = 0; i < keys.length; i++)

@@ -16,7 +16,7 @@ export type { PluginConfig, Transformer, TypedImage } from '../types'
 /** The plugin, to be supplied to vite. */
 export default function image(user_plugin_config: Partial<PluginConfig> = {}): Plugin
 {
-    const plugin_config: PluginConfig = parse_plugin_config(user_plugin_config)
+    const plugin_config = parse_plugin_config(user_plugin_config)
 
     const cache = new Map<string, { image: Sharp; data: InternalImage }>()
     const filter = createFilter(plugin_config.include, plugin_config.exclude)
@@ -54,7 +54,7 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
 
             const transformers = [ ...plugin_config.transformers, ...default_transformers ]
 
-            const images = [] as InternalImage[]
+            const images: InternalImage[] = []
             for (const config of create_configs(searchParams, plugin_config.deliminator))
             {
                 // Create a unique hash based on the filename and config (prevents accidentally ingesting the same image twice).
@@ -154,7 +154,7 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
 
             // Use MagicString to generate a sourcemap (slower than a simple replace).
             const magic = new MagicString(code)
-            magic.replace(BUILD_REGEX, replacer)
+                .replace(BUILD_REGEX, replacer)
 
             return {
                 code: magic.toString(),

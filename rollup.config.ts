@@ -9,7 +9,7 @@ const require = createRequire(import.meta.url)
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- We're importing a JSON file, TypeScript won't be happy.
 const pkg = require('./package.json')
 
-const config = [] as RollupOptions[]
+const config: RollupOptions[] = []
 const mode = process.env['BUILD_TYPE']
 
 if (mode === 'code' || !mode)

@@ -28,7 +28,6 @@ export async function test(window: Window, url: string, image_config: Partial<Pl
         plugins: [
             {
                 name: 'test-entry',
-
                 resolveId(source, importer): string | undefined
                 {
                     if (source === 'index.js')

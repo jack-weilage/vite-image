@@ -13,7 +13,7 @@ export const DEFAULT_PLUGIN_CONFIG: PluginConfig = {
     post_process: images => images
 }
 
-export const INPUT_FORMATS = [
+export const INPUT_FORMATS: (keyof FormatEnum)[] = [
     'avif',
     'dz',
     'fits',
@@ -33,10 +33,10 @@ export const INPUT_FORMATS = [
     'tiff',
     'v',
     'webp'
-] as (keyof FormatEnum)[]
+]
 
 /** @see https://github.com/libvips/libvips/blob/41cff4e9d0838498487a00623462204eb10ee5b8/libvips/iofuncs/enumtypes.c#L776-L796 */
-export const INPUT_COLORSPACES = [
+export const INPUT_COLORSPACES: (keyof typeof ColorspaceEnum)[] = [
     // 'error',
     // 'multiband',
     'b-w',
@@ -58,7 +58,7 @@ export const INPUT_COLORSPACES = [
     'scrgb',
     'hsv'
     // 'last'
-] as (keyof typeof ColorspaceEnum)[]
+]
 
 export const DEV_PREFIX = '/@image/'
 export const DEV_REGEX = new RegExp(`^${DEV_PREFIX}([a-z0-9]{40})$`)
