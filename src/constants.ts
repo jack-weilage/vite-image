@@ -56,7 +56,7 @@ export const INPUT_COLORSPACES = [
     'grey16',
     'matrix',
     'scrgb',
-    'hsv',
+    'hsv'
     // 'last'
 ] as (keyof typeof ColorspaceEnum)[]
 
