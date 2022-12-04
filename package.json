@@ -52,12 +52,12 @@
         "@typescript-eslint/eslint-plugin": "^5.45.0",
         "@typescript-eslint/parser": "^5.45.0",
         "concurrently": "^7.6.0",
-        "esbuild": "^0.15.16",
+        "esbuild": "^0.15.17",
         "eslint": "^8.29.0",
         "eslint-formatter-friendly": "^7.0.0",
         "happy-dom": "^7.7.2",
         "husky": "^8.0.2",
-        "lint-staged": "^13.0.4",
+        "lint-staged": "^13.1.0",
         "rollup": "^3.5.1",
         "rollup-plugin-dts": "^5.0.0",
         "rollup-plugin-esbuild": "^5.0.0",
@@ -68,7 +68,7 @@
     },
     "dependencies": {
         "@rollup/pluginutils": "^5.0.2",
-        "magic-string": "^0.26.7",
+        "magic-string": "^0.27.0",
         "sharp": "^0.31.2",
         "validate": "^5.2.0"
     }
