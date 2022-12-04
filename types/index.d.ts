@@ -1,7 +1,5 @@
 import type { FormatEnum, Sharp } from 'sharp'
-
-/** A helper type to describe something that could either be a promise or not. */
-export type Awaitable<T> = T | PromiseLike<T>
+import type { Awaitable } from './utils'
 
 /** An enum containing all available colorspaces. */
 export enum ColorspaceEnum {
