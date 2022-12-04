@@ -1,7 +1,8 @@
 import type { ImageConfig, Transformer, PluginConfig, ImageConfigValue } from '../types'
 import type { Sharp } from 'sharp'
+import type { BinaryLike } from 'crypto'
 
-import { type BinaryLike, createHash } from 'crypto'
+import { createHash } from 'crypto'
 import { basename, extname } from 'path'
 import { CONFIG_SCHEMA, DEFAULT_PLUGIN_CONFIG } from './constants'
 
