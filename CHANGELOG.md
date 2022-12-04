@@ -1,5 +1,11 @@
 # vite-image
 
+## 0.7.1
+
+### Patch Changes
+
+- 11aeadd: Transformers can now supply an async matcher and/or transformer.
+
 ## 0.7.0
 
 ### Minor Changes
