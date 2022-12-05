@@ -122,10 +122,10 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
 
                 const exec = DEV_REGEX.exec(req.url)
                 // If the URL doesn't match the regex, this couldn't be in cache.
-                if (!exec?.groups)
+                if (!exec?.[1])
                     return next()
 
-                const hash = exec.groups[0]
+                const hash = exec[1]
 
                 // If the image isn't in the cache, we can't do anything with it.
                 if (!cache.has(hash))
