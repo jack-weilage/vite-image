@@ -1,5 +1,11 @@
 # vite-image
 
+## 0.7.2
+
+### Patch Changes
+
+- 2f20f21: Fix dev mode errors.
+
 ## 0.7.1
 
 ### Patch Changes
