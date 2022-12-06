@@ -41,7 +41,7 @@
     "bugs": {
         "url": "https://github.com/jack-weilage/vite-image/issues"
     },
-    "packageManager": "pnpm@7.18.0",
+    "packageManager": "pnpm@7.18.1",
     "engines": {
         "pnpm": "^7.0.0"
     },
