@@ -1,9 +1,5 @@
 // Vitest Snapshot v1
 
-exports[`applies the transform tint=#1cd 1`] = `"bc8cf1c075c3027e6a034523a87b918949620829"`;
+exports[`applies the transform grayscale=false 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
 
-exports[`applies the transform tint=#face 1`] = `"d234800e207ab9b807f6836c6e410caa2ec9e071"`;
-
-exports[`applies the transform tint=#ffaacc99 1`] = `"d234800e207ab9b807f6836c6e410caa2ec9e071"`;
-
-exports[`applies the transform tint=#fff 1`] = `"68b5575d12c237cb72604fcb87855b37ec6f4f50"`;
+exports[`applies the transform grayscale=true 1`] = `"a24f3285f39176f75ff2fec442e3d77953c6a282"`;
