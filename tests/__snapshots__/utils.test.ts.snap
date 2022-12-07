@@ -1,0 +1,145 @@
+// Vitest Snapshot v1
+
+exports[` 1`] = `"test"`;
+
+exports[` 2`] = `"foo"`;
+
+exports[` 3`] = `"foo.bar"`;
+
+exports[`\`create_configs(new URLSearchParams({ foo: '', '!foo': '', '!bar': '' }), ',')\` 1`] = `
+[
+  {
+    "bar": false,
+    "foo": true,
+  },
+  {
+    "bar": false,
+    "foo": false,
+  },
+]
+`;
+
+exports[`\`create_configs(new URLSearchParams({ foo: '18,true,,hello' }), ',')\` 1`] = `
+[
+  {
+    "foo": 18,
+  },
+  {
+    "foo": true,
+  },
+  {
+    "foo": "hello",
+  },
+]
+`;
+
+exports[`\`create_configs(new URLSearchParams({ foo: 'bar,baz', bar: '1.256,undefined,NaN', qux: 'true,false,foo' }), ',')\` 1`] = `
+[
+  {
+    "bar": 1.256,
+    "foo": "bar",
+    "qux": true,
+  },
+  {
+    "bar": 1.256,
+    "foo": "bar",
+    "qux": false,
+  },
+  {
+    "bar": 1.256,
+    "foo": "bar",
+    "qux": "foo",
+  },
+  {
+    "bar": "undefined",
+    "foo": "bar",
+    "qux": true,
+  },
+  {
+    "bar": "undefined",
+    "foo": "bar",
+    "qux": false,
+  },
+  {
+    "bar": "undefined",
+    "foo": "bar",
+    "qux": "foo",
+  },
+  {
+    "bar": "NaN",
+    "foo": "bar",
+    "qux": true,
+  },
+  {
+    "bar": "NaN",
+    "foo": "bar",
+    "qux": false,
+  },
+  {
+    "bar": "NaN",
+    "foo": "bar",
+    "qux": "foo",
+  },
+  {
+    "bar": 1.256,
+    "foo": "baz",
+    "qux": true,
+  },
+  {
+    "bar": 1.256,
+    "foo": "baz",
+    "qux": false,
+  },
+  {
+    "bar": 1.256,
+    "foo": "baz",
+    "qux": "foo",
+  },
+  {
+    "bar": "undefined",
+    "foo": "baz",
+    "qux": true,
+  },
+  {
+    "bar": "undefined",
+    "foo": "baz",
+    "qux": false,
+  },
+  {
+    "bar": "undefined",
+    "foo": "baz",
+    "qux": "foo",
+  },
+  {
+    "bar": "NaN",
+    "foo": "baz",
+    "qux": true,
+  },
+  {
+    "bar": "NaN",
+    "foo": "baz",
+    "qux": false,
+  },
+  {
+    "bar": "NaN",
+    "foo": "baz",
+    "qux": "foo",
+  },
+]
+`;
+
+exports[`\`create_partial('%s')\` 1`] = `{}`;
+
+exports[`\`create_partial('foo')\` 1`] = `
+{
+  "bar": "2",
+  "foo": "1",
+}
+`;
+
+exports[`\`create_partial('foo')\` 2`] = `
+{
+  "baz": "3",
+  "foo": "1",
+}
+`;
