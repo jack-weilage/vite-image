@@ -10,6 +10,7 @@ export const DEFAULT_PLUGIN_CONFIG: PluginConfig = {
     transformers: [],
 
     default_exports: [ 'src', 'aspect', 'width', 'height', 'format' ],
+    /* c8 ignore next */
     post_process: images => images
 }
 
@@ -60,6 +61,7 @@ export const INPUT_COLORSPACES: (keyof typeof ColorspaceEnum)[] = [
     // 'last'
 ]
 
+/* c8 ignore next 4 */
 export const DEV_PREFIX = '/@image/'
 export const DEV_REGEX = new RegExp(`^${DEV_PREFIX}([a-z0-9]{40})$`)
 export const BUILD_PREFIX = '__VITE_IMAGE_ASSET__'

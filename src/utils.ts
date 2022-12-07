@@ -21,6 +21,7 @@ export const create_hash = (str: BinaryLike): string => createHash('sha1')
 /** Extract the name of a file, without its extension. */
 export const filename = (path: string): string => basename(path, extname(path))
 
+/* c8 ignore next 2 */
 /** De-duplicate an array. */
 export const dedupe = <T>(arr: T[]): T[] => [ ...new Set(arr) ]
 
@@ -53,7 +54,7 @@ export function parse_plugin_config(user_plugin_config: Partial<PluginConfig>): 
 }
 
 /** Coerces values to string | number | boolean. */
-function format_value(val: string): ImageConfigValue
+export function format_value(val: string): ImageConfigValue
 {
     if (val === '' || val === 'true')
         return true
@@ -65,6 +66,7 @@ function format_value(val: string): ImageConfigValue
         return +val
 
     return val
+    /* c8 ignore next */
 }
 
 /** Create unique configs from arrays of values. */
@@ -130,6 +132,7 @@ export async function queue_transformers(image: Sharp, config: Partial<ImageConf
         try
         {
             image = await transform(image, config)
+            /* c8 ignore next 6 */
         }
         catch (e)
         {
@@ -140,6 +143,7 @@ export async function queue_transformers(image: Sharp, config: Partial<ImageConf
     }
 
     if (errors.length !== 0)
+        /* c8 ignore next 2 */
         throw new AggregateError(errors)
 
     return { image, queued_transformers }
