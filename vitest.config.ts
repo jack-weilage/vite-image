@@ -6,13 +6,13 @@ export default defineConfig({
         include: [ '**/*.test.ts', '**/*.test-d.ts' ],
         coverage: {
             enabled: true,
-            reporter: [ 'json-summary', 'text' ],
-            reportsDirectory: 'tests/coverage',
+            reporter: [ 'text' ],
             include: [ 'src/**/*' ],
             exclude: [ 'src/transformers/index.ts' ],
             // all: true,
             skipFull: true,
-            perFile: true
+            perFile: true,
+            100: true
         }
     }
 })
