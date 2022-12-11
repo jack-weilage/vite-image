@@ -10,7 +10,6 @@ export default defineConfig({
             include: [ 'src/**/*' ],
             exclude: [ 'src/transformers/index.ts' ],
             // all: true,
-            skipFull: true,
             perFile: true,
             100: true
         }
