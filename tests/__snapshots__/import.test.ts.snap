@@ -2,73 +2,73 @@
 
 exports[`affects custom imports: !flip 1`] = `
 [
-  "/assets/dog.982e89c6.jpeg",
+  "/assets/dog-9a9fbf08.jpeg",
 ]
 `;
 
 exports[`affects custom imports: blur 1`] = `
 [
-  "/assets/dog.27d22a77.jpeg",
+  "/assets/dog-633250ad.jpeg",
 ]
 `;
 
 exports[`affects custom imports: blur&!flip 1`] = `
 [
-  "/assets/dog.27d22a77.jpeg",
+  "/assets/dog-633250ad.jpeg",
 ]
 `;
 
 exports[`affects custom imports: blur=true 1`] = `
 [
-  "/assets/dog.27d22a77.jpeg",
+  "/assets/dog-633250ad.jpeg",
 ]
 `;
 
 exports[`affects custom imports: width=500,600&height=800&width=400 1`] = `
 [
-  "/assets/dog.a537a5ea.jpeg",
-  "/assets/dog.9c6d67c4.jpeg",
-  "/assets/dog.3c6787e8.jpeg",
+  "/assets/dog-f9bb58b3.jpeg",
+  "/assets/dog-88a85387.jpeg",
+  "/assets/dog-adabbc87.jpeg",
 ]
 `;
 
 exports[`affects custom imports: width=600 1`] = `
 [
-  "/assets/dog.9c6d67c4.jpeg",
+  "/assets/dog-88a85387.jpeg",
 ]
 `;
 
 exports[`affects custom imports: width=600&blur&height=400 1`] = `
 [
-  "/assets/dog.f09dc829.jpeg",
+  "/assets/dog-6ca67b9c.jpeg",
 ]
 `;
 
 exports[`affects custom imports: width=600&height=400 1`] = `
 [
-  "/assets/dog.f6452f6a.jpeg",
+  "/assets/dog-2d621bfe.jpeg",
 ]
 `;
 
 exports[`affects custom imports: width=600,800&height=400,500 1`] = `
 [
-  "/assets/dog.f6452f6a.jpeg",
-  "/assets/dog.2fc8af80.jpeg",
-  "/assets/dog.c99affe8.jpeg",
-  "/assets/dog.edae5ad4.jpeg",
+  "/assets/dog-2d621bfe.jpeg",
+  "/assets/dog-af2d5f89.jpeg",
+  "/assets/dog-81677fe4.jpeg",
+  "/assets/dog-af0e2b48.jpeg",
 ]
 `;
 
 exports[`affects custom imports: width=600,800,1000 1`] = `
 [
-  "/assets/dog.9c6d67c4.jpeg",
-  "/assets/dog.70d36db8.jpeg",
-  "/assets/dog.4ce67943.jpeg",
+  "/assets/dog-88a85387.jpeg",
+  "/assets/dog-98297939.jpeg",
+  "/assets/dog-c851a66b.jpeg",
 ]
 `;
 
-exports[`does not affect default imports:  1`] = `"/assets/dog.1b15ce03.jpg"`;
+exports[`does not affect default imports:  1`] = `"/assets/dog-1b15ce03.jpg"`;
 
-exports[`does not affect default imports: ?foo=bar 1`] = `"/assets/dog.1b15ce03.jpg?foo=bar"`;
+exports[`does not affect default imports: ?foo=bar 1`] = `"/assets/dog-1b15ce03.jpg?foo=bar"`;
 
-exports[`does not affect default imports: ?foo=bar#baz-qux 1`] = `"/assets/dog.1b15ce03.jpg?foo=bar#baz-qux"`;
+exports[`does not affect default imports: ?foo=bar#baz-qux 1`] = `"/assets/dog-1b15ce03.jpg?foo=bar#baz-qux"`;
