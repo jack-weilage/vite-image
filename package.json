@@ -2,26 +2,27 @@
     "name": "vite-image",
     "version": "0.7.2",
     "description": "A vitejs plugin to streamline image processing.",
-    "module": "dist/index.mjs",
-    "main": "dist/index.mjs",
-    "types": "dist/index.d.ts",
     "files": [
         "dist"
     ],
+    "type": "module",
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
     "exports": {
         ".": {
-            "types": "./dist/index.d.ts",
-            "import": "./dist/index.mjs",
-            "require": "./dist/index.cjs"
+            "require": "./dist/index.cjs",
+            "import": "./dist/index.js",
+            "types": "./dist/index.d.ts"
         }
     },
     "scripts": {
         "test": "vitest --run --no-threads",
         "test:gen": "vitest --run --no-threads --update",
         "prepare": "husky install",
-        "build": "rollup -c rollup.config.ts --configPlugin rollup-plugin-esbuild",
-        "build:code": "BUILD_TYPE=code npm run build",
-        "build:types": "BUILD_TYPE=types npm run build",
+        "build": "tsup --dts --clean",
+        "build:code": "tsup",
+        "build:types": "tsup --dts-only",
         "lint": "eslint . --format friendly --report-unused-disable-directives --cache",
         "release": "npm run build && changeset publish"
     },
@@ -60,8 +61,7 @@
         "husky": "^8.0.2",
         "lint-staged": "^13.1.0",
         "rollup": "^3.7.3",
-        "rollup-plugin-dts": "^5.0.0",
-        "rollup-plugin-esbuild": "^5.0.0",
+        "tsup": "^6.5.0",
         "typescript": "^4.9.4",
         "vite": "^4.0.0",
         "vitest": "^0.25.7"

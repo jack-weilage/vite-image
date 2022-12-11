@@ -1,3 +1,4 @@
+//TODO: Find a way to remove `rollup` dependency - only here for types in this file.
 import type { Window } from 'happy-dom'
 import type { UserConfig } from 'vite'
 import type { RollupOutput, OutputChunk } from 'rollup'
