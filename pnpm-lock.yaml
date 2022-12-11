@@ -12,7 +12,7 @@ specifiers:
   esbuild: ^0.16.1
   eslint: ^8.29.0
   eslint-formatter-friendly: ^7.0.0
-  happy-dom: ^8.0.0
+  happy-dom: ^8.1.0
   husky: ^8.0.2
   lint-staged: ^13.1.0
   magic-string: ^0.27.0
@@ -37,12 +37,12 @@ devDependencies:
   '@types/sharp': 0.31.0
   '@typescript-eslint/eslint-plugin': 5.45.1_tdm6ms4ntwhlpozn7kjqrhum74
   '@typescript-eslint/parser': 5.45.1_s5ps7njkmjlaqajutnox5ntcla
-  '@vitest/coverage-c8': 0.25.5_happy-dom@8.0.0
+  '@vitest/coverage-c8': 0.25.5_happy-dom@8.1.0
   concurrently: 7.6.0
   esbuild: 0.16.1
   eslint: 8.29.0
   eslint-formatter-friendly: 7.0.0
-  happy-dom: 8.0.0
+  happy-dom: 8.1.0
   husky: 8.0.2
   lint-staged: 13.1.0
   rollup: 3.6.0
@@ -50,7 +50,7 @@ devDependencies:
   rollup-plugin-esbuild: 5.0.0_2dtsmxygtprvhpcbs4nbhgvs6i
   typescript: 4.9.3
   vite: 3.2.5_@types+node@18.11.11
-  vitest: 0.25.5_happy-dom@8.0.0
+  vitest: 0.25.5_happy-dom@8.1.0
 
 packages:
 
@@ -793,11 +793,11 @@ packages:
       eslint-visitor-keys: 3.3.0
     dev: true
 
-  /@vitest/coverage-c8/0.25.5_happy-dom@8.0.0:
+  /@vitest/coverage-c8/0.25.5_happy-dom@8.1.0:
     resolution: {integrity: sha512-tXlg0QVkTQ+7dqhsuwRFovP5vjgYGyBrRREFS55IQ20IsiSaRug9sRblRsckTXmGtz1OMJy/Lxv1gFVo24/ipA==}
     dependencies:
       c8: 7.12.0
-      vitest: 0.25.5_happy-dom@8.0.0
+      vitest: 0.25.5_happy-dom@8.1.0
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/browser'
@@ -915,7 +915,7 @@ packages:
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.4
-      es-abstract: 1.20.4
+      es-abstract: 1.20.5
       es-shim-unscopables: 1.0.0
     dev: true
 
@@ -1369,8 +1369,8 @@ packages:
       is-arrayish: 0.2.1
     dev: true
 
-  /es-abstract/1.20.4:
-    resolution: {integrity: sha512-0UtvRN79eMe2L+UNEF1BwRe364sj/DXhQ/k5FmivgoSdpM90b8Jc0mDzKMGo7QS0BVbOP/bTwBKNnDc9rNzaPA==}
+  /es-abstract/1.20.5:
+    resolution: {integrity: sha512-7h8MM2EQhsCA7pU/Nv78qOXFpD8Rhqd12gYiSJVkrH9+e8VuA8JlPJK/hQjjlLv6pJvx/z1iRFKzYb0XT/RuAQ==}
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
@@ -1379,6 +1379,7 @@ packages:
       function.prototype.name: 1.1.5
       get-intrinsic: 1.1.3
       get-symbol-description: 1.0.0
+      gopd: 1.0.1
       has: 1.0.3
       has-property-descriptors: 1.0.0
       has-symbols: 1.0.3
@@ -1981,7 +1982,7 @@ packages:
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.4
-      es-abstract: 1.20.4
+      es-abstract: 1.20.5
       functions-have-names: 1.2.3
     dev: true
 
@@ -2067,6 +2068,12 @@ packages:
       slash: 3.0.0
     dev: true
 
+  /gopd/1.0.1:
+    resolution: {integrity: sha512-d65bNlIadxvpb/A2abVdlqKqV563juRnZ1Wtk6s1sIR8uNsXR70xqIzVqxVf1eTqDunwT2MkczEeaezCKTZhwA==}
+    dependencies:
+      get-intrinsic: 1.1.3
+    dev: true
+
   /graceful-fs/4.2.10:
     resolution: {integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==}
     dev: true
@@ -2075,8 +2082,8 @@ packages:
     resolution: {integrity: sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==}
     dev: true
 
-  /happy-dom/8.0.0:
-    resolution: {integrity: sha512-llgDEd9S9S9kjK5+mlWWMO5JN75FqlnNYAyJI2Rdv4QenL1MJFyCfAG0GOAEj/UNcT8tPQOfyYPhgijtDc9X7Q==}
+  /happy-dom/8.1.0:
+    resolution: {integrity: sha512-R9NVb5815gpMFsldZF0wVSHw2uSobx6yitSkCdQPda1kwfAmVw4Ut8ZspxGHXkK6OA93SznldkcvrbhKFr6JcA==}
     dependencies:
       css.escape: 1.5.1
       he: 1.2.0
@@ -3451,7 +3458,7 @@ packages:
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.4
-      es-abstract: 1.20.4
+      es-abstract: 1.20.5
     dev: true
 
   /string.prototype.trimstart/1.0.6:
@@ -3459,7 +3466,7 @@ packages:
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.4
-      es-abstract: 1.20.4
+      es-abstract: 1.20.5
     dev: true
 
   /string_decoder/1.3.0:
@@ -3800,7 +3807,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.25.5_happy-dom@8.0.0:
+  /vitest/0.25.5_happy-dom@8.1.0:
     resolution: {integrity: sha512-lFKSTZV+AjuL44/yNC0aDPKTiasYSqOQ97Gg2G4P2LnjyzQ21ZUs4rQOscHK3lrSnVuir3+1QavHzbDgH4tWQA==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
@@ -3829,7 +3836,7 @@ packages:
       acorn-walk: 8.2.0
       chai: 4.3.7
       debug: 4.3.4
-      happy-dom: 8.0.0
+      happy-dom: 8.1.0
       local-pkg: 0.4.2
       source-map: 0.6.1
       strip-literal: 1.0.0

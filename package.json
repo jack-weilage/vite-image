@@ -22,7 +22,7 @@
         "build": "rollup -c rollup.config.ts --configPlugin rollup-plugin-esbuild",
         "build:code": "BUILD_TYPE=code npm run build",
         "build:types": "BUILD_TYPE=types npm run build",
-        "lint": "npx eslint . --format friendly --report-unused-disable-directives --cache",
+        "lint": "eslint . --format friendly --report-unused-disable-directives --cache",
         "release": "npm run build && changeset publish"
     },
     "keywords": [
@@ -56,7 +56,7 @@
         "esbuild": "^0.16.1",
         "eslint": "^8.29.0",
         "eslint-formatter-friendly": "^7.0.0",
-        "happy-dom": "^8.0.0",
+        "happy-dom": "^8.1.0",
         "husky": "^8.0.2",
         "lint-staged": "^13.1.0",
         "rollup": "^3.6.0",
