@@ -74,23 +74,6 @@ exports[`affects custom imports: {} 1`] = `
 }
 `;
 
-exports[`affects custom imports: undefined 1`] = `
-{
-  "default_exports": [
-    "src",
-    "aspect",
-    "width",
-    "height",
-    "format",
-  ],
-  "deliminator": ",",
-  "exclude": "",
-  "include": "**/*.{heic,heif,avif,jpeg,jpg,png,tiff,webp,gif}?*",
-  "post_process": [Function],
-  "transformers": [],
-}
-`;
-
 exports[`does not apply invalid config: { include: 10 } 1`] = `
 [
   [Error: include must be of type String.],
