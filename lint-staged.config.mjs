@@ -8,6 +8,6 @@ export default {
             .map(filename => `"tsc ${filename} ${tsconfig}"`)
             .join(' ')} -m 50%`,
         'npm run build:code',
-        `vitest --run --no-threads related ${filenames.join(' ')}`
+        `vitest --run --no-threads --no-coverage related ${filenames.join(' ')}`
     ]
 }
