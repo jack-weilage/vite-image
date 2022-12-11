@@ -4,8 +4,8 @@ import { queue_transformers, create_hash } from '../utils'
 import { base_hash, base_image } from '../../tests/utils'
 import transformer from './median'
 
-it.each([ true, 1, 10, 0 ])('applies the transform median=%s', async (input) => {
-    const { image } = await queue_transformers(base_image.clone(), { median: input as number | true }, [ transformer ])
+it.each([ true, 1, 10, 0 ] satisfies (number | true)[])('applies the transform median=%s', async (input) => {
+    const { image } = await queue_transformers(base_image.clone(), { median: input }, [ transformer ])
 
     expect(create_hash(await image.toBuffer())).toMatchSnapshot()
 })

@@ -11,4 +11,4 @@ export default {
 
         return img.gamma(clamp(config['gamma'], 1, 3))
     }
-} as Transformer<'gamma'>
+} satisfies Transformer<'gamma'>

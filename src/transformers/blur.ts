@@ -9,4 +9,4 @@ export default {
 
         return img.blur(Math.max(config['blur'], 0.3))
     }
-} as Transformer<'blur'>
+} satisfies Transformer<'blur'>

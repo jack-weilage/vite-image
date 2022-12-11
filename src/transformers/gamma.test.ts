@@ -4,8 +4,8 @@ import { queue_transformers, create_hash } from '../utils'
 import { base_hash, base_image } from '../../tests/utils'
 import transformer from './gamma'
 
-it.each([ true, 1, 10, 0 ])('applies the transform gamma=%s', async (input) => {
-    const { image } = await queue_transformers(base_image.clone(), { gamma: input as number | true }, [ transformer ])
+it.each([ true, 1, 10, 0 ] satisfies (number | true)[])('applies the transform gamma=%s', async (input) => {
+    const { image } = await queue_transformers(base_image.clone(), { gamma: input }, [ transformer ])
 
     expect(create_hash(await image.toBuffer())).toMatchSnapshot()
 })

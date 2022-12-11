@@ -25,7 +25,6 @@ it.each([
 })
 
 it.each([
-    undefined,
     {  },
     { include: '**/*' },
     { include: '**/*', exclude: '**/*.jpeg' },
@@ -36,6 +35,6 @@ it.each([
             transform: (img): Sharp => img
         }]
     }
-] as Partial<PluginConfig>[])('affects custom imports: %s', (input) => {
+] satisfies Partial<PluginConfig>[])('affects custom imports: %s', (input) => {
     expect(parse_plugin_config(input)).toMatchSnapshot()
 })

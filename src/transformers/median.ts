@@ -11,4 +11,4 @@ export default {
 
         return img.median(clamp(config['median'], 1, 1000))
     }
-} as Transformer<'median'>
+} satisfies Transformer<'median'>

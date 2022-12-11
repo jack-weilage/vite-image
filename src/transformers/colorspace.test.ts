@@ -5,7 +5,7 @@ import { base_hash, base_image } from '../../tests/utils'
 import transformer from './colorspace'
 import type { INPUT_COLORSPACES } from '../constants'
 
-it.each([ 'b-w', 'hsv', 'cmyk', 'rgb16' ] as typeof INPUT_COLORSPACES)('applies the transform colorspace=%s', async (input) => {
+it.each([ 'b-w', 'hsv', 'cmyk', 'rgb16' ] satisfies typeof INPUT_COLORSPACES)('applies the transform colorspace=%s', async (input) => {
     const { image } = await queue_transformers(base_image.clone(), { colorspace: input }, [ transformer ])
 
     expect(create_hash(await image.toBuffer())).toMatchSnapshot()

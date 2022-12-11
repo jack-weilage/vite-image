@@ -11,4 +11,4 @@ export default {
 
         return img.sharpen({ sigma: clamp(config['sharpen'], 0.01, 10000) })
     }
-} as Transformer<'sharpen'>
+} satisfies Transformer<'sharpen'>

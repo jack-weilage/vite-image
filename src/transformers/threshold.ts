@@ -11,4 +11,4 @@ export default {
 
         return img.threshold(clamp(config['threshold'], 0, 255))
     }
-} as Transformer<'threshold'>
+} satisfies Transformer<'threshold'>

@@ -5,8 +5,8 @@ import { queue_transformers, create_hash } from '../utils'
 import { base_hash, base_image } from '../../tests/utils'
 import transformer from './format'
 
-it.each([ 'jpeg', 'webp', 'png' ])('applies the transform format=%s', async (input) => {
-    const { image } = await queue_transformers(base_image.clone(), { format: input as keyof FormatEnum }, [ transformer ])
+it.each([ 'jpeg', 'webp', 'png' ] satisfies (keyof FormatEnum)[])('applies the transform format=%s', async (input) => {
+    const { image } = await queue_transformers(base_image.clone(), { format: input }, [ transformer ])
 
     expect(create_hash(await image.toBuffer())).toMatchSnapshot()
 })
