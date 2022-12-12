@@ -19,10 +19,16 @@
     "rules": {
         "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/dot-notation": "off",
-
+        
+        "@typescript-eslint/ban-ts-comment": "error",
         "@typescript-eslint/consistent-type-exports": "warn",
         "@typescript-eslint/consistent-type-imports": "warn",
-        "@typescript-eslint/explicit-function-return-type": "warn",
+        "@typescript-eslint/explicit-function-return-type": [
+            "warn",
+            {
+                "allowedNames": [ "transform", "matcher" ]
+            }
+        ],
         "@typescript-eslint/naming-convention": [
             "warn",
             {
