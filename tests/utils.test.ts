@@ -14,7 +14,7 @@ it.each([
 ])('dedupe(%o)', (input) => {
     expect(dedupe(input)).toMatchSnapshot()
 })
-it.each([ './test', './foo.png', '/foo.bar.baz' ])('`filename(\'%s\')`', (input) => {
+it.each([ './test', './foo.png', '/foo.bar.baz' ])('filename(%s)', (input) => {
     expect(filename(input)).toMatchSnapshot()
 })
 
@@ -22,7 +22,7 @@ it.each([
     [ 'foo', 'bar', 'fake' ],
     [ 'foo', 'baz' ],
     []
-])('`create_partial(\'%s\')`', (...input) => {
+])('create_partial(%j)', (...input) => {
     expect(create_partial({ foo: '1', bar: '2', baz: '3' }, input)).toMatchSnapshot()
 })
 
@@ -40,6 +40,6 @@ it.each([
     {
         foo: '18,true,,hello'
     }
-] as Record<string, string>[])('`create_configs(new URLSearchParams(%s), \',\')`', (input) => {
+] as Record<string, string>[])('create_configs(new URLSearchParams(%j), \',\')`', (input) => {
     expect(create_configs(new URLSearchParams(input), ',')).toMatchSnapshot()
 })
