@@ -5,7 +5,7 @@ export default defineConfig({
         testTimeout: process.env.CI ? 45000 : 15000,
         include: [ '**/*.test.ts', '**/*.test-d.ts' ],
         coverage: {
-            enabled: true,
+            enabled: false,
             reporter: [ 'text' ],
             include: [ 'src/**/*' ],
             exclude: [ 'src/transformers/index.ts' ],

@@ -19,6 +19,7 @@
     "scripts": {
         "test": "vitest --run --no-threads",
         "test:gen": "vitest --run --no-threads --update",
+        "test:cov": "vitest --run --no-threads --coverage",
         "prepare": "husky install",
         "build": "tsup --dts --clean",
         "build:code": "tsup",
