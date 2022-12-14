@@ -1,7 +1,20 @@
 import { expect, it } from 'vitest'
-import { create_configs, create_partial, filename } from '../src/utils'
+import { create_configs, create_partial, dedupe, filename } from '../src/utils'
 
-it.each([ './test', './foo.png', '/foo.bar.baz' ])('', (input) => {
+it.each([
+    [ 'foo', 'bar', 'foo' ],
+    [ true, 'true', false, true ],
+    // Will already dedupe, whatever.
+    new Set([ '1', '3', '1', '5' ]),
+    new URLSearchParams([
+        [ 'foo', 'true' ],
+        [ 'foo', 'bar' ],
+        [ 'bar', 'baz' ]
+    ]).keys()
+])('dedupe(%o)', (input) => {
+    expect(dedupe(input)).toMatchSnapshot()
+})
+it.each([ './test', './foo.png', '/foo.bar.baz' ])('`filename(\'%s\')`', (input) => {
     expect(filename(input)).toMatchSnapshot()
 })
 
