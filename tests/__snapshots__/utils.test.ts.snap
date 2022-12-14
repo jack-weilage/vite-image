@@ -1,12 +1,6 @@
 // Vitest Snapshot v1
 
-exports[` 1`] = `"test"`;
-
-exports[` 2`] = `"foo"`;
-
-exports[` 3`] = `"foo.bar"`;
-
-exports[`\`create_configs(new URLSearchParams({ foo: '', '!foo': '', '!bar': '' }), ',')\` 1`] = `
+exports[`create_configs(new URLSearchParams({"foo":"","!foo":"","!bar":""}), ',')\` 1`] = `
 [
   {
     "bar": false,
@@ -19,7 +13,7 @@ exports[`\`create_configs(new URLSearchParams({ foo: '', '!foo': '', '!bar': '' 
 ]
 `;
 
-exports[`\`create_configs(new URLSearchParams({ foo: '18,true,,hello' }), ',')\` 1`] = `
+exports[`create_configs(new URLSearchParams({"foo":"18,true,,hello"}), ',')\` 1`] = `
 [
   {
     "foo": 18,
@@ -33,7 +27,7 @@ exports[`\`create_configs(new URLSearchParams({ foo: '18,true,,hello' }), ',')\`
 ]
 `;
 
-exports[`\`create_configs(new URLSearchParams({ foo: 'bar,baz', bar: '1.256,undefined,NaN', qux: 'true,false,foo' }), ',')\` 1`] = `
+exports[`create_configs(new URLSearchParams({"foo":"bar,baz","bar":"1.256,undefined,NaN","qux":"true,false,foo"}), ',')\` 1`] = `
 [
   {
     "bar": 1.256,
@@ -128,18 +122,54 @@ exports[`\`create_configs(new URLSearchParams({ foo: 'bar,baz', bar: '1.256,unde
 ]
 `;
 
-exports[`\`create_partial('%s')\` 1`] = `{}`;
-
-exports[`\`create_partial('foo')\` 1`] = `
+exports[`create_partial("foo") 1`] = `
 {
   "bar": "2",
   "foo": "1",
 }
 `;
 
-exports[`\`create_partial('foo')\` 2`] = `
+exports[`create_partial("foo") 2`] = `
 {
   "baz": "3",
   "foo": "1",
 }
 `;
+
+exports[`create_partial(%j) 1`] = `{}`;
+
+exports[`dedupe('foo') 1`] = `
+[
+  "foo",
+  "bar",
+]
+`;
+
+exports[`dedupe(Set(3) { '1', '3', '5' }) 1`] = `
+[
+  "1",
+  "3",
+  "5",
+]
+`;
+
+exports[`dedupe(URLSearchParams Iterator { 'foo', 'foo', 'bar' }) 1`] = `
+[
+  "foo",
+  "bar",
+]
+`;
+
+exports[`dedupe(true) 1`] = `
+[
+  true,
+  "true",
+  false,
+]
+`;
+
+exports[`filename(./foo.png) 1`] = `"foo"`;
+
+exports[`filename(./test) 1`] = `"test"`;
+
+exports[`filename(/foo.bar.baz) 1`] = `"foo.bar"`;
