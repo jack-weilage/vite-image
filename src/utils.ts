@@ -21,9 +21,8 @@ export const create_hash = (str: BinaryLike): string => createHash('sha1')
 /** Extract the name of a file, without its extension. */
 export const filename = (path: string): string => basename(path, extname(path))
 
-/* c8 ignore next 2 */
-/** De-duplicate an array. */
-export const dedupe = <T>(arr: T[]): T[] => [ ...new Set(arr) ]
+/** Take an iterable object (like an array), and return a deduped array. */
+export const dedupe = <T>(arr: Iterable<T> ): T[] => [ ...new Set(arr) ]
 
 /** Create a `Partial` of any object. */
 export function create_partial<T extends object>(obj: T, keys: string[]): Partial<T>
@@ -73,7 +72,7 @@ export function format_value(val: string): ImageConfigValue
 export function create_configs(params: URLSearchParams, deliminator: string): Partial<ImageConfig>[]
 {
     const aggregated: Record<string, ImageConfigValue[]> = {}
-    for (const key of dedupe([ ...params.keys() ]))
+    for (const key of dedupe(params.keys()))
     {
         const is_inverted = key.startsWith('!')
 
