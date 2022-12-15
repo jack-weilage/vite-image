@@ -18,6 +18,7 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
 {
     const plugin_config = parse_plugin_config(user_plugin_config)
 
+    //TODO: This cache stores both output data and the full Sharp instance. Will this cause memory problems?
     const cache = new Map<string, { image: Sharp; data: InternalImage }>()
     const filter = createFilter(plugin_config.include, plugin_config.exclude)
 
@@ -29,12 +30,12 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
         // Called when the vite config is finalized.
         configResolved(config): void { vite_config = config },
         // Called when a resource is being processed.
-        async load(id: string): Promise<string | null>
+        async load(url: string): Promise<string | null>
         {
-            if (!filter(id))
+            if (!filter(url))
                 return null
 
-            const { searchParams, pathname } = new URL(id, 'file:')
+            const { searchParams, pathname } = new URL(url, 'file:')
 
             // Deal with export tags here so it can be removed from url.
             const user_exports = searchParams.get('export')
@@ -57,17 +58,17 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
             const images: InternalImage[] = []
             for (const config of create_configs(searchParams, plugin_config.deliminator))
             {
-                // Create a unique hash based on the filename and config (prevents accidentally ingesting the same image twice).
-                const hash = create_hash(pathname + JSON.stringify(config))
-
-                // If we've already processed this exact image/config...
-                if (cache.has(hash))
+                // Create an ID for this image. Hashing this ID is unnecessary to check cache.
+                const id = pathname + JSON.stringify(config)
+                // If we've already processed this exact image + config...
+                if (cache.has(id))
                 {
-                    // Just grab what we already have from the digest.
-                    images.push(cache.get(hash)!.data)
+                    // Just grab what we already have from the cache.
+                    images.push(cache.get(id)!.data)
                     continue
                 }
 
+                // We haven't processed this image + config before, so queue transformers.
                 const { image, queued_transformers } = await queue_transformers(base_image.clone(), config, transformers)
 
                 // If the image didn't match a transformer, it shouldn't be processed
@@ -79,7 +80,7 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
                 const { info, data: source } = await image.toBuffer({ resolveWithObject: true })
 
                 // If we're in dev mode, we should supply an actual url here.
-                let src = DEV_PREFIX + hash
+                let src = DEV_PREFIX + create_hash(id)
                 // If we're not in dev mode...
                 if (!this.meta.watchMode)
                 {
@@ -98,7 +99,7 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
                 })
 
                 // We haven't run across this image before, so cache the current image.
-                cache.set(hash, { image, data })
+                cache.set(id, { image, data })
                 images.push(data)
             }
             // If every config was skipped, we shouldn't change the output.
