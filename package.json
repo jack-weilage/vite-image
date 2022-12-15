@@ -66,7 +66,6 @@
         "vitest": "^0.25.8"
     },
     "dependencies": {
-        "@rollup/pluginutils": "^5.0.2",
         "magic-string": "^0.27.0",
         "sharp": "^0.31.2",
         "validate": "^5.2.0"

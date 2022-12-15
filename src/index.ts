@@ -7,7 +7,7 @@ import { BUILD_PREFIX, BUILD_REGEX, DEV_PREFIX, DEV_REGEX } from './constants'
 import default_transformers from './transformers'
 import { queue_transformers, create_partial, create_configs, create_hash, dedupe, filename, parse_plugin_config } from './utils'
 
-import { createFilter, dataToEsm } from '@rollup/pluginutils'
+import { createFilter } from 'vite'
 import MagicString from 'magic-string'
 import sharp from 'sharp'
 
@@ -110,7 +110,7 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
             const post_processed = plugin_config.post_process(images.map(img => create_partial(img, exports)))
 
             // Transform the final data to an importable JavaScript file.
-            return dataToEsm(post_processed)
+            return `export default ${JSON.stringify(post_processed)}`
         },
         //TODO: Add testing for dev mode (not 100% sure this works).
         // Called in dev/preview mode.
