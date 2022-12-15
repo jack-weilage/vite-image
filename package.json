@@ -24,7 +24,7 @@
         "build": "tsup --dts --clean",
         "build:code": "tsup",
         "build:types": "tsup --dts-only",
-        "lint": "eslint . --format friendly --report-unused-disable-directives --cache",
+        "lint": "eslint . --report-unused-disable-directives --cache",
         "release": "npm run build && changeset publish"
     },
     "keywords": [
@@ -53,9 +53,7 @@
         "@typescript-eslint/parser": "^5.46.1",
         "@vitest/coverage-c8": "^0.25.8",
         "concurrently": "^7.6.0",
-        "esbuild": "^0.16.7",
         "eslint": "^8.29.0",
-        "eslint-formatter-friendly": "^7.0.0",
         "happy-dom": "^8.1.0",
         "husky": "^8.0.2",
         "lint-staged": "^13.1.0",
