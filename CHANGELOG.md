@@ -1,5 +1,14 @@
 # vite-image
 
+## 0.7.3
+
+### Patch Changes
+
+- 922c0a9: Transition from `rollup` to `tsup` for builds. There shouldn't be any difference in build output, but development will be quicker.
+- 42ce070: `vite` is now correctly displayed in `peerDependencies`.
+- 28fe7c6: Update to `vite@4`.
+- ff47d83: Remove `@rollup/pluginutils` as a dependency.
+
 ## 0.7.2
 
 ### Patch Changes
