@@ -1,6 +1,4 @@
-//TODO: Find a way to remove `rollup` dependency - only here for types in this file.
 import type { UserConfig } from 'vite'
-import type { RollupOutput, OutputChunk } from 'rollup'
 import type { OutputImage, PluginConfig } from '../types'
 
 import { join, dirname, extname } from 'path'
@@ -45,9 +43,9 @@ export async function test(url: string, image_config: Partial<PluginConfig> = {}
             image_plugin(image_config)
         ],
         ...vite_config
-    }) as RollupOutput
+    }) as { output: { fileName: string, code: string }[] }
 
-    const script = output.find(({ fileName }) => extname(fileName) === '.js') as OutputChunk
+    const script = output.find(({ fileName }) => extname(fileName) === '.js')!
     eval(script.code)
 
     //@ts-expect-error: `string` cannot index window, but it doesn't matter here.
