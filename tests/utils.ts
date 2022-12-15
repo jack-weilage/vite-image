@@ -1,5 +1,4 @@
 //TODO: Find a way to remove `rollup` dependency - only here for types in this file.
-import type { Window } from 'happy-dom'
 import type { UserConfig } from 'vite'
 import type { RollupOutput, OutputChunk } from 'rollup'
 import type { OutputImage, PluginConfig } from '../types'
@@ -13,7 +12,7 @@ import { create_hash } from '../src/utils'
 import image_plugin from '../'
 
 /** Builds and returns the result of importing a resource. */
-export async function test(window: Window, url: string, image_config: Partial<PluginConfig> = {}, vite_config: Partial<UserConfig> = {}): Promise<OutputImage[]>
+export async function test(url: string, image_config: Partial<PluginConfig> = {}, vite_config: Partial<UserConfig> = {}): Promise<OutputImage[]>
 {
     const id = `id_${create_hash(Math.random().toString())}`
 
@@ -40,7 +39,7 @@ export async function test(window: Window, url: string, image_config: Partial<Pl
                 load(file_id): string | undefined
                 {
                     if (file_id === join(__dirname, 'fixtures', 'index.js'))
-                        return `import ${id} from '${url}'; window['${id}'] = ${id}`
+                        return `import ${id} from '${url}'; globalThis['${id}'] = ${id}`
                 }
             },
             image_plugin(image_config)
@@ -49,10 +48,10 @@ export async function test(window: Window, url: string, image_config: Partial<Pl
     }) as RollupOutput
 
     const script = output.find(({ fileName }) => extname(fileName) === '.js') as OutputChunk
-    window.eval(script.code)
+    eval(script.code)
 
     //@ts-expect-error: `string` cannot index window, but it doesn't matter here.
-    return window[id] as OutputImage[]
+    return globalThis[id] as OutputImage[]
 }
 
 export const base_image = sharp('./tests/fixtures/images/dog.jpg')

@@ -1,8 +1,5 @@
-import { Window } from 'happy-dom'
 import { test } from './utils'
 import { it, expect } from 'vitest'
-
-const window = new Window()
 
 it.each([
     // Just a normal import.
@@ -12,7 +9,7 @@ it.each([
     // Even fancier. An import with searchparams and hash
     '?foo=bar#baz-qux'
 ])('does not affect default imports: %s', async (input) => {
-    expect(await test(window, `./images/dog.jpg${input}`)).toMatchSnapshot()
+    expect(await test(`./images/dog.jpg${input}`)).toMatchSnapshot()
 })
 
 it.each([
@@ -37,7 +34,7 @@ it.each([
     // An import containing multiple copies of the same input.
     'width=500,600&height=800&width=400'
 ])('affects custom imports: %s', async (input) => {
-    const data = await test(window, `./images/dog.jpg?${input}`)
+    const data = await test(`./images/dog.jpg?${input}`)
 
     expect(data.map(obj => obj.src)).toMatchSnapshot()
 })
