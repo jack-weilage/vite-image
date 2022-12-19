@@ -65,7 +65,6 @@
         "@typescript-eslint/no-unnecessary-qualifier": "warn",
         "@typescript-eslint/no-useless-empty-export": "error",
         "@typescript-eslint/prefer-regexp-exec": "error",
-        "@typescript-eslint/promise-function-async": "error",
         "@typescript-eslint/require-array-sort-compare": "warn",
 
         "array-bracket-newline": [ "warn", "consistent" ],
