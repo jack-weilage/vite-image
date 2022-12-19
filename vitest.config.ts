@@ -11,7 +11,10 @@ export default defineConfig({
             exclude: [ 'src/transformers/index.ts' ],
             // all: true,
             perFile: true,
-            100: true
+            lines: 95,
+            functions: 100,
+            branches: 95,
+            statements: 95
         }
     }
 })
