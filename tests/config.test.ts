@@ -14,7 +14,7 @@ it('doesn\'t apply an invalid config', ({ expect }) => {
         .toThrowError(AggregateError)
 })
 //TODO: Expand checks for valid config.
-it.only('applies a valid config', ({ expect }) => {
+it('applies a valid config', ({ expect }) => {
     // Empty config.
     expect(parse_plugin_config({}))
         .toBeTypeOf('object')
