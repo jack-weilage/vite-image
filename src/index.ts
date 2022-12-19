@@ -18,8 +18,10 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
 {
     const plugin_config = parse_plugin_config(user_plugin_config)
 
+    const base_cache = new Map<string, Sharp>()
     //TODO: This cache stores both output data and the full Sharp instance. Will this cause memory problems?
-    const cache = new Map<string, { image: Sharp; data: InternalImage }>()
+    const processed_cache = new Map<string, { image: Sharp; data: InternalImage }>()
+
     const filter = createFilter(plugin_config.include, plugin_config.exclude)
 
     let vite_config: ResolvedConfig
@@ -48,10 +50,16 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
             searchParams.delete('export')
 
             // Rotate the image, then create a "new" image with that data, containing the original metadata.
-            const base_image = sharp(await sharp(pathname)
-                .rotate()
-                .withMetadata()
-                .toBuffer())
+            if (!base_cache.has(pathname))
+            {
+                const image = await sharp(pathname)
+                    .rotate()
+                    .withMetadata()
+                    .toBuffer()
+
+                base_cache.set(pathname, sharp(image))
+            }
+            const base_image = base_cache.get(pathname)!
 
             const transformers = [ ...plugin_config.transformers, ...default_transformers ]
 
@@ -61,10 +69,10 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
                 // Create an ID for this image. Hashing this ID is unnecessary to check cache.
                 const id = pathname + JSON.stringify(config)
                 // If we've already processed this exact image + config...
-                if (cache.has(id))
+                if (processed_cache.has(id))
                 {
                     // Just grab what we already have from the cache.
-                    images.push(cache.get(id)!.data)
+                    images.push(processed_cache.get(id)!.data)
                     continue
                 }
 
@@ -99,7 +107,7 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
                 })
 
                 // We haven't run across this image before, so cache the current image.
-                cache.set(id, { image, data })
+                processed_cache.set(id, { image, data })
                 images.push(data)
             }
             // If every config was skipped, we shouldn't change the output.
@@ -129,10 +137,10 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
                 const hash = exec[1]
 
                 // If the image isn't in the cache, we can't do anything with it.
-                if (!cache.has(hash))
+                if (!processed_cache.has(hash))
                     return next()
 
-                const { image } = cache.get(hash)!
+                const { image } = processed_cache.get(hash)!
 
                 // Pipe the image to response.
                 return image.clone()
