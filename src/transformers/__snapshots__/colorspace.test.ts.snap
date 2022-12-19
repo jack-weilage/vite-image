@@ -1,9 +1,0 @@
-// Vitest Snapshot v1
-
-exports[`applies the transform colorspace=b-w 1`] = `"e237b47bfefaa14a99ad83857354ab95c4e80461"`;
-
-exports[`applies the transform colorspace=cmyk 1`] = `"e8c8d84b019a44429a3f437ee4fa065b46b6090d"`;
-
-exports[`applies the transform colorspace=hsv 1`] = `"5045f81cf2091c95f76329a05dcbaf71b13af507"`;
-
-exports[`applies the transform colorspace=rgb16 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;

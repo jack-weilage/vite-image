@@ -1,5 +1,0 @@
-// Vitest Snapshot v1
-
-exports[`applies the transform normalize=false 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
-
-exports[`applies the transform normalize=true 1`] = `"e5254a31b4015abdb0971a859381d750e934b18a"`;

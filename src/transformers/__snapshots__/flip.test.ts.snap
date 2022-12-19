@@ -1,5 +1,0 @@
-// Vitest Snapshot v1
-
-exports[`applies the transform flip=false 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
-
-exports[`applies the transform flip=true 1`] = `"a6538e28dd93673aa06cb6198a733ecd37ac16c2"`;

@@ -1,30 +1,33 @@
-import { expect, it } from 'vitest'
-import { queue_transformers, create_hash } from '../utils'
+import { it } from 'vitest'
 
-import { base_hash, base_image } from '../../tests/utils'
-import transformer from './modulate'
+import { base_hash, test_transformer } from '../../tests/utils'
+import modulate from './modulate'
 
-it.each([
-    { brightness: 0 }, { brightness: 50 },
-    { saturation: 0 }, { saturation: 50 },
-    { hue: 0 },        { hue: 50 },
-    { lightness: 0 },  { lightness: 50 }
-])('applies the transform modulate=%s', async (input) => {
-    const { image } = await queue_transformers(base_image.clone(), input, [ transformer ])
-
-    expect(create_hash(await image.toBuffer())).toMatchSnapshot()
-})
-
-it.each([
-    { brightness: true },
-    { brightness: true, saturation: 100 },
-    { lightness: 'foo' },
-    { hue: 0, lightness: 'foo' }
-])('doesn\'t apply the transform modulate=%s', async (input) => {
-    const { image } = await queue_transformers(base_image.clone(),
-        //@ts-expect-error: Config shouldn't have these values.
-        input,
-        [ transformer ])
-
-    expect(create_hash(await image.toBuffer())).toBe(base_hash)
-})
+it('applies modulate when it should', ({ expect }) => Promise.all([
+    // brightness=50
+    expect(test_transformer({ brightness: 50 }, modulate))
+        .resolves.toMatchInlineSnapshot('"cca391a9d1f8f1e30095c9efc4d06cb2be7ad22f"'),
+    // saturation=50
+    expect(test_transformer({ saturation: 50 }, modulate))
+        .resolves.toMatchInlineSnapshot('"274b6fa0b55114f973ce7fe5ceea202efdb58f68"'),
+    // hue=50
+    expect(test_transformer({ lightness: 50 }, modulate))
+        .resolves.toMatchInlineSnapshot('"c9ca9af78fd7b0ca486997bbe3e58bfbd66cd4c8"'),
+    // lightness=50
+    expect(test_transformer({ lightness: 50 }, modulate))
+        .resolves.toMatchInlineSnapshot('"c9ca9af78fd7b0ca486997bbe3e58bfbd66cd4c8"')
+]))
+it('doesn\'t apply modulate when it shouldn\'t', ({ expect }) => Promise.all([
+    // brightness=true
+    expect(test_transformer({ brightness: false }, modulate))
+        .resolves.toBe(base_hash),
+    // saturation=baz
+    expect(test_transformer({ saturation: 'baz' }, modulate))
+        .resolves.toBe(base_hash),
+    // hue=true
+    expect(test_transformer({ hue: true }, modulate))
+        .resolves.toBe(base_hash),
+    // lightness=foo
+    expect(test_transformer({ lightness: 'foo' }, modulate))
+        .resolves.toBe(base_hash)
+]))

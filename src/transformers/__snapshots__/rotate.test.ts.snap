@@ -1,9 +1,0 @@
-// Vitest Snapshot v1
-
-exports[`applies the transform rotate=-45 1`] = `"dccdf9993b120871ae37fdfab55646ed5d827fc0"`;
-
-exports[`applies the transform rotate=0 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
-
-exports[`applies the transform rotate=90 1`] = `"0dca21e67e24388916e851a4e204e11521340e46"`;
-
-exports[`applies the transform rotate=540 1`] = `"00412de9a40325052779677e056d2568e2593b37"`;

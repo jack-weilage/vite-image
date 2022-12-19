@@ -1,20 +1,24 @@
-import { expect, it } from 'vitest'
-import { queue_transformers, create_hash } from '../utils'
+import { it } from 'vitest'
 
-import { base_hash, base_image } from '../../tests/utils'
-import transformer from './flip'
+import { base_hash, test_transformer } from '../../tests/utils'
+import flip from './flip'
 
-it.each([ true, false ])('applies the transform flip=%s', async (input) => {
-    const { image } = await queue_transformers(base_image.clone(), { flip: input }, [ transformer ])
-
-    expect(create_hash(await image.toBuffer())).toMatchSnapshot()
-})
-
-it.each([ 'foo', 1, 0 ])('doesn\'t apply the transform flip=%s', async (input) => {
-    const { image } = await queue_transformers(base_image.clone(), {
-        //@ts-expect-error: Config shouldn't have these values.
-        flip: input
-    }, [ transformer ])
-
-    expect(create_hash(await image.toBuffer())).toBe(base_hash)
-})
+it('applies flip when it should', ({ expect }) => Promise.all([
+    // flip=true
+    expect(test_transformer({ flip: true }, flip))
+        .resolves.toMatchInlineSnapshot('"a6538e28dd93673aa06cb6198a733ecd37ac16c2"'),
+    // flip=false
+    expect(test_transformer({ flip: false }, flip))
+        .resolves.toBe(base_hash)
+]))
+it('doesn\'t apply flip when it shouldn\'t', ({ expect }) => Promise.all([
+    // flip=foo
+    expect(test_transformer({ flip: 'foo' }, flip))
+        .resolves.toBe(base_hash),
+    // flip=1
+    expect(test_transformer({ flip: 1 }, flip))
+        .resolves.toBe(base_hash),
+    // flip=0
+    expect(test_transformer({ flip: 0 }, flip))
+        .resolves.toBe(base_hash)
+]))

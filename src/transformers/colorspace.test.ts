@@ -1,21 +1,33 @@
-import { expect, it } from 'vitest'
-import { queue_transformers, create_hash } from '../utils'
+import { it } from 'vitest'
 
-import { base_hash, base_image } from '../../tests/utils'
-import transformer from './colorspace'
-import type { INPUT_COLORSPACES } from '../constants'
+import { base_hash, test_transformer } from '../../tests/utils'
+import colorspace from './colorspace'
 
-it.each([ 'b-w', 'hsv', 'cmyk', 'rgb16' ] satisfies typeof INPUT_COLORSPACES)('applies the transform colorspace=%s', async (input) => {
-    const { image } = await queue_transformers(base_image.clone(), { colorspace: input }, [ transformer ])
-
-    expect(create_hash(await image.toBuffer())).toMatchSnapshot()
-})
-
-it.each([ true, false, 'error', 1, 100 ])('doesn\'t apply the transform colorspace=%s', async (input) => {
-    const { image } = await queue_transformers(base_image.clone(), {
-        //@ts-expect-error: Config shouldn't have these values.
-        colorspace: input
-    }, [ transformer ])
-
-    expect(create_hash(await image.toBuffer())).toBe(base_hash)
-})
+it('applies colorspace when it should', ({ expect }) => Promise.all([
+    // colorspace=b-w
+    expect(test_transformer({ colorspace: 'b-w' }, colorspace))
+        .resolves.toMatchInlineSnapshot('"e237b47bfefaa14a99ad83857354ab95c4e80461"'),
+    // colorspace=hsv
+    expect(test_transformer({ colorspace: 'hsv' }, colorspace))
+        .resolves.toMatchInlineSnapshot('"5045f81cf2091c95f76329a05dcbaf71b13af507"'),
+    // colorspace=cmyk
+    expect(test_transformer({ colorspace: 'cmyk' }, colorspace))
+        .resolves.toMatchInlineSnapshot('"e8c8d84b019a44429a3f437ee4fa065b46b6090d"'),
+    // colorspace=rgb16
+    expect(test_transformer({ colorspace: 'rgb16' }, colorspace))
+        .resolves.toBe(base_hash)
+]))
+it('doesn\'t apply colorspace when it shouldn\'t', ({ expect }) => Promise.all([
+    // colorspace=true
+    expect(test_transformer({ colorspace: true }, colorspace))
+        .resolves.toBe(base_hash),
+    // colorspace=false
+    expect(test_transformer({ colorspace: false }, colorspace))
+        .resolves.toBe(base_hash),
+    // colorspace=error
+    expect(test_transformer({ colorspace: 'error' }, colorspace))
+        .resolves.toBe(base_hash),
+    // colorspace=5
+    expect(test_transformer({ colorspace: 5 }, colorspace))
+        .resolves.toBe(base_hash)
+]))

@@ -1,40 +1,46 @@
 import { test } from './utils'
-import { it, expect } from 'vitest'
+import { it } from 'vitest'
 
-it.each([
-    // Just a normal import.
-    '',
-    // A little fancy. An import with searchparams
-    '?foo=bar',
-    // Even fancier. An import with searchparams and hash
-    '?foo=bar#baz-qux'
-])('does not affect default imports: %s', async (input) => {
-    expect(await test(`./images/dog.jpg${input}`)).toMatchSnapshot()
-})
-
-it.each([
-    // An import with one value.
-    'width=600',
-    // An import with multiple values.
-    'width=600,800,1000',
-    // An import with multiple inputs.
-    'width=600&height=400',
-    // An import with multiple inputs and multiple values.
-    'width=600,800&height=400,500',
-    // An import with a boolean value.
-    'blur=true',
-    // An import with a shorthand boolean value.
-    'blur',
-    // An import with a negated shorthand boolean value.
-    '!flip',
-    // An import with both a shorthand boolean value and a negated shorthand boolean value.
-    'blur&!flip',
-    // An import combining both normal and shorthand values.
-    'width=600&blur&height=400',
-    // An import containing multiple copies of the same input.
-    'width=500,600&height=800&width=400'
-])('affects custom imports: %s', async (input) => {
-    const data = await test(`./images/dog.jpg?${input}`)
-
-    expect(data.map(obj => obj.src)).toMatchSnapshot()
-})
+it('doesn\'t affect normal imports', ({ expect }) => Promise.all([
+    // dog.jpg
+    expect(test(''))
+        .resolves.toBeTypeOf('string'),
+    // dog.jpg?foo=bar
+    expect(test('?foo=bar'))
+        .resolves.toBeTypeOf('string'),
+    // dog.jpg?foo=bar#baz-qux
+    expect(test('?foo=bar#baz-qux'))
+        .resolves.toBeTypeOf('string')
+]))
+it('affects custom imports', ({ expect }) => Promise.all([
+    // One value.
+    expect(test('?width=600'))
+        .resolves.toHaveLength(1),
+    // Multiple values.
+    expect(test('?width=600,800,100'))
+        .resolves.toHaveLength(3),
+    // Multiple inputs.
+    expect(test('?width=600&height=400'))
+        .resolves.toHaveLength(1),
+    // Multiple inputs with multiple values.
+    expect(test('?width=600,800&height=400,500'))
+        .resolves.toHaveLength(4),
+    // Boolean value.
+    expect(test('?blur=true'))
+        .resolves.toHaveLength(1),
+    // Shorthand boolean value.
+    expect(test('?blur'))
+        .resolves.toHaveLength(1),
+    // Negated shorthand boolean value.
+    expect(test('?!flip'))
+        .resolves.toHaveLength(1),
+    // Negated and non-negated shorthand boolean values.
+    expect(test('?blur&!flip'))
+        .resolves.toHaveLength(1),
+    // Normal and shorthand values
+    expect(test('?blur&flip=true,false'))
+        .resolves.toHaveLength(2),
+    // Duplicated inputs.
+    expect(test('?width=500,600&height=800&width=400'))
+        .resolves.toHaveLength(3)
+]))

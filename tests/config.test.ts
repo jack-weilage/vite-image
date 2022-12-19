@@ -1,40 +1,31 @@
-import type { PluginConfig } from '../types'
-import type { Sharp } from 'sharp'
+import { it } from 'vitest'
 
 import { parse_plugin_config } from '../src/utils'
-import { it, expect } from 'vitest'
 
-it.each([
-    { test: true },
-    { include: 10 },
-    { transformers: [ 'foo', 'bar' ] }
-])('does not apply invalid config: %s', (input) => {
-    // This seems to be the best way to match an AggregateError.
-    try
-    {
-        //@ts-expect-error: The config _should_ be invalid here.
-        parse_plugin_config(input)
-    }
-    catch (error)
-    {
-        if (!(error instanceof AggregateError))
-            throw error
-
-        expect(error.errors).toMatchSnapshot()
-    }
+it('doesn\'t apply an invalid config', ({ expect }) => {
+    //@ts-expect-error: The config shouldn't have this key.
+    expect(() => parse_plugin_config({ test: true }))
+        .toThrowError(AggregateError)
+    //@ts-expect-error: The config shouldn't have this value.
+    expect(() => parse_plugin_config({ include: 10 }))
+        .toThrowError(AggregateError)
+    //@ts-expect-error: The config shouldn't have this value in an array.
+    expect(() => parse_plugin_config({ transformers: [ 'foo', 'bar' ] }))
+        .toThrowError(AggregateError)
 })
-
-it.each([
-    {  },
-    { include: '**/*' },
-    { include: '**/*', exclude: '**/*.jpeg' },
-    {
+//TODO: Expand checks for valid config.
+it.only('applies a valid config', ({ expect }) => {
+    // Empty config.
+    expect(parse_plugin_config({}))
+        .toBeTypeOf('object')
+    // Config with custom values.
+    expect(parse_plugin_config({
+        include: '**/*', exclude: '**/*.jpeg',
         transformers: [{
             name: 'noop',
-            matcher: (): true => true,
-            transform: (img): Sharp => img
+            matcher: () => true,
+            transform: (img) => img
         }]
-    }
-] satisfies Partial<PluginConfig>[])('affects custom imports: %s', (input) => {
-    expect(parse_plugin_config(input)).toMatchSnapshot()
+    }))
+        .toBeTypeOf('object')
 })

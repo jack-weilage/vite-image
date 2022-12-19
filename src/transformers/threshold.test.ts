@@ -1,20 +1,27 @@
-import { expect, it } from 'vitest'
-import { queue_transformers, create_hash } from '../utils'
+import { it } from 'vitest'
 
-import { base_hash, base_image } from '../../tests/utils'
-import transformer from './threshold'
+import { base_hash, test_transformer } from '../../tests/utils'
+import threshold from './threshold'
 
-it.each([ true, 1, 10, 0 ] satisfies (number | true)[])('applies the transform threshold=%s', async (input) => {
-    const { image } = await queue_transformers(base_image.clone(), { threshold: input }, [ transformer ])
-
-    expect(create_hash(await image.toBuffer())).toMatchSnapshot()
-})
-
-it.each([ false, 'foo' ])('doesn\'t apply the transform threshold=%s', async (input) => {
-    const { image } = await queue_transformers(base_image.clone(), {
-        //@ts-expect-error: Config shouldn't have these values.
-        threshold: input
-    }, [ transformer ])
-
-    expect(create_hash(await image.toBuffer())).toBe(base_hash)
-})
+it('applies threshold when it should', ({ expect }) => Promise.all([
+    // threshold=true
+    expect(test_transformer({ threshold: true }, threshold))
+        .resolves.toMatchInlineSnapshot('"83ffe6552fb3fe6b12afc1c9ff0323cabdef3a97"'),
+    // threshold=1
+    expect(test_transformer({ threshold: 1 }, threshold))
+        .resolves.toMatchInlineSnapshot('"2c279fde3f316665338dcf0f855f6adf6a6fe5f6"'),
+    // threshold=10
+    expect(test_transformer({ threshold: 10 }, threshold))
+        .resolves.toMatchInlineSnapshot('"ac347695c3cf9d2de50550db9d6dc8e9c26eafb8"'),
+    // threshold=0
+    expect(test_transformer({ threshold: 0 }, threshold))
+        .resolves.toBe(base_hash)
+]))
+it('doesn\'t apply threshold when it shouldn\'t', ({ expect }) => Promise.all([
+    // threshold=false
+    expect(test_transformer({ threshold: false }, threshold))
+        .resolves.toBe(base_hash),
+    // threshold=foo
+    expect(test_transformer({ threshold: 'foo' }, threshold))
+        .resolves.toBe(base_hash)
+]))

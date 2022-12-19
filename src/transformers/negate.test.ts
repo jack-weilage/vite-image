@@ -1,20 +1,24 @@
-import { expect, it } from 'vitest'
-import { queue_transformers, create_hash } from '../utils'
+import { it } from 'vitest'
 
-import { base_hash, base_image } from '../../tests/utils'
-import transformer from './negate'
+import { base_hash, test_transformer } from '../../tests/utils'
+import negate from './negate'
 
-it.each([ true, false ])('applies the transform negate=%s', async (input) => {
-    const { image } = await queue_transformers(base_image.clone(), { negate: input }, [ transformer ])
-
-    expect(create_hash(await image.toBuffer())).toMatchSnapshot()
-})
-
-it.each([ 'foo', 0, 1 ])('doesn\'t apply the transform negate=%s', async (input) => {
-    const { image } = await queue_transformers(base_image.clone(), {
-        //@ts-expect-error: Config shouldn't have these values.
-        negate: input
-    }, [ transformer ])
-
-    expect(create_hash(await image.toBuffer())).toBe(base_hash)
-})
+it('applies negate when it should', ({ expect }) => Promise.all([
+    // negate=true
+    expect(test_transformer({ negate: true }, negate))
+        .resolves.toMatchInlineSnapshot('"f4040a8bcc6c3cbcebca62633c05aaa8fc0959d7"')
+]))
+it('doesn\'t apply negate when it shouldn\'t', ({ expect }) => Promise.all([
+    // negate=false
+    expect(test_transformer({ negate: false }, negate))
+        .resolves.toBe(base_hash),
+    // negate=foo
+    expect(test_transformer({ negate: 'foo' }, negate))
+        .resolves.toBe(base_hash),
+    // negate=1
+    expect(test_transformer({ negate: 1 }, negate))
+        .resolves.toBe(base_hash),
+    // negate=0
+    expect(test_transformer({ negate: 0 }, negate))
+        .resolves.toBe(base_hash)
+]))

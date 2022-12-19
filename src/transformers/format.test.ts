@@ -1,21 +1,30 @@
-import { expect, it } from 'vitest'
-import type { FormatEnum } from 'sharp'
-import { queue_transformers, create_hash } from '../utils'
+import { it } from 'vitest'
 
-import { base_hash, base_image } from '../../tests/utils'
-import transformer from './format'
+import { base_hash, test_transformer } from '../../tests/utils'
+import format from './format'
 
-it.each([ 'jpeg', 'webp', 'png' ] satisfies (keyof FormatEnum)[])('applies the transform format=%s', async (input) => {
-    const { image } = await queue_transformers(base_image.clone(), { format: input }, [ transformer ])
-
-    expect(create_hash(await image.toBuffer())).toMatchSnapshot()
-})
-
-it.each([ 'foo', true, false, 1, 0 ])('doesn\'t apply the transform format=%s', async (input) => {
-    const { image } = await queue_transformers(base_image.clone(), {
-        //@ts-expect-error: Config shouldn't have these values.
-        format: input
-    }, [ transformer ])
-
-    expect(create_hash(await image.toBuffer())).toBe(base_hash)
-})
+it('applies format when it should', ({ expect }) => Promise.all([
+    // format=jpeg
+    expect(test_transformer({ format: 'jpeg' }, format))
+        .resolves.toBe(base_hash),
+    // format=webp
+    expect(test_transformer({ format: 'webp' }, format))
+        .resolves.toMatchInlineSnapshot('"e28b8383971f599b2efe8ea3a128e284a1cb5cb4"'),
+    // format=png
+    expect(test_transformer({ format: 'png' }, format))
+        .resolves.toMatchInlineSnapshot('"08f6793b0df7e4fdc3a9e52166015cb4fb62f8d4"')
+]))
+it('doesn\'t apply format when it shouldn\'t', ({ expect }) => Promise.all([
+    // format=true
+    expect(test_transformer({ format: true }, format))
+        .resolves.toBe(base_hash),
+    // format=false
+    expect(test_transformer({ format: false }, format))
+        .resolves.toBe(base_hash),
+    // format=foo
+    expect(test_transformer({ format: 'foo' }, format))
+        .resolves.toBe(base_hash),
+    // format=5
+    expect(test_transformer({ format: 5 }, format))
+        .resolves.toBe(base_hash)
+]))

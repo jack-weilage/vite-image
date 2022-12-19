@@ -1,20 +1,24 @@
-import { expect, it } from 'vitest'
-import { queue_transformers, create_hash } from '../utils'
+import { it } from 'vitest'
 
-import { base_hash, base_image } from '../../tests/utils'
-import transformer from './normalize'
+import { base_hash, test_transformer } from '../../tests/utils'
+import normalize from './normalize'
 
-it.each([ true, false ])('applies the transform normalize=%s', async (input) => {
-    const { image } = await queue_transformers(base_image.clone(), { normalize: input }, [ transformer ])
-
-    expect(create_hash(await image.toBuffer())).toMatchSnapshot()
-})
-
-it.each([ false, 'foo', 0, 1 ])('doesn\'t apply the transform normalize=%s', async (input) => {
-    const { image } = await queue_transformers(base_image.clone(), {
-        //@ts-expect-error: Config shouldn't have these values.
-        normalize: input
-    }, [ transformer ])
-
-    expect(create_hash(await image.toBuffer())).toBe(base_hash)
-})
+it('applies normalize when it should', ({ expect }) => Promise.all([
+    // normalize=true
+    expect(test_transformer({ normalize: true }, normalize))
+        .resolves.toMatchInlineSnapshot('"e5254a31b4015abdb0971a859381d750e934b18a"'),
+    // normalize=false
+    expect(test_transformer({ normalize: false }, normalize))
+        .resolves.toBe(base_hash)
+]))
+it('doesn\'t apply normalize when it shouldn\'t', ({ expect }) => Promise.all([
+    // normalize=foo
+    expect(test_transformer({ normalize: 'foo' }, normalize))
+        .resolves.toBe(base_hash),
+    // normalize=1
+    expect(test_transformer({ normalize: 1 }, normalize))
+        .resolves.toBe(base_hash),
+    // normalize=0
+    expect(test_transformer({ normalize: 0 }, normalize))
+        .resolves.toBe(base_hash)
+]))

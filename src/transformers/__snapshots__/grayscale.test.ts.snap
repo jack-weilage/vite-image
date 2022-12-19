@@ -1,5 +1,0 @@
-// Vitest Snapshot v1
-
-exports[`applies the transform grayscale=false 1`] = `"64db99769cd8b1dfe79a5e5d2ab0359623103ddd"`;
-
-exports[`applies the transform grayscale=true 1`] = `"a24f3285f39176f75ff2fec442e3d77953c6a282"`;

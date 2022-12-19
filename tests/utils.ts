@@ -1,16 +1,17 @@
 import type { UserConfig } from 'vite'
-import type { OutputImage, PluginConfig } from '../types'
+import type { OutputImage, PluginConfig, Transformer } from '../types'
 
 import { join, dirname, extname } from 'path'
 import { build } from 'vite'
 import sharp from 'sharp'
-import { create_hash } from '../src/utils'
+import { create_hash, queue_transformers } from '../src/utils'
+
 
 // The plugin must reference the _built_ copy to ensure that the build worked correctly.
 import image_plugin from '../'
 
 /** Builds and returns the result of importing a resource. */
-export async function test(url: string, image_config: Partial<PluginConfig> = {}, vite_config: Partial<UserConfig> = {}): Promise<OutputImage[]>
+export async function test(path: string, image_config: Partial<PluginConfig> = {}, vite_config: Partial<UserConfig> = {}): Promise<OutputImage[]>
 {
     const id = `id_${create_hash(Math.random().toString())}`
 
@@ -37,7 +38,7 @@ export async function test(url: string, image_config: Partial<PluginConfig> = {}
                 load(file_id): string | undefined
                 {
                     if (file_id === join(__dirname, 'fixtures', 'index.js'))
-                        return `import ${id} from '${url}'; globalThis['${id}'] = ${id}`
+                        return `import ${id} from './images/dog.jpg${path}'; globalThis['${id}'] = ${id}`
                 }
             },
             image_plugin(image_config)
@@ -51,6 +52,9 @@ export async function test(url: string, image_config: Partial<PluginConfig> = {}
     //@ts-expect-error: `string` cannot index window, but it doesn't matter here.
     return globalThis[id] as OutputImage[]
 }
+export const test_transformer = (input: Record<string, unknown>, transformer: Transformer): Promise<string> => queue_transformers(base_image.clone(), input, [ transformer ])
+    .then(({ image }) => image.toBuffer())
+    .then(buf => create_hash(buf))
 
 export const base_image = sharp('./tests/fixtures/images/dog.jpg')
-export const base_hash = create_hash(await base_image.toBuffer())
+export const base_hash = '64db99769cd8b1dfe79a5e5d2ab0359623103ddd'

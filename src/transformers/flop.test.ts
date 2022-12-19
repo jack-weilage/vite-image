@@ -1,20 +1,24 @@
-import { expect, it } from 'vitest'
-import { queue_transformers, create_hash } from '../utils'
+import { it } from 'vitest'
 
-import { base_hash, base_image } from '../../tests/utils'
-import transformer from './flop'
+import { base_hash, test_transformer } from '../../tests/utils'
+import flop from './flop'
 
-it.each([ true, false ])('applies the transform flop=%s', async (input) => {
-    const { image } = await queue_transformers(base_image.clone(), { flop: input }, [ transformer ])
-
-    expect(create_hash(await image.toBuffer())).toMatchSnapshot()
-})
-
-it.each([ 'foo', 1, 0 ])('doesn\'t apply the transform flop=%s', async (input) => {
-    const { image } = await queue_transformers(base_image.clone(), {
-        //@ts-expect-error: Config shouldn't have these values.
-        flop: input
-    }, [ transformer ])
-
-    expect(create_hash(await image.toBuffer())).toBe(base_hash)
-})
+it('applies flop when it should', ({ expect }) => Promise.all([
+    // flop=true
+    expect(test_transformer({ flop: true }, flop))
+        .resolves.toMatchInlineSnapshot('"4e72cf92bca07add4843af4298f3ea9f4056de15"'),
+    // flop=false
+    expect(test_transformer({ flop: false }, flop))
+        .resolves.toBe(base_hash)
+]))
+it('doesn\'t apply flop when it shouldn\'t', ({ expect }) => Promise.all([
+    // flop=foo
+    expect(test_transformer({ flop: 'foo' }, flop))
+        .resolves.toBe(base_hash),
+    // flop=1
+    expect(test_transformer({ flop: 1 }, flop))
+        .resolves.toBe(base_hash),
+    // flop=0
+    expect(test_transformer({ flop: 0 }, flop))
+        .resolves.toBe(base_hash)
+]))
