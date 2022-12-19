@@ -33,4 +33,4 @@ jobs:
       run: pnpm build
 
     - name: Test project
-      run: pnpm test:cov --silent
+      run: pnpm test:cov
