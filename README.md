@@ -5,8 +5,8 @@
     </p>
     <br>
     <img src="https://img.shields.io/npm/v/vite-image" alt="NPM Version">
-    <img src="https://img.shields.io/npm/dw/vite-image" alt="NPM Downloads Per Week">
-    <img src="https://img.shields.io/github/workflow/status/jack-weilage/vite-image/CI" alt="GitHub Workflow Status">
+    <img src="https://img.shields.io/npm/dm/vite-image" alt="NPM Downloads Per Month">
+    <img src="https://img.shields.io/github/actions/workflow/status/jack-weilage/vite-image/ci.yaml?branch=main" alt="GitHub Workflow Status">
 </div>
 
 <br>
