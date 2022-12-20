@@ -45,19 +45,19 @@
         "node": ">=16.x"
     },
     "devDependencies": {
-        "@changesets/cli": "^2.25.2",
-        "@types/node": "^18.11.15",
+        "@changesets/cli": "^2.26.0",
+        "@types/node": "^18.11.17",
         "@types/sharp": "^0.31.0",
-        "@typescript-eslint/eslint-plugin": "^5.46.1",
-        "@typescript-eslint/parser": "^5.46.1",
+        "@typescript-eslint/eslint-plugin": "^5.47.0",
+        "@typescript-eslint/parser": "^5.47.0",
         "@vitest/coverage-c8": "^0.25.8",
         "concurrently": "^7.6.0",
-        "eslint": "^8.29.0",
+        "eslint": "^8.30.0",
         "lint-staged": "^13.1.0",
         "simple-git-hooks": "^2.8.1",
         "tsup": "^6.5.0",
         "typescript": "^4.9.4",
-        "vite": "^4.0.1",
+        "vite": "^4.0.2",
         "vitest": "^0.25.8"
     },
     "dependencies": {
@@ -73,8 +73,13 @@
         "pre-push": "npm run build && npm run test:cov"
     },
     "tsup": {
-        "entry": [ "src/index.ts" ],
-        "format": [ "cjs", "esm" ],
+        "entry": [
+            "src/index.ts"
+        ],
+        "format": [
+            "cjs",
+            "esm"
+        ],
         "minify": true
     }
 }
