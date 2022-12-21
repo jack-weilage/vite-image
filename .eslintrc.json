@@ -1,4 +1,6 @@
 {
+    "$schema": "https://json.schemastore.org/eslintrc.json",
+    "ignorePatterns": [ "dist/*" ],
     "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
