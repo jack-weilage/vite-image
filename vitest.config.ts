@@ -8,8 +8,9 @@ export default defineConfig({
             enabled: false,
             reporter: [ 'text' ],
             include: [ 'src/**/*' ],
-            exclude: [ 'src/transformers/index.ts' ],
-            // all: true,
+            exclude: [ 'src/transformers/index.ts', 'src/index.ts' ],
+            all: true,
+            
             perFile: true,
             lines: 95,
             functions: 100,
