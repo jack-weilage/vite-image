@@ -14,7 +14,7 @@ import sharp from 'sharp'
 export type { PluginConfig, Transformer, TypedImage } from '../types'
 
 /** The plugin, to be supplied to vite. */
-export default function image(user_plugin_config: Partial<PluginConfig> = {}): Plugin
+export function image(user_plugin_config: Partial<PluginConfig> = {}): Plugin
 {
     const plugin_config = parse_plugin_config(user_plugin_config)
 
@@ -172,3 +172,5 @@ export default function image(user_plugin_config: Partial<PluginConfig> = {}): P
         }
     }
 }
+
+export default image
