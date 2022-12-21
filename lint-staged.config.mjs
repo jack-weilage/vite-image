@@ -3,10 +3,10 @@ const tsconfig = '--target es2022 --noErrorTruncation --skipLibCheck --importsNo
 export default {
     //eslint-disable-next-line no-inline-comments -- JSDOC comments are needed to properly type this.
     '**/*.ts': (/** @type string[] */ filenames) => [
-        `npm run lint ${filenames.join(' ')} --fix`,
+        `npm run lint --fix ${filenames.join(' ')}`,
         `concurrently ${filenames
             .map(filename => `"tsc ${filename} ${tsconfig}"`)
-            .join(' ')} -m 50%`,
+            .join(' ')} -m 85%`,
         'npm run build:code',
         `npm run test related ${filenames.join(' ')}`
     ]
