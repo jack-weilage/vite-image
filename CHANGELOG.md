@@ -1,5 +1,14 @@
 # vite-image
 
+## 0.7.4
+
+### Patch Changes
+
+- f20c416: Base images are now cached while processing.
+- 260a7ab: The plugin can now be imported via named or default imports.
+- dce6c4e: Use `simple-git-hooks` instead of `husky`.
+- ffcf96e: Remove `esbuild`, `eslint-formatter-friendly`, `happy-dom`, and `rollup` as dependencies.
+
 ## 0.7.3
 
 ### Patch Changes
