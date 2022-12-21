@@ -56,6 +56,7 @@ export function image(user_plugin_config: Partial<PluginConfig> = {}): Plugin
                     .rotate()
                     .withMetadata()
                     .toBuffer()
+                    .catch(this.error)
 
                 base_cache.set(pathname, sharp(image))
             }
@@ -77,7 +78,11 @@ export function image(user_plugin_config: Partial<PluginConfig> = {}): Plugin
                 }
 
                 // We haven't processed this image + config before, so queue transformers.
-                const { image, queued_transformers } = await queue_transformers(base_image.clone(), config, transformers)
+                const { image, queued_transformers, errors } = await queue_transformers(base_image.clone(), config, transformers)
+
+                // If there were errors while processing, warn about them here.
+                if (errors.errors.length !== 0)
+                    this.warn(errors)
 
                 // If the image didn't match a transformer, it shouldn't be processed
                 if (queued_transformers.length === 0)
@@ -86,6 +91,7 @@ export function image(user_plugin_config: Partial<PluginConfig> = {}): Plugin
                 // `apply_transformers` doesn't actually run the transformations, only queues them.
                 // We don't need the source in dev mode, but will always need the metadata.
                 const { info, data: source } = await image.toBuffer({ resolveWithObject: true })
+                    .catch(this.error)
 
                 // If we're in dev mode, we should supply an actual url here.
                 let src = DEV_PREFIX + create_hash(id)

@@ -72,21 +72,21 @@ export function format_value(val: string): ImageConfigValue
 export function create_configs(params: URLSearchParams, deliminator: string): Partial<ImageConfig>[]
 {
     const aggregated: Record<string, ImageConfigValue[]> = {}
-    for (const key of dedupe(params.keys()))
+    for (const param_key of dedupe(params.keys()))
     {
-        const is_inverted = key.startsWith('!')
+        const is_inverted = param_key.startsWith('!')
 
         // Get every occurrence of the key, then split by the deliminator.
         // If the key is inverted, invert the values.
-        const values = params.getAll(key)
+        const values = params.getAll(param_key)
             .flatMap(value => value.split(deliminator))
             .map(val => (is_inverted ? !format_value(val) : format_value(val)))
 
-        const final_key = is_inverted ? key.slice(1) : key
+        const key = is_inverted ? param_key.slice(1) : param_key
         // If we haven't used this key before (it's been modified above), then we need to define the value as an array.
-        aggregated[final_key] ??= []
+        aggregated[key] ??= []
         // If we've already defined the key, just tack the new values on to the end of the old ones.
-        aggregated[final_key] = dedupe(aggregated[final_key].concat(values))
+        aggregated[key] = dedupe(aggregated[key].concat(values))
     }
 
     const keys = Object.keys(aggregated)
@@ -118,10 +118,15 @@ export function create_configs(params: URLSearchParams, deliminator: string): Pa
 }
 
 /** Apply all transformers to an image. */
-export async function queue_transformers(image: Sharp, config: Partial<ImageConfig>, transformers: Transformer[]): Promise<{ image: Sharp; queued_transformers: string[] }>
+export async function queue_transformers(image: Sharp, config: Partial<ImageConfig>, transformers: Transformer[]): 
+    Promise<{ 
+        image: Sharp
+        queued_transformers: string[]
+        errors: AggregateError
+    }>
 {
     const queued_transformers: string[] = []
-    const errors = []
+    const errors: Error[] = []
 
     for (const { matcher, transform, name } of transformers)
     {
@@ -135,15 +140,11 @@ export async function queue_transformers(image: Sharp, config: Partial<ImageConf
         }
         catch (e)
         {
-            errors.push(e)
+            errors.push(new Error(`vite-image: Transformer "${name}" threw an error: ${(e as Error).message}`))
         }
 
         queued_transformers.push(name)
     }
 
-    if (errors.length !== 0)
-        /* c8 ignore next 2 */
-        throw new AggregateError(errors)
-
-    return { image, queued_transformers }
+    return { image, queued_transformers, errors: new AggregateError(errors) }
 }
