@@ -118,8 +118,8 @@ export function create_configs(params: URLSearchParams, deliminator: string): Pa
 }
 
 /** Apply all transformers to an image. */
-export async function queue_transformers(image: Sharp, config: Partial<ImageConfig>, transformers: Transformer[]): 
-    Promise<{ 
+export async function queue_transformers(image: Sharp, config: Partial<ImageConfig>, transformers: Transformer[]):
+    Promise<{
         image: Sharp
         queued_transformers: string[]
         errors: AggregateError

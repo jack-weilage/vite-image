@@ -10,7 +10,7 @@ export default defineConfig({
             include: [ 'src/**/*' ],
             exclude: [ 'src/transformers/index.ts', 'src/index.ts' ],
             all: true,
-            
+
             perFile: true,
             lines: 95,
             functions: 100,
