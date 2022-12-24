@@ -37,7 +37,7 @@ import CoolImage from './custom-images/cool-image.jpg?width=300,600,900&blur=5'
 
 > **Warning**
 > 
-> Don't use your `public` folder to store images. Imports are relative to the *project* root (specified in `vite.config.js`), not vite's public folder.
+> Don't use your `public` folder to store images. Files kept there will be copied as-is to the server, unmodified by this plugin.
 
 <br>
 
@@ -84,7 +84,7 @@ const srcset = (Images as TypedImage<'src' | 'width'>[])
 
 ## Default Transformers
 
-To learn about the default transformers, [click here](TRANSFORMERS.md)
+To learn about default transformers, [click here](TRANSFORMERS.md)
 
 <br>
 
@@ -96,7 +96,7 @@ Without any configuration, five values will be returned: `src`, `aspect`, `width
 
 There are two ways to modify what's returned:
  1. Change `config.default_exports` (changes settings project-wide).
- 2. Add a `export` input, like `image?export=width,height,src`. This will override whatever's in your `config.default_exports`.
+ 2. Add a `export` input, like `image?export=width,height,src`. (This will override whatever's in your `config.default_exports`)
 
 Try to trim down your exports to only what's necessary to keep your bundle as small as possible!
 
@@ -141,19 +141,6 @@ export default {
 } as Transformer<'foo' | 'bar', { foo: boolean, bar: string }>
 
 ```
-
-<br>
-
-## Roadmap
-
-- [ ] Implement static import of web images.
-- [ ] 1-1 implementations of most `sharp` utils.
-  - [ ] Output options
-  - [ ] Resizing images
-  - [x] Image operations
-  - [x] Color manipulation
-  - [ ] Channel manipulation
-- [ ] React/Vue/Svelte helper component
 
 <br>
 
