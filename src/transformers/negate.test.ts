@@ -1,24 +1,16 @@
-import { it } from 'vitest'
+import { test } from 'uvu'
+import * as assert from 'uvu/assert'
 
 import { base_hash, test_transformer } from '../../tests/utils'
 import negate from './negate'
 
-it('applies negate when it should', ({ expect }) => Promise.all([
+test('applies negate when it should', () => Promise.all([
     // negate=true
-    expect(test_transformer({ negate: true }, negate))
-        .resolves.toMatchInlineSnapshot('"f4040a8bcc6c3cbcebca62633c05aaa8fc0959d7"')
-]))
-it('doesn\'t apply negate when it shouldn\'t', ({ expect }) => Promise.all([
+    test_transformer({ negate: true }, negate)
+        .then(val => assert.is(val, 'f4040a8bcc6c3cbcebca62633c05aaa8fc0959d7')),
     // negate=false
-    expect(test_transformer({ negate: false }, negate))
-        .resolves.toBe(base_hash),
-    // negate=foo
-    expect(test_transformer({ negate: 'foo' }, negate))
-        .resolves.toBe(base_hash),
-    // negate=1
-    expect(test_transformer({ negate: 1 }, negate))
-        .resolves.toBe(base_hash),
-    // negate=0
-    expect(test_transformer({ negate: 0 }, negate))
-        .resolves.toBe(base_hash)
-]))
+    test_transformer({ negate: false }, negate)
+        .then(val => assert.is(val, base_hash))
+]) as unknown as Promise<void>)
+
+test.run()

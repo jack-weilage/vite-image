@@ -1,24 +1,19 @@
-import { it } from 'vitest'
+import { test } from 'uvu'
+import * as assert from 'uvu/assert'
 
 import { base_hash, test_transformer } from '../../tests/utils'
 import gamma from './gamma'
 
-it('applies gamma when it should', ({ expect }) => Promise.all([
+test('applies gamma when it should', () => Promise.all([
     // gamma=true
-    expect(test_transformer({ gamma: true }, gamma))
-        .resolves.toMatchInlineSnapshot('"5e2a10c8919b9b9ac35a2bb26c5a66d4cb79ef97"'),
+    test_transformer({ gamma: true }, gamma)
+        .then(val => assert.is(val, '5e2a10c8919b9b9ac35a2bb26c5a66d4cb79ef97')),
     // gamma=1
-    expect(test_transformer({ gamma: 1 }, gamma))
-        .resolves.toBe(base_hash),
+    test_transformer({ gamma: 1 }, gamma)
+        .then(val => assert.is(val, base_hash)),
     // gamma=10
-    expect(test_transformer({ gamma: 3 }, gamma))
-        .resolves.toMatchInlineSnapshot('"67b027232e057968da9a6d9aedbd57c4fd2bb260"')
-]))
-it('doesn\'t apply gamma when it shouldn\'t', ({ expect }) => Promise.all([
-    // gamma=false
-    expect(test_transformer({ gamma: false }, gamma))
-        .resolves.toBe(base_hash),
-    // gamma=foo
-    expect(test_transformer({ gamma: 'foo' }, gamma))
-        .resolves.toBe(base_hash)
-]))
+    test_transformer({ gamma: 3 }, gamma)
+        .then(val => assert.is(val, '67b027232e057968da9a6d9aedbd57c4fd2bb260'))
+]) as unknown as Promise<void>)
+
+test.run()

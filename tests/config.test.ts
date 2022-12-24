@@ -1,31 +1,29 @@
-import { it } from 'vitest'
+import { test } from 'uvu'
+import * as assert from 'uvu/assert'
 
 import { parse_plugin_config } from '../src/utils'
 
-it('doesn\'t apply an invalid config', ({ expect }) => {
+test('doesn\'t apply an invalid config', () => {
     //@ts-expect-error: The config shouldn't have this key.
-    expect(() => parse_plugin_config({ test: true }))
-        .toThrowError(AggregateError)
+    assert.throws(() => parse_plugin_config({ test: true }), err => err instanceof AggregateError)
     //@ts-expect-error: The config shouldn't have this value.
-    expect(() => parse_plugin_config({ include: 10 }))
-        .toThrowError(AggregateError)
+    assert.throws(() => parse_plugin_config({ include: 10 }), err => err instanceof AggregateError)
     //@ts-expect-error: The config shouldn't have this value in an array.
-    expect(() => parse_plugin_config({ transformers: [ 'foo', 'bar' ] }))
-        .toThrowError(AggregateError)
+    assert.throws(() => parse_plugin_config({ transformers: [ 'foo', 'bar' ] }), err => err instanceof AggregateError)
 })
 //TODO: Expand checks for valid config.
-it('applies a valid config', ({ expect }) => {
+test('applies a valid config', () => {
     // Empty config.
-    expect(parse_plugin_config({}))
-        .toBeTypeOf('object')
+    assert.type(parse_plugin_config({}), 'object')
     // Config with custom values.
-    expect(parse_plugin_config({
+    assert.type(parse_plugin_config({
         include: '**/*', exclude: '**/*.jpeg',
         transformers: [{
             name: 'noop',
             matcher: () => true,
             transform: (img) => img
         }]
-    }))
-        .toBeTypeOf('object')
+    }), 'object')
 })
+
+test.run()

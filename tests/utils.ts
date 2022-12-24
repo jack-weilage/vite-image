@@ -8,7 +8,9 @@ import { create_hash, queue_transformers } from '../src/utils'
 
 
 // The plugin must reference the _built_ copy to ensure that the build worked correctly.
-import image_plugin from '../'
+import image_plugin from '../dist/index'
+
+const __dirname = new URL('.', import.meta.url).pathname
 
 /** Builds and returns the result of importing a resource. */
 export async function test(path: string, image_config: Partial<PluginConfig> = {}, vite_config: Partial<UserConfig> = {}): Promise<OutputImage[]>

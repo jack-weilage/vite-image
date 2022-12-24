@@ -1,9 +1,11 @@
 import type { Transformer } from '../../types'
 
+import { is_number } from '../utils'
+
 export default {
     name: 'resize',
     // See modulate.ts
-    matcher: (config) => typeof (config['width'] ?? config['height']) === 'number'
+    matcher: (config) => is_number(config['width'] ?? config['height'])
         && (typeof config['width']  === 'number' || typeof config['width']  === 'undefined')
         && (typeof config['height'] === 'number' || typeof config['height'] === 'undefined'),
     transform: (img, config) => {

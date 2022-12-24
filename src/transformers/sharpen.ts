@@ -1,10 +1,10 @@
 import type { Transformer } from '../../types'
 
-import { clamp } from '../utils'
+import { clamp, is_true_or_number } from '../utils'
 
 export default {
     name: 'sharpen',
-    matcher: (config) => config['sharpen'] === true || typeof config['sharpen'] === 'number',
+    matcher: (config) => is_true_or_number(config['sharpen']),
     transform: (img, config) => {
         if (config['sharpen'] === true)
             return img.sharpen()

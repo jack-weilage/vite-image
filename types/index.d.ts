@@ -73,7 +73,7 @@ export interface ImageConfig {
     // normalize (american spelling)
     normalize: boolean
     // threshold
-    threshold: number | true
+    threshold: number
     // modulate
     brightness?: number
     saturation?: number

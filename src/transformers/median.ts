@@ -1,10 +1,10 @@
 import type { Transformer } from '../../types'
 
-import { clamp } from '../utils'
+import { is_true_or_number, clamp } from '../utils'
 
 export default {
     name: 'median',
-    matcher: (config) => config['median'] === true || typeof config['median'] === 'number',
+    matcher: (config) => is_true_or_number(config['median']),
     transform: (img, config) => {
         if (config['median'] === true)
             return img.median()

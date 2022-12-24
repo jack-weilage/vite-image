@@ -1,33 +1,22 @@
-import { it } from 'vitest'
+import { test } from 'uvu'
+import * as assert from 'uvu/assert'
 
 import { base_hash, test_transformer } from '../../tests/utils'
 import colorspace from './colorspace'
 
-it('applies colorspace when it should', ({ expect }) => Promise.all([
-    // colorspace=b-w
-    expect(test_transformer({ colorspace: 'b-w' }, colorspace))
-        .resolves.toMatchInlineSnapshot('"e237b47bfefaa14a99ad83857354ab95c4e80461"'),
-    // colorspace=hsv
-    expect(test_transformer({ colorspace: 'hsv' }, colorspace))
-        .resolves.toMatchInlineSnapshot('"5045f81cf2091c95f76329a05dcbaf71b13af507"'),
-    // colorspace=cmyk
-    expect(test_transformer({ colorspace: 'cmyk' }, colorspace))
-        .resolves.toMatchInlineSnapshot('"e8c8d84b019a44429a3f437ee4fa065b46b6090d"'),
-    // colorspace=rgb16
-    expect(test_transformer({ colorspace: 'rgb16' }, colorspace))
-        .resolves.toBe(base_hash)
-]))
-it('doesn\'t apply colorspace when it shouldn\'t', ({ expect }) => Promise.all([
-    // colorspace=true
-    expect(test_transformer({ colorspace: true }, colorspace))
-        .resolves.toBe(base_hash),
-    // colorspace=false
-    expect(test_transformer({ colorspace: false }, colorspace))
-        .resolves.toBe(base_hash),
-    // colorspace=error
-    expect(test_transformer({ colorspace: 'error' }, colorspace))
-        .resolves.toBe(base_hash),
-    // colorspace=5
-    expect(test_transformer({ colorspace: 5 }, colorspace))
-        .resolves.toBe(base_hash)
-]))
+test('applies colorspace when it should', () => Promise.all([
+    // Black and white
+    test_transformer({ colorspace: 'b-w' }, colorspace)
+        .then(val => assert.is(val, 'e237b47bfefaa14a99ad83857354ab95c4e80461')),
+    // HSV
+    test_transformer({ colorspace: 'hsv' }, colorspace)
+        .then(val => assert.is(val, '5045f81cf2091c95f76329a05dcbaf71b13af507')),
+    // CMYK
+    test_transformer({ colorspace: 'cmyk' }, colorspace)
+        .then(val => assert.is(val, 'e8c8d84b019a44429a3f437ee4fa065b46b6090d')),
+    // RGB16 (should be same as base image)
+    test_transformer({ colorspace: 'rgb16' }, colorspace)
+        .then(val => assert.is(val, base_hash))
+]) as unknown as Promise<void>)
+
+test.run()

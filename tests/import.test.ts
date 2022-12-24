@@ -1,46 +1,51 @@
-import { test } from './utils'
-import { it } from 'vitest'
+import { test as test_build } from './utils'
 
-it('doesn\'t affect normal imports', ({ expect }) => Promise.all([
+import { test } from 'uvu'
+import * as assert from 'uvu/assert'
+
+test('doesn\'t affect normal imports', () => Promise.all([
     // dog.jpg
-    expect(test(''))
-        .resolves.toBeTypeOf('string'),
+    test_build('')
+        .then(val => assert.type(val, 'string')),
     // dog.jpg?foo=bar
-    expect(test('?foo=bar'))
-        .resolves.toBeTypeOf('string'),
+    test_build('?foo=bar')
+        .then(val => assert.type(val, 'string')),
     // dog.jpg?foo=bar#baz-qux
-    expect(test('?foo=bar#baz-qux'))
-        .resolves.toBeTypeOf('string')
-]))
-it('affects custom imports', ({ expect }) => Promise.all([
+    test_build('?foo=bar#baz-qux')
+        .then(val => assert.type(val, 'string'))
+]) as unknown as Promise<void>)
+
+test('affects custom imports', () => Promise.all([
     // One value.
-    expect(test('?width=600'))
-        .resolves.toHaveLength(1),
+    test_build('?width=600')
+        .then(val => assert.equal(val.length, 1)),
     // Multiple values.
-    expect(test('?width=600,800,100'))
-        .resolves.toHaveLength(3),
+    test_build('?width=600,800,100')
+        .then(val => assert.equal(val.length, 3)),
     // Multiple inputs.
-    expect(test('?width=600&height=400'))
-        .resolves.toHaveLength(1),
+    test_build('?width=600&height=400')
+        .then(val => assert.equal(val.length, 1)),
     // Multiple inputs with multiple values.
-    expect(test('?width=600,800&height=400,500'))
-        .resolves.toHaveLength(4),
+    test_build('?width=600,800&height=400,500')
+        .then(val => assert.equal(val.length, 4)),
     // Boolean value.
-    expect(test('?blur=true'))
-        .resolves.toHaveLength(1),
+    test_build('?blur=true')
+        .then(val => assert.equal(val.length, 1)),
     // Shorthand boolean value.
-    expect(test('?blur'))
-        .resolves.toHaveLength(1),
+    test_build('?blur')
+        .then(val => assert.equal(val.length, 1)),
     // Negated shorthand boolean value.
-    expect(test('?!flip'))
-        .resolves.toHaveLength(1),
+    test_build('?!flip')
+        .then(val => assert.equal(val.length, 1)),
     // Negated and non-negated shorthand boolean values.
-    expect(test('?blur&!flip'))
-        .resolves.toHaveLength(1),
+    test_build('?blur&!flip')
+        .then(val => assert.equal(val.length, 1)),
     // Normal and shorthand values
-    expect(test('?blur&flip=true,false'))
-        .resolves.toHaveLength(2),
+    test_build('?blur&flip=true,false')
+        .then(val => assert.equal(val.length, 2)),
     // Duplicated inputs.
-    expect(test('?width=500,600&height=800&width=400'))
-        .resolves.toHaveLength(3)
-]))
+    test_build('?width=500,600&height=800&width=400')
+        .then(val => assert.equal(val.length, 3))
+]) as unknown as Promise<void>)
+
+test.run()

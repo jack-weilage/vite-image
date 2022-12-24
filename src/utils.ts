@@ -130,13 +130,14 @@ export async function queue_transformers(image: Sharp, config: Partial<ImageConf
 
     for (const { matcher, transform, name } of transformers)
     {
+        /* c8 ignore next 2 */
         if (!await matcher(config))
             continue
 
         try
         {
             image = await transform(image, config)
-            /* c8 ignore next 6 */
+            /* c8 ignore next 5 */
         }
         catch (e)
         {
@@ -148,3 +149,12 @@ export async function queue_transformers(image: Sharp, config: Partial<ImageConf
 
     return { image, queued_transformers, errors: new AggregateError(errors) }
 }
+
+/** Is the input a boolean? */
+export const is_boolean = (input: unknown): boolean => typeof input === 'boolean'
+/** Is the input a number? */
+export const is_number = (input: unknown): boolean => typeof input === 'number'
+/** Is the input true or a number? */
+export const is_true_or_number = (input: unknown): boolean => input === true || is_number(input)
+/** Does the array include the input? */
+export const does_include = (arr: unknown[], input: unknown): boolean => arr.includes(input)

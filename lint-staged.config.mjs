@@ -8,6 +8,6 @@ export default {
             .map(filename => `"tsc ${filename} ${tsconfig}"`)
             .join(' ')} -m 85%`,
         'npm run build:code',
-        `npm run test related ${filenames.join(' ')}`
+        `npm run coverage`
     ]
 }
