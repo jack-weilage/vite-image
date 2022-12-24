@@ -1,3 +1,5 @@
+//TODO: Add testing for dev mode (not 100% sure this works).
+//TODO: Write dedicated build tests.
 import type { PluginConfig, InternalImage } from '../types'
 import type { Plugin, ResolvedConfig } from 'vite'
 import type { Sharp } from 'sharp'
@@ -19,7 +21,6 @@ export function image(user_plugin_config: Partial<PluginConfig> = {}): Plugin
     const plugin_config = parse_plugin_config(user_plugin_config)
 
     const base_cache = new Map<string, Sharp>()
-    //TODO: This cache stores both output data and the full Sharp instance. Will this cause memory problems?
     const processed_cache = new Map<string, { image: Sharp; data: InternalImage }>()
 
     const filter = createFilter(plugin_config.include, plugin_config.exclude)
@@ -126,7 +127,6 @@ export function image(user_plugin_config: Partial<PluginConfig> = {}): Plugin
             // Transform the final data to an importable JavaScript file.
             return `export default ${JSON.stringify(post_processed)}`
         },
-        //TODO: Add testing for dev mode (not 100% sure this works).
         // Called in dev/preview mode.
         configureServer(server): void
         {
@@ -153,7 +153,7 @@ export function image(user_plugin_config: Partial<PluginConfig> = {}): Plugin
                     .pipe(res)
             })
         },
-        //TODO: Write dedicated build tests.
+
         // Called in build mode.
         renderChunk(code): { code: string; map?: SourceMap } | null
         {

@@ -12,7 +12,7 @@ import { create_hash, queue_transformers } from '../src/utils'
 import image_plugin from '../dist/index'
 
 /** @see https://stackoverflow.com/a/50052194 */
-const __dirname = dirname(fileURLToPath(import.meta.url))
+const base_path = dirname(fileURLToPath(import.meta.url))
 
 /** Builds and returns the result of importing a resource. */
 export async function test(path: string, image_config: Partial<PluginConfig> = {}, vite_config: Partial<UserConfig> = {}): Promise<OutputImage[]>
@@ -20,7 +20,7 @@ export async function test(path: string, image_config: Partial<PluginConfig> = {
     const id = `id_${create_hash(Math.random().toString())}`
 
     const { output } = await build({
-        root: join(__dirname, 'fixtures'),
+        root: join(base_path, 'fixtures'),
         logLevel: 'warn',
         build: {
             write: false,
@@ -41,7 +41,7 @@ export async function test(path: string, image_config: Partial<PluginConfig> = {
                 // If we're importing a script, return a custom script, changing for every new import.
                 load(file_id): string | undefined
                 {
-                    if (file_id === join(__dirname, 'fixtures', 'index.js'))
+                    if (file_id === join(base_path, 'fixtures', 'index.js'))
                         return `import ${id} from './images/dog.jpg${path}'; globalThis['${id}'] = ${id}`
                 }
             },
