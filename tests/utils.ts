@@ -2,6 +2,7 @@ import type { UserConfig } from 'vite'
 import type { OutputImage, PluginConfig, Transformer } from '../types'
 
 import { join, dirname, extname } from 'path'
+import { fileURLToPath } from 'url'
 import { build } from 'vite'
 import sharp from 'sharp'
 import { create_hash, queue_transformers } from '../src/utils'
@@ -10,7 +11,8 @@ import { create_hash, queue_transformers } from '../src/utils'
 // The plugin must reference the _built_ copy to ensure that the build worked correctly.
 import image_plugin from '../dist/index'
 
-const __dirname = new URL('.', import.meta.url).pathname
+/** @see https://stackoverflow.com/a/50052194 */
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 /** Builds and returns the result of importing a resource. */
 export async function test(path: string, image_config: Partial<PluginConfig> = {}, vite_config: Partial<UserConfig> = {}): Promise<OutputImage[]>
