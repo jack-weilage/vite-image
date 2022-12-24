@@ -1,5 +1,5 @@
 import type { UserConfig } from 'vite'
-import type { OutputImage, PluginConfig, Transformer } from '../types'
+import type { PluginConfig, Transformer } from '../types'
 
 import { join, dirname, extname } from 'path'
 import { fileURLToPath } from 'url'
@@ -15,9 +15,11 @@ import image_plugin from '../dist/index'
 const base_path = dirname(fileURLToPath(import.meta.url))
 
 /** Builds and returns the result of importing a resource. */
-export async function test(path: string, image_config: Partial<PluginConfig> = {}, vite_config: Partial<UserConfig> = {}): Promise<OutputImage[]>
+export async function test_build(inputs: Record<string, (val: unknown[]) => void>, image_config: Partial<PluginConfig> = {}, vite_config: Partial<UserConfig> = {}): Promise<void>
 {
-    const id = `id_${create_hash(Math.random().toString())}`
+    const ids = {} as Record<string, string>
+    for (const path in inputs)
+        ids[path] = `id_${create_hash(Math.random().toString())}`
 
     const { output } = await build({
         root: join(base_path, 'fixtures'),
@@ -42,7 +44,9 @@ export async function test(path: string, image_config: Partial<PluginConfig> = {
                 load(file_id): string | undefined
                 {
                     if (file_id === join(base_path, 'fixtures', 'index.js'))
-                        return `import ${id} from './images/dog.jpg${path}'; globalThis['${id}'] = ${id}`
+                        return Object.entries(ids)
+                            .map(([ path, id ]) => `import ${id} from './images/dog.jpg${path}'; globalThis['${id}'] = ${id}`)
+                            .join(';')
                 }
             },
             image_plugin(image_config)
@@ -53,8 +57,14 @@ export async function test(path: string, image_config: Partial<PluginConfig> = {
     const script = output.find(({ fileName }) => extname(fileName) === '.js')!
     eval(script.code)
 
-    //@ts-expect-error: `string` cannot index window, but it doesn't matter here.
-    return globalThis[id] as OutputImage[]
+    for (const [ path, func ] of Object.entries(inputs))
+    {
+        /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument */
+        //@ts-expect-error: TypeScript doesn't know that this value exists after running `eval`.
+        const value = globalThis[ids[path]]
+        func(value)
+        /* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument */
+    }
 }
 export const test_transformer = (input: Record<string, unknown>, transformer: Transformer): Promise<string> => queue_transformers(base_image.clone(), input, [ transformer ])
     .then(({ image }) => image.toBuffer())
