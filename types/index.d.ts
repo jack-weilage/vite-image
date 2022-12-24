@@ -38,11 +38,6 @@ export interface PluginConfig {
     transformers: Transformer[]
     /** An array of default outputs. */
     default_exports: (keyof InternalImage)[]
-    /**
-     * A function to run _after_ an image has been processed.
-     * Receives an array of images output by `vite-image`, and should return another array of images.
-     */
-    post_process: (images: OutputImage[]) => OutputImage[]
 }
 
 /** The config supplied to transformers when processing. */

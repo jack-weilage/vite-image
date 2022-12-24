@@ -9,9 +9,7 @@ export const DEFAULT_PLUGIN_CONFIG: PluginConfig = {
     deliminator: ',',
     transformers: [],
 
-    default_exports: [ 'src', 'aspect', 'width', 'height', 'format' ],
-    /* c8 ignore next */
-    post_process: images => images
+    default_exports: [ 'src', 'aspect', 'width', 'height', 'format' ]
 }
 
 export const INPUT_FORMATS: (keyof FormatEnum)[] = [
@@ -76,6 +74,5 @@ export const CONFIG_SCHEMA = new Schema({
         matcher: { type: Function, required: true },
         transform: { type: Function, required: true }
     }],
-    default_exports: [{ type: String }],
-    post_process: { type: Function }
+    default_exports: [{ type: String }]
 }, { strict: true })

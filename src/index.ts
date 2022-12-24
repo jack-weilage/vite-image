@@ -121,11 +121,8 @@ export function image(user_plugin_config: Partial<PluginConfig> = {}): Plugin
             if (images.length === 0)
                 return null
 
-            // Run user-specified post-processing.
-            const post_processed = plugin_config.post_process(images.map(img => create_partial(img, exports)))
-
             // Transform the final data to an importable JavaScript file.
-            return `export default ${JSON.stringify(post_processed)}`
+            return `export default ${JSON.stringify(images.map(img => create_partial(img, exports)))}`
         },
         // Called in dev/preview mode.
         configureServer(server): void

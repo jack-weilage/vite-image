@@ -79,7 +79,6 @@ const srcset = (Images as TypedImage<'src' | 'width'>[])
 | `deliminator`     | `,`                                                    | The character used to split multiple values in a query. |
 | `transformers`    | `[]`                                                   | User-specified custom image transformers. |
 | `default_exports` | `['src', 'aspect', 'width', 'height', 'format']`       | By default, `vite-image` exports these 5 image attributes. [More attributes can be found here. (Scroll down to "`info` contains the output image")](https://sharp.pixelplumbing.com/api-output#tobuffer) |
-| `post_process`    | `images => images`                                     | A function to process images *after* `vite-image` |
 
 <br>
 
