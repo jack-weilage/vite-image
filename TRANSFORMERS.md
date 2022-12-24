@@ -129,7 +129,7 @@
 
 | Key | Type |
 | :-: | :-: |
-| `threshold` | `boolean` |
+| `threshold` | `number` |
 
 ### `modulate`
 
