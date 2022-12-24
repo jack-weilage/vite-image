@@ -11,9 +11,19 @@
 
 <br>
 
-With an URL-style syntax, `vite-image` brings the image processing power of [`sharp`](https://sharp.pixelplumbing.com/) to the simplicity of [`vitejs`](https://vitejs.dev/).
+Image processing is practically required for today's performant internet, but pre-build scripts and complex CLIs are a pain.
+Processing images should be simple, so `vite-image` is!
+
+`vite-image` relies on the image processing power of [`sharp`](https://sharp.pixelplumbing.com/) and the ease-of-use of [`vitejs`](https://vitejs.dev/).
+
 
 <br>
+
+## Installation
+
+```bash
+npm install --save-dev vite-image
+```
 
 ## Usage
 
