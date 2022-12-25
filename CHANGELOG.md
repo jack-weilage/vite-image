@@ -1,5 +1,17 @@
 # vite-image
 
+## 0.8.0
+
+### Minor Changes
+
+- 4df1de7: `post_process` has been removed from the user config.
+
+### Patch Changes
+
+- 7baeb44: The internal test runner has been switched from `vitest` to `uvu`.
+- c6d7a23: _Finally_ properly support Windows, both with plugin and testing environment.
+- 5702814: `threshold` now only takes a `number` value.
+
 ## 0.7.4
 
 ### Patch Changes
