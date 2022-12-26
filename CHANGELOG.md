@@ -1,5 +1,11 @@
 # vite-image
 
+## 1.0.0
+
+### Major Changes
+
+- 6fd5802: Bump version to 1.0.0.
+
 ## 0.8.0
 
 ### Minor Changes
