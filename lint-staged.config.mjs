@@ -1,4 +1,4 @@
-const tsconfig = '--target es2022 --noErrorTruncation --skipLibCheck --importsNotUsedAsValues error --noEmit --module esnext --moduleResolution node --allowSyntheticDefaultImports --strict'
+const tsconfig = '--target esnext --module esnext --moduleResolution node --noErrorTruncation --skipLibCheck --importsNotUsedAsValues error --noEmit --allowSyntheticDefaultImports --strict --alwaysStrict'
 
 export default {
     //eslint-disable-next-line no-inline-comments -- JSDOC comments are needed to properly type this.

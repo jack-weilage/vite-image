@@ -1,15 +1,13 @@
 {
     "exclude": [ "node_modules" ],
     "compilerOptions": {
-        "allowJs": true,
-        "target": "es2022",
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "node",
         "noErrorTruncation": true,
         "skipLibCheck": true,
         "importsNotUsedAsValues": "error",
         "noEmit": true,
-        // rollup takes care of these
-        "module": "esnext",
-        "moduleResolution": "node",
         "allowSyntheticDefaultImports": true,
         "strict": true,
         "alwaysStrict": true
