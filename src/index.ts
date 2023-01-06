@@ -44,23 +44,26 @@ export function image(user_plugin_config: Partial<PluginConfig> = {}): Plugin
             const user_exports = searchParams.get('export')
                 ?.split(plugin_config.deliminator)
 
+            // Dedupe export tags.
             const exports = dedupe(user_exports ?? plugin_config.default_exports)
-                .filter(Boolean)
 
             // Remove `export` from search params to prevent having to deal with it later.
             searchParams.delete('export')
 
-            // Rotate the image, then create a "new" image with that data, containing the original metadata.
+            // If we haven't encountered this image before...
             if (!base_cache.has(pathname))
             {
+                // Auto-rotate the image, then create a "new" image with that data, containing the original metadata.
                 const image = await sharp(pathname)
                     .rotate()
                     .withMetadata()
                     .toBuffer()
                     .catch(this.error)
 
+                // Add the image to the cache.
                 base_cache.set(pathname, sharp(image))
             }
+            // The image is definitely now in the cache, so we can just grab it here.
             const base_image = base_cache.get(pathname)!
 
             const transformers = [ ...plugin_config.transformers, ...default_transformers ]
