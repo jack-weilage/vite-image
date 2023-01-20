@@ -1,5 +1,11 @@
 # vite-image
 
+## 1.0.1
+
+### Patch Changes
+
+- 49846b2: Fix `package.json`.
+
 ## 1.0.0
 
 ### Major Changes
