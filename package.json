@@ -36,7 +36,7 @@
     "license": "ISC",
     "repository": "github:jack-weilage/vite-image",
     "bugs": "https://github.com/jack-weilage/vite-image/issues",
-    "packageManager": "pnpm@7.19.0",
+    "packageManager": "pnpm@7.25.1",
     "engines": {
         "pnpm": "^7.0.0",
         "node": ">=16.x"
