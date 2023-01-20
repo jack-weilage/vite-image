@@ -1,5 +1,11 @@
 # vite-image
 
+## 1.0.2
+
+### Patch Changes
+
+- 32a60b5: Bump version.
+
 ## 1.0.1
 
 ### Patch Changes
