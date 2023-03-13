@@ -59,7 +59,7 @@
         "vite": "^4.0.4"
     },
     "dependencies": {
-        "magic-string": "^0.27.0",
+        "magic-string": "^0.30.0",
         "sharp": "^0.31.3",
         "validate": "^5.2.0"
     },
