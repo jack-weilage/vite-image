@@ -1,0 +1,12 @@
+pre-push:
+  commands:
+    test:
+      glob: "*"
+      run: npm run build:code && npm run coverage
+
+pre-commit:
+  parallel: true
+  commands:
+    eslint:
+      glob: "*.{js,ts}"
+      run: npx eslint --report-unused-disable-directives --cache {staged_files}
