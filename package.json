@@ -23,7 +23,8 @@
         "build:code": "tsup",
         "build:types": "tsup --dts-only",
         "lint": "eslint . --report-unused-disable-directives --cache",
-        "release": "npm run build && changeset publish"
+        "release": "npm run build && changeset publish",
+        "prepare": "lefthook install"
     },
     "keywords": [
         "vite",
