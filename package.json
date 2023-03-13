@@ -37,29 +37,29 @@
     "license": "ISC",
     "repository": "github:jack-weilage/vite-image",
     "bugs": "https://github.com/jack-weilage/vite-image/issues",
-    "packageManager": "pnpm@7.25.1",
+    "packageManager": "pnpm@7.29.1",
     "engines": {
         "pnpm": "^7.0.0",
         "node": ">=16.x"
     },
     "devDependencies": {
         "@changesets/cli": "^2.26.0",
-        "@esbuild-kit/esm-loader": "^2.5.4",
-        "@types/node": "^18.11.18",
+        "@esbuild-kit/esm-loader": "^2.5.5",
+        "@types/node": "^18.15.2",
         "@types/sharp": "^0.31.1",
-        "@typescript-eslint/eslint-plugin": "^5.48.0",
-        "@typescript-eslint/parser": "^5.48.0",
-        "c8": "^7.12.0",
+        "@typescript-eslint/eslint-plugin": "^5.55.0",
+        "@typescript-eslint/parser": "^5.55.0",
+        "c8": "^7.13.0",
         "concurrently": "^7.6.0",
-        "eslint": "^8.31.0",
+        "eslint": "^8.36.0",
         "lefthook": "^1.3.3",
-        "tsup": "^6.5.0",
-        "typescript": "^4.9.4",
+        "tsup": "^6.6.3",
+        "typescript": "^4.9.5",
         "uvu": "^0.5.6",
-        "vite": "^4.0.4"
+        "vite": "^4.1.4"
     },
     "dependencies": {
-        "magic-string": "^0.27.0",
+        "magic-string": "^0.30.0",
         "sharp": "^0.31.3",
         "validate": "^5.2.0"
     },
