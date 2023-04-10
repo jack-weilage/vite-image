@@ -6,7 +6,7 @@
         "moduleResolution": "node",
         "noErrorTruncation": true,
         "skipLibCheck": true,
-        "importsNotUsedAsValues": "error",
+        "verbatimModuleSyntax": true,
         "noEmit": true,
         "allowSyntheticDefaultImports": true,
         "strict": true,
