@@ -39,29 +39,28 @@
     "bugs": "https://github.com/jack-weilage/vite-image/issues",
     "packageManager": "pnpm@7.29.1",
     "engines": {
-        "pnpm": "^7.0.0",
+        "pnpm": "^8.0.0",
         "node": ">=16.x"
     },
     "devDependencies": {
-        "@changesets/cli": "^2.26.0",
+        "@changesets/cli": "^2.26.1",
         "@esbuild-kit/esm-loader": "^2.5.5",
-        "@types/node": "^18.15.2",
+        "@types/node": "^18.15.11",
         "@types/sharp": "^0.31.1",
-        "@typescript-eslint/eslint-plugin": "^5.55.0",
-        "@typescript-eslint/parser": "^5.55.0",
+        "@typescript-eslint/eslint-plugin": "^5.58.0",
+        "@typescript-eslint/parser": "^5.58.0",
         "c8": "^7.13.0",
-        "concurrently": "^7.6.0",
-        "eslint": "^8.36.0",
-        "lefthook": "^1.3.3",
-        "tsup": "^6.6.3",
-        "typescript": "^4.9.5",
+        "eslint": "^8.38.0",
+        "lefthook": "^1.3.9",
+        "tsup": "^6.7.0",
+        "typescript": "^5.0.4",
         "uvu": "^0.5.6",
-        "vite": "^4.1.4"
+        "vite": "^4.2.1"
     },
     "dependencies": {
         "magic-string": "^0.30.0",
-        "sharp": "^0.31.3",
-        "validate": "^5.2.0"
+        "sharp": "0.31.3",
+        "zod": "^3.21.4"
     },
     "peerDependencies": {
         "vite": "^4.0.0"
