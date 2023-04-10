@@ -4,7 +4,7 @@ import type { BinaryLike } from 'crypto'
 
 import { createHash } from 'crypto'
 import { basename, extname } from 'path'
-import { CONFIG_SCHEMA, DEFAULT_PLUGIN_CONFIG } from './constants'
+import { CONFIG_SCHEMA } from './constants'
 
 /** Limit a number to between min and max. */
 export const clamp = (num: number, min: number, max: number): number => Math.max(Math.min(num, max), min)
@@ -42,14 +42,13 @@ export function create_partial<T extends object>(obj: T, keys: string[]): Partia
 export function parse_plugin_config(user_plugin_config: Partial<PluginConfig>): PluginConfig
 {
     // Create a copy of the default config, then copy the user's config onto that.
-    //eslint-disable-next-line prefer-object-spread -- Object.assign would permanently alter the default config without this.
-    const config = Object.assign({ ...DEFAULT_PLUGIN_CONFIG }, user_plugin_config)
+    const parsed = CONFIG_SCHEMA.safeParse(user_plugin_config)
 
-    const errors = CONFIG_SCHEMA.validate(config)
-    if (errors.length !== 0)
-        throw new AggregateError(errors)
+    //TODO: Test this error.
+    if (!parsed.success)
+        throw new AggregateError([ parsed.error ])
 
-    return config
+    return parsed.data
 }
 
 /** Coerces values to string | number | boolean. */
@@ -84,7 +83,7 @@ export function create_configs(params: URLSearchParams, deliminator: string): Pa
 
         const key = is_inverted ? param_key.slice(1) : param_key
         // If we haven't used this key before (it's been modified above), then we need to define the value as an array.
-        aggregated[key] ??= []
+        aggregated[key] = []
         // If we've already defined the key, just tack the new values on to the end of the old ones.
         aggregated[key] = dedupe(aggregated[key].concat(values))
     }
