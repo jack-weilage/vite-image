@@ -48,6 +48,9 @@
         "lineWidth": 110
     },
     "javascript": {
+        "globals": [
+            "AggregateError"
+        ],
         "formatter": {
             "quoteStyle": "single",
             "semicolons": "asNeeded",
