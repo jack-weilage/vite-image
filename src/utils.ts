@@ -83,7 +83,8 @@ export function create_configs(params: URLSearchParams, deliminator: string): Pa
 
         const key = is_inverted ? param_key.slice(1) : param_key
         // If we haven't used this key before (it's been modified above), then we need to define the value as an array.
-        aggregated[key] = []
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+        aggregated[key] ??= []
         // If we've already defined the key, just tack the new values on to the end of the old ones.
         aggregated[key] = dedupe(aggregated[key].concat(values))
     }
