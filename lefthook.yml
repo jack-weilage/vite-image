@@ -9,4 +9,4 @@ pre-commit:
   commands:
     rome-lint:
       glob: "*.{js,ts}"
-      run: npx rome check {staged_files}
+      run: npm run lint {staged_files}
