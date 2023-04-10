@@ -7,6 +7,6 @@ pre-push:
 pre-commit:
   parallel: true
   commands:
-    eslint:
+    rome-lint:
       glob: "*.{js,ts}"
-      run: npx eslint --report-unused-disable-directives --cache {staged_files}
+      run: npx rome check {staged_files}
