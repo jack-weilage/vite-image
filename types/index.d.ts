@@ -37,7 +37,7 @@ export interface PluginConfig {
     /** An array of user-supplied transformers. */
     transformers: Transformer[]
     /** An array of default outputs. */
-    default_exports: (keyof InternalImage)[]
+    default_exports: string[]
 }
 
 /** The config supplied to transformers when processing. */
