@@ -1,16 +1,7 @@
-import type { FormatEnum } from 'sharp'
-import type { ColorspaceEnum, PluginConfig } from '../types'
+import type { FormatEnum, Sharp } from 'sharp'
+import type { ColorspaceEnum } from '../types'
 
-import Schema from 'validate'
-
-export const DEFAULT_PLUGIN_CONFIG: PluginConfig = {
-    include: '**/*.{heic,heif,avif,jpeg,jpg,png,tiff,webp,gif}?*',
-    exclude: '',
-    deliminator: ',',
-    transformers: [],
-
-    default_exports: [ 'src', 'aspect', 'width', 'height', 'format' ]
-}
+import { z } from 'zod'
 
 export const INPUT_FORMATS: (keyof FormatEnum)[] = [
     'avif',
@@ -65,14 +56,24 @@ export const DEV_REGEX = new RegExp(`^${DEV_PREFIX}([a-z0-9]{40})$`)
 export const BUILD_PREFIX = '__VITE_IMAGE_ASSET__'
 export const BUILD_REGEX = new RegExp(`${BUILD_PREFIX}([a-z0-9]{8})`, 'g')
 
-export const CONFIG_SCHEMA = new Schema({
-    include: { type: String },
-    exclude: { type: String },
-    deliminator: { type: String },
-    transformers: [{
-        name: { type: String, required: true },
-        matcher: { type: Function, required: true },
-        transform: { type: Function, required: true }
-    }],
-    default_exports: [{ type: String }]
-}, { strict: true })
+export const CONFIG_SCHEMA = z.object({
+    include: z.string({ invalid_type_error: 'config.include must be a glob pattern string' }).default('**/*.{heic,heif,avif,jpeg,jpg,png,tiff,webp,gif}?*'),
+    exclude: z.string({ invalid_type_error: 'config.exclude must be a glob pattern string' }).default(''),
+    deliminator: z.string({ invalid_type_error: 'config.delimator must be a string' }).default(','),
+    transformers: z.array(
+        z.object({
+            name: z.string(),
+            matcher: z.function()
+                .returns(z.union([
+                    z.boolean(),
+                    z.promise(z.boolean())
+                ])),
+            transform: z.function()
+                .returns(z.union([
+                    z.unknown(),
+                    z.promise(z.unknown())
+                ]).transform(val => val as Sharp))
+        })
+    ).default([]),
+    default_exports: z.array(z.string({ invalid_type_error: 'config.default_exports[n] must be a string' }), { invalid_type_error: 'config.default_exports must be an array' }).default([ 'src', 'aspect', 'width', 'height', 'format' ])
+}).strict()
