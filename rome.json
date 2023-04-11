@@ -1,0 +1,60 @@
+{
+    "$schema": "./node_modules/rome/configuration_schema.json",
+    "files": {
+        "ignore": [
+            "node_modules",
+            "dist",
+            "coverage"
+        ]
+    },
+    "linter": {
+        "enabled": true,
+        "rules": {
+            "recommended": true,
+            "complexity": {
+                "recommended": true,
+                "useSimplifiedLogicExpression": "warn"
+            },
+            "correctness": {
+                "recommended": true,
+                "noUndeclaredVariables": "error",
+                "noUnusedVariables": "warn"
+            },
+            "performance": {
+                "recommended": true
+            },
+            "style": {
+                "recommended": true,
+                "noNegationElse": "error",
+                "useBlockStatements": "warn",
+                "useEnumInitializers": "off",
+                "useExponentiationOperator": "warn",
+                "useShorthandArrayType": "error",
+                "useSingleCaseStatement": "error"
+            },
+            "suspicious": {
+                "recommended": true,
+                "noRedundantUseStrict": "warn"
+            }
+        }
+    },
+    "organizeImports": {
+        "enabled": true
+    },
+    "formatter": {
+        "enabled": true,
+        "indentSize": 4,
+        "indentStyle": "tab",
+        "lineWidth": 110
+    },
+    "javascript": {
+        "globals": [
+            "AggregateError"
+        ],
+        "formatter": {
+            "quoteStyle": "single",
+            "semicolons": "asNeeded",
+            "trailingComma": "all"
+        }
+    }
+}
