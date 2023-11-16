@@ -58,7 +58,7 @@
     },
     "dependencies": {
         "magic-string": "^0.30.0",
-        "sharp": "0.31.3",
+        "sharp": "0.32.6",
         "zod": "^3.21.4"
     },
     "peerDependencies": {
